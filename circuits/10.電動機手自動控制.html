@@ -50,8 +50,8 @@ h2{font-size:.8rem;margin:0 0 8px;color:var(--muted);font-weight:500;letter-spac
 .tri{fill:none;stroke:var(--wire);stroke-width:2.2}
 .ct .fillb,.ct .outb{display:none}.ct.act .pl{display:none}.ct.act .fillb{display:inline;fill:var(--on)}
 .ct.nc.act .fillb{display:none}.ct.nc.act .outb{display:inline;fill:none;stroke:var(--on);stroke-width:2.6}.ct.nc.act .sl{display:none}
-.pb{cursor:pointer;outline:none;touch-action:none}.pb .hit,.sel .hit{fill:transparent}
-.pb:hover .hit,.sel:hover .hit{fill:color-mix(in srgb,var(--accent) 16%,transparent)}
+.pb{cursor:pointer;outline:none;touch-action:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}.pb .hit,.sel .hit{fill:transparent}
+@media (hover:hover){.pb:hover .hit,.sel:hover .hit{fill:var(--accent);fill-opacity:.16}}
 .pb:focus-visible .hit{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
 .bar,.tbar{transition:transform .1s}
 .pb.pressed .bar{transform:translateY(11px)}
@@ -115,7 +115,7 @@ fresh();
 /* ---- 暫停與聲音(Web Audio 即時合成,不需外部檔案) ---- */
 var paused=false,soundOn=true,wantBuzz=false,ac=null,mg=null,bzNode=null,relPend={};
 function initAudio(){if(ac){return;}var C=window.AudioContext||window.webkitAudioContext;if(!C){return;}ac=new C();var cp=ac.createDynamicsCompressor();mg=ac.createGain();mg.gain.value=0.9;mg.connect(cp);cp.connect(ac.destination);}
-function unlockAudio(){initAudio();if(ac&&ac.state==='suspended'&&!paused&&!document.hidden){ac.resume();}syncBuzz();}
+function unlockAudio(){initAudio();if(ac&&ac.state!=='running'&&!paused&&!document.hidden){ac.resume();}syncBuzz();}
 function tone(type,f0,f1,dur,gain,delay){if(!ac||!soundOn||ac.state!=='running'){return;}var t=ac.currentTime+(delay||0),o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1){o.frequency.exponentialRampToValueAtTime(f1,t+dur);}g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g);g.connect(mg);o.start(t);o.stop(t+dur+0.02);}
 function noise(dur,gain,delay,hp){if(!ac||!soundOn||ac.state!=='running'){return;}var t=ac.currentTime+(delay||0),n=Math.max(1,Math.floor(ac.sampleRate*dur)),b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0),i;for(i=0;i<n;i++){d[i]=(Math.random()*2-1)*(1-i/n);}var s=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();s.buffer=b;f.type='highpass';f.frequency.value=hp||3000;g.gain.value=gain;s.connect(f);f.connect(g);g.connect(mg);s.start(t);}
 var PITCH=[1,0.88,0.78];
@@ -133,6 +133,26 @@ function buzzOff(){if(!bzNode){return;}var n=bzNode,t=ac.currentTime;bzNode=null
 function syncBuzz(){if(wantBuzz&&soundOn){buzzOn();}else{buzzOff();}}
 document.addEventListener('pointerdown',unlockAudio,true);
 document.addEventListener('keydown',unlockAudio,true);
+/* iOS 音效修正:①手機靜音鍵會讓 Web Audio 無聲,改播一段靜音 audio 元素讓系統走「播放」類別;②iOS 只認 touchend/click 當解鎖手勢 */
+function iosAudioFix(getCtx){
+  try{if(navigator.audioSession){navigator.audioSession.type='playback';}}catch(e){}
+  var el=null;
+  function silentWav(){
+    var n=4000,b=new ArrayBuffer(44+n*2),v=new DataView(b);
+    function s(o,t){for(var i=0;i<t.length;i++){v.setUint8(o+i,t.charCodeAt(i));}}
+    s(0,'RIFF');v.setUint32(4,36+n*2,true);s(8,'WAVE');s(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);s(36,'data');v.setUint32(40,n*2,true);
+    return URL.createObjectURL(new Blob([b],{type:'audio/wav'}));
+  }
+  function go(){
+    var c=getCtx();
+    if(c){try{var s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);}catch(e){}}
+    if(!el){try{el=document.createElement('audio');el.src=silentWav();el.loop=true;el.setAttribute('playsinline','');}catch(e){el=null;return;}}
+    if(el.paused){var p=el.play();if(p&&p.catch){p.catch(function(){});}}
+  }
+  ['touchend','pointerup','click'].forEach(function(t){document.addEventListener(t,function(){unlockAudio();go();},true);});
+  document.addEventListener('visibilitychange',function(){if(!el){return;}if(document.hidden){el.pause();}else{go();}});
+}
+iosAudioFix(function(){return ac;});
 document.addEventListener('visibilitychange',function(){if(!ac){return;}if(document.hidden){ac.suspend();}else if(!paused){ac.resume();}});
 function setPaused(v){
   if(paused===v){return;}

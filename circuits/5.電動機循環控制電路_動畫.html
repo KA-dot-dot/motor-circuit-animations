@@ -33,10 +33,10 @@ h2{font-size:.8rem;letter-spacing:.08em;margin:0 0 8px;color:var(--muted);font-w
 .ct.act:not(.nc) .fillb{display:inline;fill:var(--on)}.ct.act.nc .outb{display:inline;fill:none;stroke:var(--on);stroke-width:2.6}
 .ct.live .fillb{display:inline;fill:var(--on)}.ct.live .pl{display:none}.ct.live .sl{stroke:var(--panel)}
 .barl{stroke:var(--wire);stroke-width:3}.lever{stroke:var(--wire);stroke-width:2.2}
-.pb{cursor:pointer;outline:none;touch-action:none}.pb .bar{transition:transform .1s}
+.pb{cursor:pointer;outline:none;touch-action:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}.pb .bar{transition:transform .1s}
 .pb:not(.nc).pressed .bar{transform:translateX(-11.6px)}.pb.nc.pressed .bar{transform:translateX(-10px)}
 .pb.pressed .barl,.pb.pressed .lever{stroke:var(--on)}.pb.pressed .lb{fill:var(--on);font-weight:700}
-.pb .hit{fill:transparent}.pb:hover .hit{fill:color-mix(in srgb,var(--accent) 14%,transparent)}.pb:focus-visible .hit{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
+.pb .hit{fill:transparent}@media (hover:hover){.pb:hover .hit{fill:var(--accent);fill-opacity:.14}}.pb:focus-visible .hit{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
 .fuse rect{fill:var(--tint);stroke:var(--wire);stroke-width:2.5}.fuse line{stroke:var(--wire);stroke-width:1.8}
 .coil .body,.lamp .body,.bz .body{fill:var(--tint);stroke:var(--wire);stroke-width:1.8;transition:fill .12s}
 .coil text,.lamp text,.bz text{font:13px Arial,sans-serif;fill:var(--lbl);text-anchor:middle}
@@ -327,7 +327,7 @@ $('chkFlow').addEventListener('change',function(e){st.flow=e.target.checked;sett
 var paused=false,relPend={},AC=null,snd=true,master=null,wantBuzz=false,buzz=null;
 function unlockAudio(){
   if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C){return;}AC=new C();var cp=AC.createDynamicsCompressor();master=AC.createGain();master.gain.value=.9;master.connect(cp);cp.connect(AC.destination);}
-  if(AC.state==='suspended'&&!paused&&!document.hidden){AC.resume();}
+  if(AC.state!=='running'&&!paused&&!document.hidden){AC.resume();}
 }
 function tone(f,d,ty,g,t0,f2){
   if(!AC||!snd||paused){return;}
@@ -363,6 +363,26 @@ function setPaused(v){
 $('btnPause').addEventListener('click',function(){setPaused(!paused);});
 $('btnSnd').addEventListener('click',function(){snd=!snd;this.setAttribute('aria-pressed',snd?'true':'false');this.textContent=snd?'聲音:開':'聲音:關';if(snd){unlockAudio();sfxMC(true,0,0);}syncBuzz();});
 document.addEventListener('pointerdown',unlockAudio,true);document.addEventListener('keydown',unlockAudio,true);
+/* iOS 音效修正:①手機靜音鍵會讓 Web Audio 無聲,改播一段靜音 audio 元素讓系統走「播放」類別;②iOS 只認 touchend/click 當解鎖手勢 */
+function iosAudioFix(getCtx){
+  try{if(navigator.audioSession){navigator.audioSession.type='playback';}}catch(e){}
+  var el=null;
+  function silentWav(){
+    var n=4000,b=new ArrayBuffer(44+n*2),v=new DataView(b);
+    function s(o,t){for(var i=0;i<t.length;i++){v.setUint8(o+i,t.charCodeAt(i));}}
+    s(0,'RIFF');v.setUint32(4,36+n*2,true);s(8,'WAVE');s(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);s(36,'data');v.setUint32(40,n*2,true);
+    return URL.createObjectURL(new Blob([b],{type:'audio/wav'}));
+  }
+  function go(){
+    var c=getCtx();
+    if(c){try{var s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);}catch(e){}}
+    if(!el){try{el=document.createElement('audio');el.src=silentWav();el.loop=true;el.setAttribute('playsinline','');}catch(e){el=null;return;}}
+    if(el.paused){var p=el.play();if(p&&p.catch){p.catch(function(){});}}
+  }
+  ['touchend','pointerup','click'].forEach(function(t){document.addEventListener(t,function(){unlockAudio();go();},true);});
+  document.addEventListener('visibilitychange',function(){if(!el){return;}if(document.hidden){el.pause();}else{go();}});
+}
+iosAudioFix(function(){return AC;});
 document.addEventListener('visibilitychange',function(){if(!AC){return;}if(document.hidden){AC.suspend();}else if(!paused){AC.resume();}});
 ['T1','T2'].forEach(function(k){var i=$('s'+k);i.addEventListener('change',function(){var v=parseFloat(i.value);if(!isFinite(v)){v=3;}v=Math.min(10,Math.max(1,Math.round(v*2)/2));i.value=v;setSec[k]=v;settle();});});
 buildMain();buildCtl();bindPB();settle();
