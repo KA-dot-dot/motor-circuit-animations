@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電動機控制電路動畫</title>
+<style>
+:root{--bg:#f2f5f8;--panel:#fff;--ink:#18212d;--muted:#556172;--line:#d3dbe5;--accent:#1d5fa6}
+@media (prefers-color-scheme:dark){:root{--bg:#10151b;--panel:#18202a;--ink:#e8edf3;--muted:#9aa7b8;--line:#2b3643;--accent:#6aa9ee}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif}
+main{max-width:900px;margin:0 auto;padding:24px 16px}
+h1{font-size:1.5rem;margin:0 0 4px}
+p.sub{color:var(--muted);margin:0 0 20px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none}
+.card:hover,.card:focus-visible{border-color:var(--accent);outline:none}
+.card b{display:block;margin-bottom:4px}
+.card span{color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>電動機控制電路動畫</h1>
+  <p class="sub">點選電路後，可直接按圖上的按鈕操作，通電的元件會變紅。</p>
+  <div class="grid">
+    <a class="card" href="circuits/3-manual-sequence.html">
+      <b>電動機手動順序控制</b><span>基礎圖、進階圖與進階題；PB1～PB4 順序啟動、OL 跳脫</span>
+    </a>
+    <a class="card" href="circuits/4-manual-auto.html">
+      <b>電動機手自動控制</b><span>手動／自動順序控制動畫</span>
+    </a>
+    <a class="card" href="circuits/5-cycle-control.html">
+      <b>電動機循環控制電路</b><span>限時電驛、暫停、聲音</span>
+    </a>
+  </div>
+</main>
+</body>
+</html>
