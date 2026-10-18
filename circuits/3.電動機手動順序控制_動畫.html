@@ -496,7 +496,7 @@ function buzzOff(){
   z.g.gain.cancelScheduledValues(t);z.g.gain.setValueAtTime(Math.max(z.g.gain.value,0.0001),t);z.g.gain.linearRampToValueAtTime(0.0001,t+0.04);
   z.a.stop(t+0.06);
 }
-function syncBuzz(){if(!ctx){return;}if(wantBuzz&&soundOn){buzzOn();}else{buzzOff();}}
+function syncBuzz(){if(!ctx){return;}if(wantBuzz&&soundOn&&!paused){buzzOn();}else{buzzOff();}}
 document.getElementById('btnSound').addEventListener('click',function(){
   soundOn=!soundOn;initAudio();
   if(master){master.gain.setTargetAtTime(soundOn?0.9:0,ctx.currentTime,0.01);}

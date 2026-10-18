@@ -225,7 +225,7 @@ function sfxBtn(down){tone('square',down?1200:900,down?650:480,0.03,down?0.13:0.
 function sfxSel(){tone('square',700,380,0.05,0.14);tone('sine',140,80,0.07,0.25);noise(0.02,0.14,0,2500);}
 function buzzOn(){if(!ac||bzNode||!soundOn){return;}var t=ac.currentTime,o=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain();o.type='square';o.frequency.value=2700;f.type='lowpass';f.frequency.value=5000;g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(0.07,t+0.02);o.connect(f);f.connect(g);g.connect(mg);o.start();bzNode={o:o,g:g};}
 function buzzOff(){if(!bzNode){return;}var n=bzNode,t=ac.currentTime;bzNode=null;n.g.gain.cancelScheduledValues(t);n.g.gain.setValueAtTime(Math.max(n.g.gain.value,0.0001),t);n.g.gain.linearRampToValueAtTime(0.0001,t+0.04);n.o.stop(t+0.06);}
-function syncBuzz(){if(wantBuzz&&soundOn){buzzOn();}else{buzzOff();}}
+function syncBuzz(){if(wantBuzz&&soundOn&&!paused){buzzOn();}else{buzzOff();}}
 document.addEventListener('pointerdown',unlockAudio,true);
 document.addEventListener('keydown',unlockAudio,true);
 /* iOS 音效修正:①手機靜音鍵會讓 Web Audio 無聲,改播一段靜音 audio 元素讓系統走「播放」類別;②iOS 只認 touchend/click 當解鎖手勢 */
