@@ -169,14 +169,14 @@ body.paused .w.hot,body.paused .bz.on .wave{animation-play-state:paused}
 <div class="tsMain" aria-live="polite"><p class="tsHead"><b id="tsNo"></b><span id="tsTitle"></span><em id="tsRun"></em></p>
 <p class="tsRow"><i>操作</i><span id="tsDo"></span></p><p class="tsRow"><i>預期</i><span id="tsSee"></span></p></div>
 <button class="btn tsB" id="tsNext" type="button" aria-label="下一步">▶</button></div>
-<div class="tsCtl"><button class="btn" id="tsPlay" type="button">↻ 重播此步驟</button><button class="btn" id="tsAll" type="button" aria-pressed="false">▶ 從頭播放全部</button><label class="switch"><input type="checkbox" id="tsAuto" checked><span>切換步驟時自動執行(自動按鍵、等計時)</span></label></div>
+<div class="tsCtl"><button class="btn" id="tsPlay" type="button">↻ 重播此步驟</button><button class="btn" id="tsAll" type="button" aria-pressed="false">▶ 從頭播放全部</button><button class="btn" id="tsFrom" type="button">▶ 從此步驟播放</button><label class="switch"><input type="checkbox" id="tsAuto" checked><span>切換步驟時自動執行(自動按鍵、等計時)</span></label></div>
 <div class="tsDots" id="tsDots" role="group" aria-label="步驟清單"></div>
 </section>
 <div id="tsFloat" hidden>
 <div class="tfPanel" id="tfPanel" role="region" aria-label="測試步驟(浮動視窗)" hidden>
 <div class="tfHead"><span><b id="tfStep"></b><span id="tfTitle"></span><em id="tfRun"></em></span><button type="button" class="tfX" id="tfClose" aria-label="收起步驟視窗">✕</button></div>
 <p class="tsRow"><i>操作</i><span id="tfDo"></span></p><p class="tsRow"><i>預期</i><span id="tfSee"></span></p>
-<div class="tfBtns"><button class="btn" id="tfAll" type="button">▶ 從頭播放全部</button><button class="btn" id="tfRe" type="button">↻ 重播此步驟</button><button class="btn" id="tfPause" type="button">⏸ 暫停</button></div>
+<div class="tfBtns"><button class="btn" id="tfAll" type="button">▶ 從頭播放全部</button><button class="btn" id="tfFrom" type="button">▶ 從此步驟播放</button><button class="btn" id="tfRe" type="button">↻ 重播此步驟</button><button class="btn" id="tfPause" type="button">⏸ 暫停</button></div>
 </div>
 <div class="tfBar"><button class="tfNav" id="tfPrev" type="button" aria-label="上一步">◀</button><button class="tfBall" id="tfBall" type="button" aria-expanded="false" aria-label="展開或收起測試步驟,可拖曳移動"><span><b id="tfNo">1</b><small id="tfTot">/17</small></span></button><button class="tfNav" id="tfNext" type="button" aria-label="下一步">▶</button></div>
 </div>
@@ -462,11 +462,11 @@ function build(){
   show();
 }
 
-var runId=0,running=false,allOn=false,allTok=0,runMsg='',sPause=false;
+var runId=0,running=false,allOn=false,allTok=0,runMsg='',sPause=false,jump=-1;   /* jump:全部播放中要改跳去的步驟(-1 表示沒有) */
 function bodyPaused(){return document.body.classList.contains('paused');}
 /* 只有使用者按下的暫停才凍結腳本;步驟「暫停與繼續」自己示範的暫停(sPause)不凍結,否則會卡死 */
 function frozen(){return bodyPaused()&&!sPause;}
-function sl(ms){return new Promise(function(r){var left=ms,last=performance.now();(function tick(){var n=performance.now();if(!frozen()){left-=n-last;}last=n;if(left<=0){r();}else{setTimeout(tick,Math.min(50,Math.max(10,left)));}})();});}
+function sl(ms){return new Promise(function(r){var left=ms,last=performance.now(),my=runId;(function tick(){if(runId!==my){r();return;}var n=performance.now();if(!frozen()){left-=n-last;}last=n;if(left<=0){r();}else{setTimeout(tick,Math.min(50,Math.max(10,left)));}})();});}
 function hold(run){return new Promise(function(r){(function w(){if(frozen()&&run()){setTimeout(w,80);}else{r();}})();});}
 function pe(el,t){try{el.dispatchEvent(new PointerEvent(t,{bubbles:true,cancelable:true,pointerId:1,pointerType:'mouse',isPrimary:true}));}catch(x){}}
 function one(q){return targets(q)[0];}
@@ -483,9 +483,10 @@ function updAll(){
   var t=allOn?'■ 停止全部播放':'▶ 從頭播放全部';
   $('tsAll').textContent=t;$('tfAll').textContent=t;
   $('tsAll').setAttribute('aria-pressed',allOn?'true':'false');
+  $('tsFrom').disabled=allOn;$('tfFrom').disabled=allOn;
 }
 function stopRun(){runId++;running=false;if(sPause){sPause=false;if(bodyPaused()){var b=$('bPause');if(b){b.click();}}}}
-function stopAll(){if(allOn){allOn=false;allTok++;updAll();}}
+function stopAll(){jump=-1;if(allOn){allOn=false;allTok++;updAll();}}
 function fail(x){running=false;allOn=false;allTok++;updAll();runMsg='執行失敗:'+(x&&x.message||x);showRun();}
 
 async function exec(sc,id){
@@ -514,25 +515,38 @@ async function exec(sc,id){
   if(ok){running=false;runMsg='已執行完';sPause=false;showRun();}
   return ok;
 }
-function play(){stopAll();stopRun();var s=list[idx];if(!s){return;}runId++;exec(s[4]||'',runId).catch(fail);}
-/* 從頭到尾自動播放:每一步各自重設後重播,步驟之間停 2.5 秒讓人看結果;暫停鍵可暫停,切換步驟或自己動手操作會停止 */
-async function playAll(){
-  if(allOn){stopRun();stopAll();runMsg='已停止全部播放';showRun();return;}
-  stopRun();allOn=true;var tok=++allTok;updAll();idx=0;
+/* 重播此步驟:全部播放中不中斷播放,取消目前這一步後從同一步重跑,跑完照常進入下一步;沒在全部播放時只跑這一步 */
+function play(){
+  if(allOn){jumpTo(idx);return;}
+  stopRun();var s=list[idx];if(!s){return;}runId++;exec(s[4]||'',runId).catch(fail);
+}
+/* 全部播放中跳到指定步驟(重播、上一步、下一步、點步驟編號):取消目前腳本,迴圈改到該步重跑,之後繼續往後播 */
+function jumpTo(i){jump=i;stopRun();}
+/* 從第 from 步開始播放到最後一步;每步結束停 2.5 秒讓人看結果;暫停鍵可暫停;自己動手操作電路才會停止 */
+async function runAll(from){
+  stopRun();allOn=true;var tok=++allTok;jump=-1;updAll();idx=from;
   try{
     while(allOn&&tok===allTok){
       show();runId++;var id=runId;
       var ok=await exec(list[idx][4]||'',id);
-      if(!ok||!allOn||tok!==allTok){break;}
-      if(idx>=list.length-1){allOn=false;allTok++;updAll();runMsg='全部播放完畢';showRun();return;}
-      await sl(2500);
       if(!allOn||tok!==allTok){return;}
+      if(jump>=0){idx=jump;jump=-1;continue;}
+      if(!ok){break;}
+      if(idx>=list.length-1){allOn=false;allTok++;updAll();runMsg='全部播放完畢';showRun();return;}
+      for(var left=2500;left>0&&jump<0;left-=100){await sl(100);if(!allOn||tok!==allTok){return;}}
+      if(jump>=0){idx=jump;jump=-1;continue;}
       idx++;
     }
   }catch(x){fail(x);return;}
   if(allOn&&tok===allTok){allOn=false;allTok++;updAll();showRun();}
 }
-function go(i){stopAll();idx=Math.max(0,Math.min(list.length-1,i));show();if($('tsAuto').checked){play();}else{stopRun();runMsg='';showRun();}}
+function toggleAll(){if(allOn){stopRun();stopAll();runMsg='已停止全部播放';showRun();}else{runAll(0);}}
+function playFrom(){if(!allOn){runAll(idx);}}
+function go(i){
+  idx=Math.max(0,Math.min(list.length-1,i));show();
+  if(allOn){jumpTo(idx);return;}
+  if($('tsAuto').checked){play();}else{stopRun();runMsg='';showRun();}
+}
 function show(){
   var s=list[idx];seen[idx]=true;
   $('tsNo').textContent='步驟 '+(idx+1)+'/'+list.length;$('tsTitle').textContent=s[0];
@@ -587,13 +601,15 @@ if('IntersectionObserver' in window){
 $('tfClose').addEventListener('click',function(){setOpen(false);});
 $('tfPrev').addEventListener('click',function(){go(idx-1);});
 $('tfNext').addEventListener('click',function(){go(idx+1);});
-$('tfAll').addEventListener('click',playAll);
+$('tfAll').addEventListener('click',toggleAll);
+$('tfFrom').addEventListener('click',playFrom);
 $('tfRe').addEventListener('click',play);
 $('tfPause').addEventListener('click',function(){$('bPause').click();setTimeout(updFloat,30);});
 
 /* ---- 輸入 ---- */
 $('tsPlay').addEventListener('click',play);
-$('tsAll').addEventListener('click',playAll);
+$('tsAll').addEventListener('click',toggleAll);
+$('tsFrom').addEventListener('click',playFrom);
 $('tsPrev').addEventListener('click',function(){go(idx-1);});
 $('tsNext').addEventListener('click',function(){go(idx+1);});
 document.addEventListener('keydown',function(e){
