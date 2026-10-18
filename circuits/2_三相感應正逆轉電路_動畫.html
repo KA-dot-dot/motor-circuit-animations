@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>三相感應電動機正逆轉控制電路動畫</title>
+<style>
+:root{color-scheme:light;--bg:#f2f5f8;--panel:#fff;--ink:#18212d;--muted:#556172;--line:#d3dbe5;--wire:#3a3a3a;--dot:#111;--lbl:#222;--term:#cde8f5;--tint:#cde8f5;--on:#d8352a;--flow:#ee8a22;--accent:#1d5fa6;--onaccent:#fff;--bz:#ff9d2e;--font:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#10151b;--panel:#18202a;--ink:#e8edf3;--muted:#9aa7b8;--line:#2b3643;--wire:#b6c1ce;--dot:#e8edf3;--lbl:#e8edf3;--term:#2d5167;--tint:#26475a;--on:#ff5547;--flow:#ffb04d;--accent:#6aa9ee;--onaccent:#0c1218;--bz:#ffa63d}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#10151b;--panel:#18202a;--ink:#e8edf3;--muted:#9aa7b8;--line:#2b3643;--wire:#b6c1ce;--dot:#e8edf3;--lbl:#e8edf3;--term:#2d5167;--tint:#26475a;--on:#ff5547;--flow:#ffb04d;--accent:#6aa9ee;--onaccent:#0c1218;--bz:#ffa63d}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.6}[hidden]{display:none!important}
+.wrap{max-width:1280px;margin:0 auto;padding-block:12px 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:1.25rem;line-height:1.3;margin:0 0 4px;font-weight:700}
+.sub{margin:0 0 10px;color:var(--muted);font-size:.88rem}
+.stage{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
+.side{display:grid;gap:12px;min-width:0}.status{order:-1}
+@media (min-width:960px){.stage{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-areas:"ctrl ctrl" "main fig" "stat fig" "leg leg"}
+.stage .side{display:contents}.fm{grid-area:main}.fc{grid-area:fig}.controls{grid-area:ctrl;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 14px}.status{grid-area:stat;order:0}.legend{grid-area:leg}
+.controls h2{display:none}.controls .switch{margin:0}.controls .hint{margin:0;flex:1 1 260px;font-size:.8rem}.legend ul{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}.fig{padding:8px}
+h2{font-size:.8rem;letter-spacing:.08em;margin:0 0 10px;color:var(--muted);font-weight:500}
+.controls .row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:inherit;padding:8px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;cursor:pointer;min-height:40px}
+.btn:hover:not(:disabled){border-color:var(--accent)}.btn:focus-visible,.switch input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.switch{display:flex;align-items:center;gap:8px;margin-top:12px;cursor:pointer}.switch input{width:18px;height:18px;accent-color:var(--accent)}
+.hint{margin:10px 0 0;color:var(--muted);font-size:.85rem}
+.chips{list-style:none;margin:0 0 12px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}
+.chips li{display:flex;align-items:center;gap:8px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;font-variant-numeric:tabular-nums;font-size:.85rem}
+.chips i{width:11px;height:11px;border-radius:50%;background:var(--line);flex:none;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 25%,transparent)}
+.chips li.on{border-color:var(--c)}.chips li.on i{background:var(--c)}.chips b{margin-left:auto;font-weight:500;color:var(--muted)}.chips li.on b{color:var(--ink)}
+.msg-title{font-weight:700;margin:0 0 4px}.msg{margin:0;min-height:4.8em}
+.legend ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.9rem}.legend li{display:flex;gap:10px;align-items:center}.legend svg{flex:none}
+#fig2{display:block;width:100%;height:auto;max-height:42vh;margin-bottom:6px}#fig{display:block;width:100%;height:auto;max-height:82vh}
+.lb{font:14px Arial,Helvetica,sans-serif;fill:var(--lbl)}.lb.sm{font-size:13px}.lb.big{font-size:16px}
+.w{fill:none;stroke:var(--wire);stroke-width:1.5;stroke-linejoin:miter}
+.w.hot{stroke:var(--flow);stroke-width:2.8;stroke-dasharray:7 5;animation:flow .7s linear infinite}@keyframes flow{to{stroke-dashoffset:-12}}
+.w.live{stroke:var(--flow);stroke-width:2.2}
+.dot{fill:var(--dot)}.term{fill:var(--term);stroke:var(--wire);stroke-width:1.5}.pl{stroke:var(--wire);stroke-width:3}.sl{stroke:var(--wire);stroke-width:2.2}
+.ct .fillb,.ct .outb{display:none}.ct.act .pl,.ct.act .sl{display:none}
+.ct.act:not(.nc) .fillb{display:inline;fill:var(--on);stroke:none}.ct.act.nc .outb{display:inline;fill:none;stroke:var(--on);stroke-width:2.6}
+.ct.live .fillb{display:inline;fill:var(--on);stroke:none}.ct.live .pl{display:none}.ct.live .sl{stroke:var(--panel)}
+.barl{stroke:var(--wire);stroke-width:3}.lever{stroke:var(--wire);stroke-width:2.2}
+.pb{cursor:pointer;outline:none;touch-action:none}.pb .bar{transition:transform .1s}
+.pb:not(.nc).pressed .bar{transform:translateX(-11.6px)}.pb.nc.pressed .bar{transform:translateX(-10px)}
+.pb.pressed .barl,.pb.pressed .lever{stroke:var(--on)}.pb.pressed .lb{fill:var(--on);font-weight:700}
+.pb .hit{fill:transparent}.pb:hover .hit{fill:color-mix(in srgb,var(--accent) 14%,transparent)}.pb:focus-visible .hit{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
+.fuse rect{fill:var(--tint);stroke:var(--wire);stroke-width:2.5}.fuse line{stroke:var(--wire);stroke-width:1.8}
+.coil .body,.lamp .body,.bz .body{fill:var(--tint);stroke:var(--wire);stroke-width:1.8;transition:fill .12s}
+.coil text,.lamp text,.bz text{font:13px Arial,Helvetica,sans-serif;fill:var(--lbl);text-anchor:middle}
+.coil.on .body{fill:var(--on)}.coil.on text{fill:#fff;font-weight:700}
+.lamp .halo{fill:var(--hc);opacity:0;transition:opacity .12s}.lamp.on .halo{opacity:.4}
+.lamp .ray{stroke:var(--wire);stroke-width:1.5;transition:stroke .12s}.lamp.on .ray{stroke:var(--rc);stroke-width:2.6}
+.lamp.on .body{fill:var(--lc)}.lamp.on text{fill:var(--tc);font-weight:700}
+.bz.on .body{fill:var(--bz)}.bz .wave{fill:none;stroke:var(--bz);stroke-width:2.6;stroke-linecap:round;opacity:0}.bz.on .wave{opacity:1}
+.bz.on .wg{animation:shake .14s linear infinite}@keyframes shake{50%{transform:translateX(2px)}}
+.olbar{transform-origin:445px 430px;transition:transform .2s}.olbar line{stroke:var(--wire);stroke-width:3}.olbar line.x{stroke-width:2.2}
+.olbar.tripped{transform:rotate(-24deg)}.olbar.tripped line{stroke:var(--on)}
+.blade{stroke:var(--wire);stroke-width:2.5;stroke-linecap:round}.mech{stroke:var(--wire);stroke-width:1;stroke-dasharray:3 3}
+.th,.tb{fill:var(--panel);stroke:var(--wire);stroke-width:1.5}.th.tripped{stroke:var(--on);stroke-width:2.6}
+.motor .body{fill:var(--tint);stroke:var(--wire);stroke-width:1.8}.motor.run .body{stroke:var(--on);stroke-width:2.8}
+.motor .rot line{stroke:#4a86d8;stroke-width:6;stroke-linecap:round}
+.motor.run .rot{animation:spin .6s linear infinite}.motor.run.rev .rot{animation-direction:reverse}@keyframes spin{to{transform:rotate(360deg)}}
+.motor .mt{font:700 13px Arial,Helvetica,sans-serif;fill:var(--lbl);text-anchor:middle;paint-order:stroke;stroke:var(--tint);stroke-width:3px}
+#pausePill{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%);z-index:5;background:var(--accent);color:var(--onaccent);padding:4px 14px;border-radius:999px;font-size:.85rem}
+body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.motor.run .rot,.w.hot,.bz.on .wg{animation:none}.w.hot{stroke-dasharray:none}.pb .bar,.olbar{transition:none}}
+</style></head><body>
+<div id="pausePill" hidden>已暫停</div>
+<main class="wrap">
+<h1>三相感應電動機正逆轉控制電路</h1>
+<p class="sub">直接按圖上的 STOP、FOR、REV,順序不限,例如在正轉中按 REV 看看會怎樣。通電或動作的元件會變紅,左側主電路的馬達會跟著轉動。</p>
+<div class="stage">
+<div class="card fig fm"><h2>主電路</h2>
+<svg id="fig2" viewBox="0 0 480 400" role="img" aria-label="主電路:NFB、MCF 與 MCR 主接點、積熱電驛 TH-RY 與馬達 M"></svg></div>
+<div class="card fig fc"><h2>控制電路</h2>
+<svg id="fig" viewBox="0 0 620 500" role="img" aria-label="正逆轉控制電路圖,含 STOP、FOR、REV、MCF、MCR、RL、YL、GL、BZ 與 OL"><g id="wires"></g><g id="dots"></g><g id="parts"></g><g id="labels"></g></svg></div>
+<aside class="side">
+<section class="card controls" aria-label="操作"><h2>操作</h2>
+<div class="row">
+<button class="btn" id="btnPause" type="button" aria-pressed="false">暫停(空白鍵)</button>
+<button class="btn" id="btnPower" type="button" aria-pressed="true">送電中</button>
+<button class="btn" id="btnTrip" type="button">模擬 OL 跳脫</button>
+<button class="btn" id="btnResetOL" type="button" disabled>OL 復歸</button>
+<button class="btn" id="btnReset" type="button">全部重設</button>
+<button class="btn" id="btnSnd" type="button" aria-pressed="true">聲音:開</button></div>
+<label class="switch" for="chkFlow"><input type="checkbox" id="chkFlow"><span>顯示電流路徑</span></label>
+<p class="hint">按住滑鼠或手指按下按鈕,放開後彈回。鍵盤:a = STOP、s = FOR、d = REV;空白鍵暫停。</p></section>
+<section class="card status" aria-label="目前狀態"><h2 id="stTitle">目前狀態</h2><ul class="chips" id="chips"></ul>
+<div aria-live="polite"><p class="msg-title" id="msgTitle"></p><p class="msg" id="msgBody"></p></div></section>
+<section class="card legend" aria-label="圖例"><h2>圖例</h2><ul>
+<li><svg width="34" height="16" aria-hidden="true"><circle cx="17" cy="8" r="7" fill="var(--on)"/></svg><span>紅色圓圈:線圈通電;紅色按鈕:被按下</span></li>
+<li><svg width="34" height="16" aria-hidden="true"><rect x="3" y="2" width="28" height="12" fill="var(--on)"/></svg><span>紅色塗滿:接通並有電流通過的接點</span></li>
+<li><svg width="34" height="16" aria-hidden="true"><rect x="4" y="3" width="26" height="10" fill="none" stroke="var(--on)" stroke-width="2.6"/></svg><span>紅色外框:動作後打開的接點,斜線消失</span></li>
+<li><svg width="34" height="16" aria-hidden="true"><line x1="3" y1="8" x2="31" y2="8" stroke="var(--flow)" stroke-width="2.8" stroke-dasharray="7 5"/></svg><span>橘色流動線:電流經過的路徑</span></li></ul></section>
+</aside></div></main>
+<script>
+(function(){'use strict';
+var NS='http://www.w3.org/2000/svg',$=function(i){return document.getElementById(i);};
+var svg=$('fig'),gW=$('wires'),gD=$('dots'),gP=$('parts'),gL=$('labels');
+var st={power:true,tripped:false,flow:false,p:{STOP:false,FOR:false,REV:false},c:{MCF:false,MCR:false}};
+var edges=[],loads=[],acts=[],pbEls=[],coilEls={},lampEls={},bzEl=null,olbar=null;
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function txt(x,y,s,c,an){var t=el('text',{x:x,y:y,'class':c||'lb'},gL);if(an){t.setAttribute('text-anchor',an);}t.textContent=s;return t;}
+function wire(a,b,d){var p=el('path',{d:d,'class':'w'},gW);edges.push({a:a,b:b,el:p,on:function(){return true;}});}
+function swi(a,b,fn){edges.push({a:a,b:b,on:fn});}
+function load(a,b,k){loads.push({a:a,b:b,key:k});}
+function dot(x,y){el('circle',{cx:x,cy:y,r:3.5,'class':'dot'},gD);}
+function contact(cx,y1,y2,hw,o){
+  var g=el('g',{'class':'ct'+(o.slash?' nc':'')},gP);
+  el('rect',{x:cx-hw,y:y1-1.5,width:2*hw,height:y2-y1+3,'class':'fillb'},g);
+  el('rect',{x:cx-hw,y:y1,width:2*hw,height:y2-y1,'class':'outb'},g);
+  el('line',{x1:cx-hw,y1:y1,x2:cx+hw,y2:y1,'class':'pl'},g);el('line',{x1:cx-hw,y1:y2,x2:cx+hw,y2:y2,'class':'pl'},g);
+  if(o.slash){el('line',{x1:o.slash[0],y1:o.slash[1],x2:o.slash[2],y2:o.slash[3],'class':'sl'},g);}
+  acts.push([g,o.test,o.live]);txt(o.lx,o.ly,o.label);
+}
+function button(name,c,o){
+  var g=el('g',{'class':'pb'+(o.nc?' nc':''),'data-pb':name,tabindex:'0',role:'button','aria-label':name+' 按鈕,按住時按下'},gP);
+  el('rect',{x:c-12,y:o.hy,width:84,height:64,rx:6,'class':'hit'},g);
+  el('circle',{cx:c,cy:o.yt,r:4,'class':'term'},g);el('circle',{cx:c,cy:o.yb,r:4,'class':'term'},g);
+  var b=el('g',{'class':'bar'},g);
+  el('line',{x1:o.bx,y1:o.by1,x2:o.bx,y2:o.by2,'class':'barl'},b);el('line',{x1:o.bx,y1:o.ly,x2:o.lx,y2:o.ly,'class':'lever'},b);
+  el('text',{x:o.tx,y:o.ty,'class':'lb'},g).textContent=name;pbEls.push(g);
+}
+function coil(k,cx,cy){var g=el('g',{'class':'coil'},gP);el('circle',{cx:cx,cy:cy,r:18,'class':'body'},g);el('text',{x:cx,y:cy+4.6},g).textContent=k;coilEls[k]=g;}
+function lamp(k,cx,cy,c){
+  var g=el('g',{'class':'lamp',style:'--lc:'+c[0]+';--rc:'+c[1]+';--hc:'+c[2]+';--tc:'+c[3]},gP);
+  el('circle',{cx:cx,cy:cy,r:27,'class':'halo'},g);
+  [45,135,225,315].forEach(function(a){var r=a*Math.PI/180,cs=Math.cos(r),sn=Math.sin(r);el('line',{x1:cx+21*cs,y1:cy+21*sn,x2:cx+31*cs,y2:cy+31*sn,'class':'ray'},g);});
+  el('circle',{cx:cx,cy:cy,r:18,'class':'body'},g);el('text',{x:cx,y:cy+4.6},g).textContent=k;lampEls[k]=g;
+}
+function buzzer(cx,cy){
+  var g=el('g',{'class':'bz'},gP),w=el('g',{'class':'wg'},g);
+  el('path',{d:'M'+(cx-24)+' '+(cy-8)+'Q'+(cx-29)+' '+cy+' '+(cx-24)+' '+(cy+8),'class':'wave'},w);
+  el('path',{d:'M'+(cx-30)+' '+(cy-14)+'Q'+(cx-38)+' '+cy+' '+(cx-30)+' '+(cy+14),'class':'wave'},w);
+  el('circle',{cx:cx,cy:cy,r:18,'class':'body'},g);el('text',{x:cx,y:cy+4.6},g).textContent='BZ';bzEl=g;
+}
+function fuse(x,y,name){
+  var fz=el('g',{'class':'fuse'},gP);el('rect',{x:x,y:y,width:38,height:20},fz);el('line',{x1:x,y1:y+20,x2:x+38,y2:y},fz);txt(x+19,y-8,name,'lb','middle');
+}
+var mc=function(k){return function(){return st.c[k];};},nmc=function(k){return function(){return !st.c[k];};},pbt=function(n){return function(){return st.p[n];};};
+
+/* ---------- 控制電路(座標與繪製用 SVG 相同) ---------- */
+function buildCtl(){
+  txt(28,45.5,'R','lb big','middle');txt(28,470.5,'T','lb big','middle');
+  wire('R0','Fa','M50 40H60');fuse(60,30,'F1');swi('Fa','Fb',function(){return true;});
+  wire('Fb','J110','M98 40H110');wire('J110','J320','M110 40H320');wire('J320','J540','M320 40H540');
+  /* STOP(NC) */
+  wire('J320','pst','M320 40V66');swi('pst','psb',function(){return !st.p.STOP;});wire('psb','B320','M320 110V125');
+  button('STOP',320,{nc:true,yt:70,yb:106,bx:316,by1:70,by2:106,ly:88,lx:331,tx:338,ty:93,hy:56});
+  wire('B320','B268','M320 125H268');wire('B268','B185','M268 125H185');wire('B320','B365','M320 125H365');wire('B365','B450','M365 125H450');
+  /* 正轉列 FOR → MCF */
+  wire('B268','ft','M268 125V144');swi('ft','fb',pbt('FOR'));wire('fb','A268','M268 188V205');
+  button('FOR',268,{yt:148,yb:184,bx:278,by1:142,by2:190,ly:166,lx:293,tx:284,ty:159,hy:134});
+  wire('B185','hFt','M185 125V158.5');swi('hFt','hFb',mc('MCF'));wire('hFb','A268','M185 173.5V205H268');
+  contact(185,158.5,173.5,16,{label:'MCF',lx:207,ly:170,test:mc('MCF')});
+  wire('A268','nRt','M268 205V233');swi('nRt','nRb',nmc('MCR'));wire('nRb','N268','M268 248V278');
+  contact(268,233,248,16,{slash:[260,252,276,229],label:'MCR',lx:290,ly:245,test:mc('MCR'),live:function(r){return !!r.on.MCF;}});
+  wire('N268','CTF','M268 278V302');coil('MCF',268,320);load('CTF','CBF','MCF');wire('CBF','BB268','M268 338V360');
+  wire('N268','LT1','M268 278H185V302');lamp('RL',185,320,['#e5484d','#e5484d','#ff8a8a','#fff']);load('LT1','LB1','RL');wire('LB1','BB185','M185 338V360');
+  /* 反轉列 REV → MCR */
+  wire('B450','rt','M450 125V144');swi('rt','rb',pbt('REV'));wire('rb','A450','M450 188V205');
+  button('REV',450,{yt:148,yb:184,bx:460,by1:142,by2:190,ly:166,lx:475,tx:466,ty:159,hy:134});
+  wire('B365','hRt','M365 125V158.5');swi('hRt','hRb',mc('MCR'));wire('hRb','A450','M365 173.5V205H450');
+  contact(365,158.5,173.5,16,{label:'MCR',lx:387,ly:170,test:mc('MCR')});
+  wire('A450','nFt','M450 205V233');swi('nFt','nFb',nmc('MCF'));wire('nFb','N450','M450 248V278');
+  contact(450,233,248,16,{slash:[442,252,458,229],label:'MCF',lx:472,ly:245,test:mc('MCF'),live:function(r){return !!r.on.MCR;}});
+  wire('N450','CTR','M450 278V302');coil('MCR',450,320);load('CTR','CBR','MCR');wire('CBR','BB450','M450 338V360');
+  wire('N450','LT2','M450 278H365V302');lamp('YL',365,320,['#f2c200','#d9a400','#ffe066','#3a2c00']);load('LT2','LB2','YL');wire('LB2','BB365','M365 338V360');
+  wire('BB185','BB268','M185 360H268');wire('BB268','BB365','M268 360H365');wire('BB365','BB450','M365 360H450');
+  /* GL:兩個常閉接點 */
+  wire('J540','g1t','M540 40V82');swi('g1t','g1b',nmc('MCF'));wire('g1b','g2t','M540 97V178');swi('g2t','g2b',nmc('MCR'));wire('g2b','GLt','M540 193V302');
+  contact(540,82,97,16,{slash:[532,101,548,78],label:'MCF',lx:560,ly:94,test:mc('MCF'),live:function(r){return !!r.on.GL;}});
+  contact(540,178,193,16,{slash:[532,197,548,174],label:'MCR',lx:560,ly:190,test:mc('MCR'),live:function(r){return !!r.on.GL;}});
+  lamp('GL',540,320,['#2f9e58','#2f9e58','#7ee0a0','#fff']);load('GLt','GLb','GL');wire('GLb','T540','M540 338V465');
+  /* BZ 與 OL */
+  wire('J110','BZt','M110 40V302');buzzer(110,320);load('BZt','BZb','BZ');wire('BZb','OLl','M110 338V385H420');
+  wire('BB450','OLt','M450 360V380');swi('OLt','OLb',function(){return !st.tripped;});swi('OLl','OLb',function(){return st.tripped;});wire('OLb','T450','M450 435V465');
+  [[450,385],[450,430],[425,385]].forEach(function(p){el('circle',{cx:p[0],cy:p[1],r:5,'class':'term'},gP);});
+  olbar=el('g',{'class':'olbar'},gP);
+  el('line',{x1:445,y1:379,x2:445,y2:436},olbar);el('line',{x1:440,y1:403,x2:450,y2:413,'class':'x'},olbar);el('line',{x1:450,y1:403,x2:440,y2:413,'class':'x'},olbar);
+  txt(466,412,'OL');txt(459,389,'96','lb sm');txt(459,434,'95/97','lb sm');txt(425,373,'98','lb sm','middle');
+  wire('T540','T450','M540 465H450');wire('T450','Fb2','M450 465H98');fuse(60,455,'F2');swi('Fb2','Fa2',function(){return true;});wire('Fa2','T0','M60 465H50');
+  [[110,40],[320,40],[268,125],[320,125],[365,125],[268,205],[450,205],[268,278],[450,278],[268,360],[365,360],[450,360],[450,465]].forEach(function(p){dot(p[0],p[1]);});
+}
+
+/* ---------- 求解 ---------- */
+function solve(){
+  var adj={},i,e;
+  for(i=0;i<edges.length;i++){e=edges[i];if(!e.on()){continue;}(adj[e.a]=adj[e.a]||[]).push([e.b,e]);(adj[e.b]=adj[e.b]||[]).push([e.a,e]);}
+  function reach(sd){var s={},q=[sd];s[sd]=true;while(q.length){var n=q.pop(),l=adj[n]||[];for(var j=0;j<l.length;j++){if(!s[l[j][0]]){s[l[j][0]]=true;q.push(l[j][0]);}}}return s;}
+  var rnet=st.power?reach('R0'):{},tnet=reach('T0'),on={},hot=new Set();
+  function paths(from,to){var seen={},stack=[];seen[from]=true;(function dfs(n){if(n===to){stack.forEach(function(x){hot.add(x);});return;}
+    var l=adj[n]||[];for(var j=0;j<l.length;j++){var m=l[j][0];if(seen[m]){continue;}seen[m]=true;stack.push(l[j][1]);dfs(m);stack.pop();seen[m]=false;}})(from);}
+  loads.forEach(function(L){var f=false,ra=null,tb=null;
+    if(rnet[L.a]&&tnet[L.b]){f=true;ra=L.a;tb=L.b;}else if(rnet[L.b]&&tnet[L.a]){f=true;ra=L.b;tb=L.a;}
+    on[L.key]=f;if(f){paths('R0',ra);paths(tb,'T0');}});
+  return {on:on,hot:hot,rnet:rnet};
+}
+
+/* ---------- 主電路 ---------- */
+var svg2=$('fig2'),mw=[],mct=[],mmot=[],mth=[],mbl=[];
+function mwire(d,fn){mw.push({e:el('path',{d:d,'class':'w'},svg2),fn:fn});}
+function mtxt(x,y,t,c,a){el('text',{x:x,y:y,'class':c||'lb','text-anchor':a||'start'},svg2).textContent=t;}
+function mdot(x,y){el('circle',{cx:x,cy:y,r:3.5,'class':'dot'},svg2);}
+function buildMain(){
+  var pw=function(){return st.power;},any=function(){return st.power&&(st.c.MCF||st.c.MCR);};
+  [34,52,70].forEach(function(y,j){mtxt(30,y+5,'RST'[j],'lb big','middle');mwire('M52 '+y+'H84',function(){return true;});
+    mbl.push([el('line',{x1:84,y1:y,x2:104,y2:y,'class':'blade'},svg2),y]);});
+  mwire('M104 34H356',pw);mwire('M104 52H380',pw);mwire('M104 70H404',pw);mtxt(94,92,'NFB','lb','middle');
+  /* MCF:R→U、S→V、T→W;MCR 上方同為 R、S、T,下方 R、T 對調(R→W、T→U) */
+  [{k:'MCF',x:[166,190,214],y:[34,52,70],gx:190,o:[[195,261],[180,285],[165,309]],d:1},
+   {k:'MCR',x:[356,380,404],y:[34,52,70],gx:380,o:[[210,309],[225,285],[240,261]],d:0}].forEach(function(g){
+    var k=g.k,on=function(){return st.power&&st.c[k];};
+    g.x.forEach(function(x,i){
+      mwire('M'+x+' '+g.y[i]+'V130',pw);mwire('M'+x+' 144V'+g.o[i][0]+'H'+g.o[i][1],on);
+      if(g.d){mdot(x,g.y[i]);}
+      var c=el('g',{'class':'ct'},svg2);
+      el('rect',{x:x-8,y:128.5,width:16,height:17,'class':'fillb'},c);
+      el('line',{x1:x-8,y1:130,x2:x+8,y2:130,'class':'pl'},c);el('line',{x1:x-8,y1:144,x2:x+8,y2:144,'class':'pl'},c);mct.push([c,k]);
+    });
+    el('line',{x1:g.gx-24,y1:137,x2:g.gx+24,y2:137,'class':'mech'},svg2);mtxt(g.gx+36,141,k);
+  });
+  mwire('M261 195V240',function(){return st.power&&st.c.MCF;});mwire('M261 240V256',any);
+  mwire('M285 180V225',function(){return st.power&&st.c.MCF;});mwire('M285 225V256',any);
+  mwire('M309 165V210',function(){return st.power&&st.c.MCF;});mwire('M309 210V256',any);
+  mdot(261,240);mdot(285,225);mdot(309,210);
+  mth.push(el('rect',{x:245,y:256,width:80,height:26,rx:2,'class':'th'},svg2));mtxt(331,274,'TH-RY');
+  var lo=function(){return any()&&!st.tripped;};
+  mwire('M261 282V310L285 330',lo);mwire('M285 282V330',lo);mwire('M309 282V310L285 330',lo);
+  var mg=el('g',{'class':'motor'},svg2);el('circle',{cx:285,cy:354,r:24,'class':'body'},mg);
+  var rt=el('g',{'class':'rot',style:'transform-origin:285px 354px'},mg);
+  [90,210,330].forEach(function(a){var r=a*Math.PI/180;el('line',{x1:285,y1:354,x2:285+17*Math.cos(r),y2:354+17*Math.sin(r)},rt);});
+  el('text',{x:285,y:359,'class':'mt'},mg).textContent='M';mmot.push(mg);
+}
+function renderMain(r){
+  mw.forEach(function(w){w.e.classList.toggle('live',!!w.fn());});
+  mct.forEach(function(a){a[0].classList.toggle('act',!!st.c[a[1]]);});
+  mbl.forEach(function(b){b[0].setAttribute('y2',st.power?b[1]:b[1]-9);});
+  mth.forEach(function(e){e.classList.toggle('tripped',st.tripped);});
+  var run=st.power&&(st.c.MCF||st.c.MCR)&&!st.tripped;
+  mmot[0].classList.toggle('run',run);mmot[0].classList.toggle('rev',!!st.c.MCR);r.on.M=run;
+}
+
+/* ---------- 狀態區 ---------- */
+var CHIPS=[['MCF','通電','斷電','var(--on)'],['MCR','通電','斷電','var(--on)'],['M','轉動','停止','#4a86d8'],['RL','亮','熄','#e5484d'],['YL','亮','熄','#e0a800'],['GL','亮','熄','#2f9e58'],['BZ','響','靜','var(--bz)']];
+var chipRefs={};
+CHIPS.forEach(function(c){var li=document.createElement('li');li.style.setProperty('--c',c[3]);li.innerHTML='<i></i><span>'+c[0]+'</span><b></b>';
+  $('chips').appendChild(li);chipRefs[c[0]]={li:li,b:li.querySelector('b'),on:c[1],off:c[2]};});
+function message(){
+  var c=st.c,p=st.p;
+  if(!st.power){return ['斷電中','整個電路沒有電,所有元件都不會動作。按「送電」開始。'];}
+  if(st.tripped){return ['OL 跳脫','積熱電驛的接點切換:MCF、MCR 都斷電,馬達停止,BZ 通電發出聲響。按「OL 復歸」後,要重新按 FOR 或 REV 才會再起動。'];}
+  if(p.STOP){return ['按著 STOP','STOP 是常閉按鈕,按下後控制電路的電源被切斷,MCF、MCR 都斷電,馬達停止。放開後不會自己再起動。'];}
+  if(p.FOR&&c.MCR){return ['FOR 按了沒反應','MCR 通電時,FOR 這一列的 MCR 常閉接點是打開的,MCF 接不到電源。要改變轉向,先按 STOP。'];}
+  if(p.REV&&c.MCF){return ['REV 按了沒反應','MCF 通電時,REV 這一列的 MCF 常閉接點是打開的,MCR 接不到電源。要改變轉向,先按 STOP。'];}
+  if(c.MCF){return ['正轉中','MCF 通電並自保持,放開 FOR 也維持。主電路 R、S、T 依序接到馬達的 U、V、W,馬達正轉,RL 亮。MCF 的常閉接點打開,GL 熄,REV 這一列被鎖住。'];}
+  if(c.MCR){return ['反轉中','MCR 通電並自保持,放開 REV 也維持。主電路 R、T 兩條線對調,馬達反轉,YL 亮。MCR 的常閉接點打開,GL 熄,FOR 這一列被鎖住。'];}
+  return ['送電待機','MCF、MCR 都沒有電,GL 亮表示待機。按 FOR 正轉,或按 REV 反轉。'];
+}
+var wantBuzz=false;
+function render(r){
+  renderMain(r);
+  ['MCF','MCR'].forEach(function(k){coilEls[k].classList.toggle('on',!!r.on[k]);});
+  ['RL','YL','GL'].forEach(function(k){lampEls[k].classList.toggle('on',!!r.on[k]);});
+  bzEl.classList.toggle('on',!!r.on.BZ);
+  acts.forEach(function(a){a[0].classList.toggle('act',!!a[1]());a[0].classList.toggle('live',a[2]?!!a[2](r):false);});
+  pbEls.forEach(function(g){g.classList.toggle('pressed',!!st.p[g.getAttribute('data-pb')]);});
+  olbar.classList.toggle('tripped',st.tripped);
+  edges.forEach(function(e){if(e.el){e.el.classList.toggle('hot',st.flow&&r.hot.has(e));}});
+  chipRefs.M.on=st.c.MCR?'反轉':'正轉';
+  Object.keys(chipRefs).forEach(function(k){var c=chipRefs[k],v=!!r.on[k];c.li.classList.toggle('on',v);c.b.textContent=v?c.on:c.off;});
+  var m=message();$('msgTitle').textContent=m[0];$('msgBody').textContent=m[1];
+  $('stTitle').textContent=paused?'目前狀態【已暫停】':'目前狀態';
+  var bp=$('btnPower');bp.setAttribute('aria-pressed',st.power?'true':'false');bp.textContent=st.power?'送電中':'已斷電';
+  bp.disabled=paused;$('btnTrip').disabled=paused||!st.power||st.tripped;$('btnResetOL').disabled=paused||!st.tripped;
+  wantBuzz=!!r.on.BZ;syncBuzz();
+}
+
+/* ---------- 逐級更新、輸入、暫停 ---------- */
+var timer=0,paused=false,down={},downAt={},relT={},relPend={};
+function settle(){
+  clearTimeout(timer);
+  if(paused){render(solve());return;}
+  var r=solve(),ch=false,nn=0;
+  Object.keys(st.c).forEach(function(k){var v=!!r.on[k];if(v!==st.c[k]){st.c[k]=v;ch=true;sfxCoil(k,v,(nn++)*.012);}});
+  if(ch){r=solve();}
+  render(r);
+  if(ch){timer=setTimeout(settle,170);}
+}
+function press(n){if(paused){return;}down[n]=true;clearTimeout(relT[n]);if(!st.p[n]){st.p[n]=true;downAt[n]=performance.now();sfxBtn(true);settle();}}
+function release(n){down[n]=false;if(paused){relPend[n]=true;return;}
+  var w=Math.max(0,260-(performance.now()-(downAt[n]||0)));clearTimeout(relT[n]);
+  relT[n]=setTimeout(function(){if(!down[n]){st.p[n]=false;sfxBtn(false);settle();}},w);}
+function bindPB(){pbEls.forEach(function(g){var n=g.getAttribute('data-pb');
+  g.addEventListener('pointerdown',function(e){e.preventDefault();try{g.setPointerCapture(e.pointerId);}catch(x){}press(n);});
+  ['pointerup','pointercancel'].forEach(function(t){g.addEventListener(t,function(){release(n);});});
+  g.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.repeat){e.preventDefault();press(n);}});
+  g.addEventListener('keyup',function(e){if(e.key==='Enter'){release(n);}});});}
+var KEYS={a:'STOP',s:'FOR',d:'REV'};
+function typing(e){var t=e.target&&e.target.tagName;return t==='INPUT'||t==='SELECT';}
+document.addEventListener('keydown',function(e){
+  if(e.key===' '&&!typing(e)){e.preventDefault();if(!e.repeat){setPaused(!paused);}return;}
+  if(e.ctrlKey||e.metaKey||e.altKey||e.repeat){return;}
+  var n=KEYS[e.key.toLowerCase()];if(n){press(n);}});
+document.addEventListener('keyup',function(e){
+  if(e.key===' '&&!typing(e)){e.preventDefault();return;}
+  var n=KEYS[e.key.toLowerCase()];if(n){release(n);}});
+function setPaused(v){
+  paused=v;document.body.classList.toggle('paused',v);$('pausePill').hidden=!v;
+  $('btnPause').textContent=v?'繼續(空白鍵)':'暫停(空白鍵)';$('btnPause').setAttribute('aria-pressed',v?'true':'false');
+  if(AC){if(v){AC.suspend();}else if(!document.hidden){AC.resume();}}
+  if(!v){Object.keys(relPend).forEach(function(n){delete relPend[n];release(n);});}
+  syncBuzz();settle();
+}
+$('btnPause').addEventListener('click',function(){setPaused(!paused);});
+$('btnPower').addEventListener('click',function(){sfxSel();st.power=!st.power;settle();});
+$('btnTrip').addEventListener('click',function(){if(st.power){st.tripped=true;settle();}});
+$('btnResetOL').addEventListener('click',function(){st.tripped=false;settle();});
+$('btnReset').addEventListener('click',function(){
+  setPaused(false);st.power=true;st.tripped=false;st.c={MCF:false,MCR:false};
+  Object.keys(st.p).forEach(function(k){st.p[k]=false;down[k]=false;});settle();
+});
+$('chkFlow').addEventListener('change',function(e){st.flow=e.target.checked;settle();});
+
+/* ---------- 聲音(Web Audio 即時合成) ---------- */
+var AC=null,snd=true,master=null,buzz=null;
+function unlockAudio(){
+  if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C){return;}AC=new C();
+    var cp=AC.createDynamicsCompressor();master=AC.createGain();master.gain.value=.9;master.connect(cp);cp.connect(AC.destination);}
+  if(AC.state!=='running'&&!paused&&!document.hidden){AC.resume();}
+}
+function tone(f,d,ty,g,t0,f2){
+  if(!AC||!snd||paused){return;}
+  var t=AC.currentTime+(t0||0),o=AC.createOscillator(),v=AC.createGain();
+  o.type=ty;o.frequency.setValueAtTime(f,t);if(f2){o.frequency.exponentialRampToValueAtTime(f2,t+d);}
+  v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(master);o.start(t);o.stop(t+d+.02);
+}
+function noise(d,g,fc,t0){
+  if(!AC||!snd||paused){return;}
+  var n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0),i;
+  for(i=0;i<n;i++){a[i]=Math.random()*2-1;}
+  var s=AC.createBufferSource(),f=AC.createBiquadFilter(),v=AC.createGain(),t=AC.currentTime+(t0||0);
+  s.buffer=b;f.type='bandpass';f.frequency.value=fc;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);
+  s.connect(f);f.connect(v);v.connect(master);s.start(t);
+}
+function sfxBtn(dn){noise(.03,dn?.5:.25,3000);tone(dn?1200:900,.04,'square',dn?.12:.06,0,400);}
+function sfxSel(){tone(220,.09,'triangle',.3,0,110);noise(.04,.3,800);}
+function sfxMC(on,k,dl){var p=[1,.88][k]*(1+(Math.random()-.5)*.04),g=on?1:.5;
+  noise(.03,.7*g,2500*p,dl);tone((on?140:110)*p,on?.14:.08,'sine',.6*g,dl,60*p);tone(900*p,.03,'square',.15*g,dl);if(on){noise(.06,.3,600*p,dl+.05);}}
+function sfxCoil(k,on,dl){if(k==='MCF'){sfxMC(on,0,dl);}else if(k==='MCR'){sfxMC(on,1,dl);}}
+function syncBuzz(){
+  var want=wantBuzz&&snd&&!paused&&!!AC;
+  if(want&&!buzz){var o=AC.createOscillator(),lp=AC.createBiquadFilter(),g=AC.createGain();
+    o.type='square';o.frequency.value=2700;lp.type='lowpass';lp.frequency.value=5000;g.gain.value=0;
+    o.connect(lp);lp.connect(g);g.connect(master);o.start();g.gain.setTargetAtTime(.07,AC.currentTime,.02);buzz={o:o,g:g};}
+  else if(!want&&buzz){var b=buzz;buzz=null;b.g.gain.setTargetAtTime(0,AC.currentTime,.04);b.o.stop(AC.currentTime+.25);}
+}
+$('btnSnd').addEventListener('click',function(){
+  snd=!snd;this.setAttribute('aria-pressed',snd?'true':'false');this.textContent=snd?'聲音:開':'聲音:關';
+  if(snd){unlockAudio();sfxMC(true,0,0);}syncBuzz();
+});
+document.addEventListener('pointerdown',unlockAudio,true);document.addEventListener('keydown',unlockAudio,true);
+/* iOS 音效修正:①手機靜音鍵會讓 Web Audio 無聲,改播一段靜音 audio 元素讓系統走「播放」類別;②iOS 只認 touchend/click 當解鎖手勢 */
+function iosAudioFix(getCtx){
+  try{if(navigator.audioSession){navigator.audioSession.type='playback';}}catch(e){}
+  var el=null;
+  function silentWav(){
+    var n=4000,b=new ArrayBuffer(44+n*2),v=new DataView(b);
+    function s(o,t){for(var i=0;i<t.length;i++){v.setUint8(o+i,t.charCodeAt(i));}}
+    s(0,'RIFF');v.setUint32(4,36+n*2,true);s(8,'WAVE');s(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);s(36,'data');v.setUint32(40,n*2,true);
+    return URL.createObjectURL(new Blob([b],{type:'audio/wav'}));
+  }
+  function go(){
+    var c=getCtx();
+    if(c){try{var s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);}catch(e){}}
+    if(!el){try{el=document.createElement('audio');el.src=silentWav();el.loop=true;el.setAttribute('playsinline','');}catch(e){el=null;return;}}
+    if(el.paused){var p=el.play();if(p&&p.catch){p.catch(function(){});}}
+  }
+  ['touchend','pointerup','click'].forEach(function(t){document.addEventListener(t,function(){unlockAudio();go();},true);});
+  document.addEventListener('visibilitychange',function(){if(!el){return;}if(document.hidden){el.pause();}else{go();}});
+}
+iosAudioFix(function(){return AC;});
+document.addEventListener('visibilitychange',function(){if(!AC){return;}if(document.hidden){AC.suspend();}else if(!paused){AC.resume();}});
+
+buildMain();buildCtl();bindPB();settle();
+})();
+</script></body></html>
