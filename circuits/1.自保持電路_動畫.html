@@ -330,7 +330,7 @@ $('chkFlow').addEventListener('change',function(e){st.flow=e.target.checked;sett
 var AC=null,snd=true,master=null,wantBuzz=false,buzz=null;
 function unlockAudio(){
   if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(!C){return;}AC=new C();var cp=AC.createDynamicsCompressor();master=AC.createGain();master.gain.value=.9;master.connect(cp);cp.connect(AC.destination);}
-  if(AC.state==='suspended'&&!paused&&!document.hidden){AC.resume();}
+  if(AC.state!=='running'&&!paused&&!document.hidden){AC.resume();}
 }
 function tone(f,d,ty,g,t0,f2){if(!AC||!snd||paused){return;}var t=AC.currentTime+(t0||0),o=AC.createOscillator(),v=AC.createGain();
   o.type=ty;o.frequency.setValueAtTime(f,t);if(f2){o.frequency.exponentialRampToValueAtTime(f2,t+d);}v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(master);o.start(t);o.stop(t+d+.02);}
@@ -345,6 +345,26 @@ function syncBuzz(){var want=wantBuzz&&snd&&!paused&&!!AC;
   else if(!want&&buzz){var b=buzz;buzz=null;b.g.gain.setTargetAtTime(0,AC.currentTime,.04);b.o.stop(AC.currentTime+.25);}}
 $('btnSnd').addEventListener('click',function(){snd=!snd;this.setAttribute('aria-pressed',snd?'true':'false');this.textContent=snd?'聲音:開':'聲音:關';if(snd){unlockAudio();sfxMC(true,0,0);}syncBuzz();});
 document.addEventListener('pointerdown',unlockAudio,true);document.addEventListener('keydown',unlockAudio,true);
+/* iOS 音效修正:①手機靜音鍵會讓 Web Audio 無聲,改播一段靜音 audio 元素讓系統走「播放」類別;②iOS 只認 touchend/click 當解鎖手勢 */
+function iosAudioFix(getCtx){
+  try{if(navigator.audioSession){navigator.audioSession.type='playback';}}catch(e){}
+  var el=null;
+  function silentWav(){
+    var n=4000,b=new ArrayBuffer(44+n*2),v=new DataView(b);
+    function s(o,t){for(var i=0;i<t.length;i++){v.setUint8(o+i,t.charCodeAt(i));}}
+    s(0,'RIFF');v.setUint32(4,36+n*2,true);s(8,'WAVE');s(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);s(36,'data');v.setUint32(40,n*2,true);
+    return URL.createObjectURL(new Blob([b],{type:'audio/wav'}));
+  }
+  function go(){
+    var c=getCtx();
+    if(c){try{var s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);}catch(e){}}
+    if(!el){try{el=document.createElement('audio');el.src=silentWav();el.loop=true;el.setAttribute('playsinline','');}catch(e){el=null;return;}}
+    if(el.paused){var p=el.play();if(p&&p.catch){p.catch(function(){});}}
+  }
+  ['touchend','pointerup','click'].forEach(function(t){document.addEventListener(t,function(){unlockAudio();go();},true);});
+  document.addEventListener('visibilitychange',function(){if(!el){return;}if(document.hidden){el.pause();}else{go();}});
+}
+iosAudioFix(function(){return AC;});
 document.addEventListener('visibilitychange',function(){if(!AC){return;}if(document.hidden){AC.suspend();}else if(!paused){AC.resume();}});
 /* ---- 分頁 ---- */
 var TXT={t1:['分頁1:寸動電路','按住 ON,MC 通電動作;放開 ON,MC 立刻復歸。通電或動作的元件會變紅。'],
