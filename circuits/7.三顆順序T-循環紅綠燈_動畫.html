@@ -258,7 +258,7 @@ function renderMain(r){mw.forEach(function(w){w.e.classList.toggle('live',!!w.fn
  mct.forEach(function(a){a[0].classList.toggle('act',!!st.c[a[1]]);});mbl.forEach(function(b){b[0].setAttribute('y2',st.power?b[1]:b[1]-9);});
  mmot.forEach(function(g,k){var run=st.power&&st.c['MC'+(k+1)];g.classList.toggle('run',run);r.on['M'+(k+1)]=run;});}
 /* 狀態區 */
-var CHIPS=[['MC1','通電','斷電','var(--on)'],['MC2','通電','斷電','var(--on)'],['MC3','通電','斷電','var(--on)'],['T1','計時','斷電','#e0762a'],['T2','計時','斷電','#e0762a'],['T3','計時','斷電','#e0762a'],['M1','轉動','停止','#4a86d8'],['M2','轉動','停止','#4a86d8'],['M3','轉動','停止','#4a86d8'],['RL','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['YL','亮','熄','#e0a800']],chipRefs={};
+var CHIPS=[['MC1','通電','斷電','var(--on)'],['MC2','通電','斷電','var(--on)'],['MC3','通電','斷電','var(--on)'],['T1','通電','斷電','#e0762a'],['T2','通電','斷電','#e0762a'],['T3','通電','斷電','#e0762a'],['M1','轉動','停止','#4a86d8'],['M2','轉動','停止','#4a86d8'],['M3','轉動','停止','#4a86d8'],['RL','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['YL','亮','熄','#e0a800']],chipRefs={};
 CHIPS.forEach(function(c){var li=document.createElement('li');li.style.setProperty('--c',c[3]);li.innerHTML='<i></i><span>'+c[0]+'</span><b></b>';$('chips').appendChild(li);chipRefs[c[0]]={li:li,b:li.querySelector('b'),on:c[1],off:c[2]};});
 function message(){var c=st.c,N={MC1:'MC1 通電,紅燈亮',MC2:'MC2 通電,綠燈亮',MC3:'MC3 通電,黃燈亮'},T={MC1:'T1',MC2:'T2',MC3:'T3'},X={MC1:'MC2',MC2:'MC3',MC3:'MC1'};
  if(!st.power){return ['斷電中','整個電路沒有電,所有元件都不會動作。按「送電」開始。'];}

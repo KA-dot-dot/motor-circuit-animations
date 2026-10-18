@@ -351,7 +351,7 @@ function solve(){
   loads.forEach(function(L){var f=false,ra,tb;if(rn[L.a]&&tn[L.b]){f=true;ra=L.a;tb=L.b;}else if(rn[L.b]&&tn[L.a]){f=true;ra=L.b;tb=L.a;}on[L.key]=f;if(f&&st.flow){paths('R0',ra);paths(tb,'T0');}});
   return {on:on,hot:hot,rn:rn};
 }
-var CH=[['X1','通電','斷電','var(--on)'],['X2','通電','斷電','var(--on)'],['X3','通電','斷電','var(--on)'],['M1','通電','斷電','var(--on)'],['M2','通電','斷電','var(--on)'],['M3','通電','斷電','var(--on)'],['T1','計時','斷電','var(--on)'],['T2','計時','斷電','var(--on)'],['RL','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['YL','亮','熄','#e0a800'],['WL','亮','熄','#b8a000'],['BZ','響','靜','var(--bz)']];
+var CH=[['X1','通電','斷電','var(--on)'],['X2','通電','斷電','var(--on)'],['X3','通電','斷電','var(--on)'],['M1','通電','斷電','var(--on)'],['M2','通電','斷電','var(--on)'],['M3','通電','斷電','var(--on)'],['T1','通電','斷電','var(--on)'],['T2','通電','斷電','var(--on)'],['RL','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['YL','亮','熄','#e0a800'],['WL','亮','熄','#b8a000'],['BZ','響','靜','var(--bz)']];
 var chipEl=document.getElementById('chips'),cr={};
 CH.forEach(function(c){var li=document.createElement('li');li.style.setProperty('--c',c[3]);li.innerHTML='<i></i><span>'+c[0]+'</span><b></b>';chipEl.appendChild(li);cr[c[0]]={li:li,b:li.querySelector('b'),on:c[1],off:c[2]};});
 
@@ -372,7 +372,7 @@ function msg(r){
     return ['手動待機','選擇開關在「手動」,三個線圈都沒有電。按 ON2 啟動 M1。'];
   }
   if(st.sel==='auto'){
-    if(c.M3){return ['M1、M2、M3 依序啟動完成','T2 計時 '+setSec.T2+' 秒到,T2/a 閉合,M3 通電,YL 亮。全部由 X1、X2 的接點與計時接點帶動。'];}
+    if(c.M3){return ['M1、M2、M3 順序啟動完成','T2 計時 '+setSec.T2+' 秒到,T2/a 閉合,M3 通電,YL 亮。全部由 X1、X2 的接點與計時接點帶動。'];}
     if(c.M2){return ['M2 通電,T2 計時中','M2 通電後 GL 亮,T2 開始計時 '+setSec.T2+' 秒;時間到 T2/a 閉合,M3 才會通電。'];}
     if(c.M1){return ['M1 通電,T1 計時中','M1 通電後 RL 亮,T1 開始計時 '+setSec.T1+' 秒;時間到 T1/a 閉合,M2 才會通電。'];}
     if(c.X1){return ['X1、X2、X3 通電','X1/a 自保閉合,放開 ON1 也維持。X3 通電後,手動匯流線上兩顆 X3/b 打開,自動時按 ON3、ON4 不會有作用。X1/a、X2/a 閉合後,電源送到 M1。'];}

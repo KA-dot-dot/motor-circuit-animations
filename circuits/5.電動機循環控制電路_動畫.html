@@ -160,7 +160,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 
 <div class="stage">
 <div class="card fig fm"><h2>主電路</h2><svg id="fig2" viewBox="0 0 360 440" role="img" aria-label="主電路:NFB、MC1 與 MC2 主接點、積熱電驛 TH-RY1、TH-RY2 與馬達 M1、M2"></svg></div>
-<div class="card fig fc"><h2>控制電路</h2><svg id="fig" viewBox="0 0 700 500" role="img" aria-label="循環控制電路圖,含 OFF、ON、X、MC1、MC2、T1、T2、RL1、RL2、GL、BZ 與 OL1、OL2"><g id="wires"></g><g id="dots"></g><g id="parts"></g><g id="labels"></g></svg></div>
+<div class="card fig fc"><h2>控制電路</h2><svg id="fig" viewBox="0 0 700 500" role="img" aria-label="循環控制電路圖,含 OFF、ON、X、MC1、MC2、T1、T2、RL1、RL2、GL、BZ 與 OL"><g id="wires"></g><g id="dots"></g><g id="parts"></g><g id="labels"></g></svg></div>
 <aside class="side">
 <section class="card controls" aria-label="操作"><h2>操作</h2>
 <div class="row"><button class="btn" id="btnPause" type="button" aria-pressed="false">暫停(空白鍵)</button><button class="btn" id="btnPower" type="button" aria-pressed="true">送電中</button><button class="btn" id="btnTrip" type="button">模擬 OL 跳脫</button><button class="btn" id="btnResetOL" type="button" disabled>OL 復歸</button><button class="btn" id="btnReset" type="button">全部重設</button><button class="btn" id="btnSnd" type="button" aria-pressed="true">聲音:開</button></div>
@@ -342,14 +342,14 @@ function solve(){
 }
 
 /* ---- 狀態區與說明 ---- */
-var CHIPS=[['X','通電','斷電','var(--on)'],['MC1','通電','斷電','var(--on)'],['MC2','通電','斷電','var(--on)'],['T1','計時','斷電','var(--on)'],['T2','計時','斷電','var(--on)'],
+var CHIPS=[['X','通電','斷電','var(--on)'],['MC1','通電','斷電','var(--on)'],['MC2','通電','斷電','var(--on)'],['T1','通電','斷電','var(--on)'],['T2','通電','斷電','var(--on)'],
   ['RL1','亮','熄','#e5484d'],['RL2','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['BZ','響','靜','var(--bz)'],['M1','轉動','停止','#4a86d8'],['M2','轉動','停止','#4a86d8']];
 var chipsEl=document.getElementById('chips'),chipRefs={};
 CHIPS.forEach(function(c){var li=document.createElement('li');li.style.setProperty('--c',c[3]);li.innerHTML='<i></i><span>'+c[0]+'</span><b></b>';chipsEl.appendChild(li);chipRefs[c[0]]={li:li,b:li.querySelector('b'),on:c[1],off:c[2]};});
 function message(){
   var c=st.c,tr=st.tr;
   if(!st.power){return ['斷電中','整個電路沒有電,所有元件都不會動作。按「送電」開始。'];}
-  if(tr[0]){return ['OL 跳脫','積熱電驛動作,控制電路失去回到 T 的通路,所有線圈、燈與計時都停止,馬達停轉;蜂鳴器 BZ 改經 OL 的另一側接點通電而發聲。按「OL 復歸」解除。'];}
+  if(tr[0]){return ['OL 跳脫','積熱電驛動作,控制電路失去回到 T 的通路,所有線圈、RL1、RL2 與計時都停止,馬達停轉;蜂鳴器 BZ 改經 OL 的另一側接點通電而發聲。X 斷電後常閉接點回到閉合,GL 不經 OL,仍然亮著。按「OL 復歸」解除。'];}
   if(st.p.OFF){return ['按著 OFF','OFF 是常閉按鈕,按下後 X 線圈失去電源,自保接點與電源側接點放開,循環停止。'];}
   if(!c.X){return ['送電待機','X 沒有通電,綠燈 GL 經 X 的常閉接點亮著。按 ON 讓 X 通電,開始循環。'];}
   if(st.d.T1&&c.MC2){return ['第二階段:MC2 運轉','T1 計時完成:T1 的常閉接點打開,MC1、RL1 斷電;常開接點閉合,MC2、RL2、T2 通電,M2 轉動。T2 計時完成後會回到第一階段。'];}
