@@ -49,8 +49,8 @@ h1{font-size:1.5rem;margin:0 0 4px;line-height:1.3}
 var CIRCUITS=[
   {n:1, title:'自保持電路', file:'1.自保持電路_動畫.html', tags:['基礎'], desc:'寸動、動作優先與復歸優先、自保持（含主電路）三個分頁，可模擬 OL 跳脫'},
   {n:2, title:'三相感應正逆轉電路', file:'2.三相感應正逆轉電路_動畫.html', tags:['基礎'], desc:'按 STOP、FOR、REV，試試正轉中按 REV 會怎樣；主電路馬達跟著轉動'},
-  {n:3, title:'電動機手動順序控制', file:'3.電動機手動順序控制_動畫.html', tags:['順序','限時'], desc:'基礎圖、進階圖與兩題進階題；順序啟動、互鎖、OL 跳脫，順序啟閉含限時電驛延時'},
-  {n:4, title:'電動機降壓啟動', file:'4.電動機降壓啟動_動畫.html', tags:['限時'], desc:'Y-Δ 降壓起動：先 Y 連接，限時電驛計時後切成 Δ 連接；可選量測點看電壓，並設定斷線故障'},
+  {n:3, title:'電動機手動順序控制', file:'3.電動機手動順序控制_動畫.html', tags:['順序','限時'], desc:'基礎圖、進階圖與兩題進階題；順序啟動、互鎖、OL 跳脫，順序啟閉含限時電驛延時，COS 可選跳脫時亮 PL3 或響 BZ'},
+  {n:4, title:'電動機降壓啟動', file:'4.電動機降壓啟動_動畫.html', tags:['限時'], desc:'Y-Δ 降壓起動：先 Y 連接，限時電驛計時後切成 Δ 連接；可選量測點看電壓；另有乙級冰水主機環形接法兩個主電路分頁，可模擬環線斷路'},
   {n:5, title:'電動機循環控制電路', file:'5.電動機循環控制電路_動畫.html', tags:['循環','限時'], desc:'按 ON 後 MC1 先運轉，T1 計時換 MC2，T2 計時再換回 MC1，持續循環'},
   {n:6, title:'電動機順序控制 1顆TIMER 1顆電力電驛', file:'6.電動機順序控制 1顆TIMER 1顆電力電驛_動畫.html', tags:['順序','限時'], desc:'按 OFF、ON1、ON2 操作；MC1 通電後 T1 開始計時，滿設定秒數 MC2 才通電'},
   {n:7, title:'三顆順序T-循環紅綠燈', file:'7.三顆順序T-循環紅綠燈_動畫.html', tags:['順序','循環','限時'], desc:'紅、綠、黃燈（MC1～MC3）由限時電驛計時，時間到才換下一級，持續循環'},
@@ -78,7 +78,8 @@ function draw(){
   CIRCUITS.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(c){
     var hay=(c.n+' '+c.title+' '+(c.desc||'')+' '+c.tags.join(' ')).toLowerCase();
     if(cur!=='全部'&&c.tags.indexOf(cur)<0){return;}
-    if(kw&&hay.indexOf(kw)<0){return;}
+    if(kw&&/^\d+$/.test(kw)){if(c.n!==parseInt(kw,10)){return;}}   /* 只輸入數字時,精準比對電路編號 */
+    else if(kw&&hay.indexOf(kw)<0){return;}
     shown++;
     var a=document.createElement('a');
     a.className='card';a.href='circuits/'+encodeURI(c.file);
