@@ -187,6 +187,29 @@ body.paused *{animation-play-state:paused!important}
 </style>
 
 <style>:root{color-scheme:light}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}body{margin:0}[hidden]{display:none!important}</style>
+<style id="collapseCss">
+/* 手機點按不出現黑底/灰底;按鈕與選擇開關不可選取文字 */
+*{-webkit-tap-highlight-color:transparent}
+.pb,.pb *,.sel,.sel *,.cosg,.cosg *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* 卡片右上角收合鈕(倒三角形,收合後轉向右) */
+.card{position:relative}
+.card>h2,.card>h3{padding-right:44px;text-align:left}
+.card.collapsible>h2,.card.collapsible>h3{cursor:pointer}
+.cbtn{position:absolute;top:2px;right:2px;z-index:2;width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (hover:hover){.cbtn:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}}
+.cbtn:focus{outline:none}
+.cbtn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.cbtn svg{display:block;transition:transform .18s}
+.card.collapsed>.cbtn svg{transform:rotate(-90deg)}
+.card.collapsed{box-sizing:border-box;min-height:42px}
+.card.collapsed>*:not(h2):not(h3):not(.cbtn){display:none!important}
+.card.collapsed>h2,.card.collapsed>h3{display:block!important;margin:0!important}
+@media (min-width:960px){
+  .card.controls:not(.collapsed){padding-right:52px}
+  .card.controls>h2.xh{display:none}
+}
+@media (prefers-reduced-motion:reduce){.cbtn svg{transition:none}}
+</style>
 </head>
 <body>
 <div class="pausepill" id="pausePill" role="status" hidden>已暫停:按空白鍵或「繼續」恢復</div>
@@ -366,6 +389,23 @@ function sfxMC(i,on){
     tone(t,'sine',95*k,50*k,0.4,0.08);
     nz(t+0.014,'highpass',3000,0.7,0.2,0.015);
   }
+}
+/* 按鈕「喀」、送電／COS 撥動聲、中間電驛 X 輕「喀」「答」(與其他電路一致) */
+function sfxBtn(dn){
+  if(!ctx||!soundOn||document.hidden||paused){return;}
+  var t=ctx.currentTime+0.003;
+  nz(t,'bandpass',3000,1,dn?0.5:0.25,0.03);
+  tone(t,'square',dn?1200:900,400,dn?0.12:0.06,0.04);
+}
+function sfxSel(){
+  if(!ctx||!soundOn||document.hidden||paused){return;}
+  var t=ctx.currentTime+0.003;
+  tone(t,'triangle',220,110,0.3,0.09);nz(t,'bandpass',800,1,0.3,0.04);
+}
+function sfxRelay(on){
+  if(!ctx||!soundOn||document.hidden){return;}
+  var t=ctx.currentTime+0.02,g=on?1:0.5;
+  nz(t,'bandpass',4500,1,0.35*g,0.02);tone(t,'square',1800,1800,0.08*g,0.025);
 }
 /* 蜂鳴器:BZ 通電時持續發出電子嗶聲(2.7 kHz 壓電蜂鳴器) */
 function buzzOn(){
@@ -701,7 +741,7 @@ function buildC33(){
   [[179,118],[150,158],[208,158]].forEach(function(p){el('circle',{cx:p[0],cy:p[1],r:4,'class':'term'},cg);});
   cos33=el('g',{'class':'cosb'},cg);
   el('path',{d:'M181.3 121.2L205.7 154.8','class':'bl'},cos33);
-  var tg=function(){if(paused){return;}st.cos=st.cos==='bz'?'pl3':'bz';settle();};
+  var tg=function(){if(paused){return;}sfxSel();st.cos=st.cos==='bz'?'pl3':'bz';settle();};
   cg.addEventListener('click',tg);
   cg.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tg();}});
   T3(167,118,'COS','end');T3(160,176,'2','start');
@@ -1026,7 +1066,7 @@ function settle(){
   /* 挑戰圖:MC2、MC3 同一輪都會通電(兩鈕同時按住)時只讓 MC2 通電,互鎖才不會在邏輯上同時成立 */
   if(mode==='c34'&&next[1]&&next[2]&&!st.mc[1]&&!st.mc[2]){next[2]=false;}
   var changed=next.some(function(v,i){return v!==st.mc[i];})||nx!==st.x||n1!==st.t1||n2!==st.t2;
-  if(changed){next.forEach(function(v,i){if(v!==st.mc[i]){sfxMC(i,v);}});st.mc=next;st.x=nx;setTimer(1,n1);setTimer(2,n2);r=solve();}
+  if(changed){if(nx!==st.x){sfxRelay(nx);}next.forEach(function(v,i){if(v!==st.mc[i]){sfxMC(i,v);}});st.mc=next;st.x=nx;setTimer(1,n1);setTimer(2,n2);r=solve();}
   render(r);
   if(changed){timer=later(settle,170);}
 }
@@ -1036,13 +1076,13 @@ var down={},downAt={},relT={};
 function press(n){
   if(paused){return;}
   down[n]=true;cancel(relT[n]);
-  if(!st.p[n]){st.p[n]=true;downAt[n]=vnow();settle();}
+  if(!st.p[n]){st.p[n]=true;downAt[n]=vnow();sfxBtn(true);settle();}
 }
 function release(n){
   down[n]=false;
   var wait=Math.max(0,260-(vnow()-(downAt[n]||0)));
   cancel(relT[n]);
-  relT[n]=later(function(){if(!down[n]){st.p[n]=false;settle();}},wait);
+  relT[n]=later(function(){if(!down[n]){st.p[n]=false;sfxBtn(false);settle();}},wait);
 }
 function bindPB(){pbEls.forEach(function(g){
   var n=g.getAttribute('data-pb');
@@ -1070,7 +1110,7 @@ document.addEventListener('keyup',function(e){
   var n=KEYS[e.key.toLowerCase()];if(n){release(n);}
 });
 
-document.getElementById('btnPower').addEventListener('click',function(){if(paused){return;}st.power=!st.power;settle();});
+document.getElementById('btnPower').addEventListener('click',function(){if(paused){return;}sfxSel();st.power=!st.power;settle();});
 document.getElementById('btnTrip').addEventListener('click',function(){if(st.power&&!paused){st.tripped=true;settle();}});
 document.getElementById('btnResetOL').addEventListener('click',function(){if(paused){return;}st.tripped=false;settle();});
 document.getElementById('btnReset').addEventListener('click',function(){
@@ -1176,13 +1216,48 @@ function setMode(m){
   document.getElementById('tabC34').setAttribute('aria-pressed',m==='c34');
   document.getElementById('btnReset').click();
 }
-document.getElementById('btnCos').addEventListener('click',function(){if(paused){return;}st.cos=st.cos==='bz'?'pl3':'bz';settle();});
+document.getElementById('btnCos').addEventListener('click',function(){if(paused){return;}sfxSel();st.cos=st.cos==='bz'?'pl3':'bz';settle();});
 document.getElementById('selDelay').addEventListener('change',function(e){st.delay=+e.target.value;document.getElementById('btnReset').click();});
 document.getElementById('tabBasic').addEventListener('click',function(){setMode('basic');});
 document.getElementById('tabAdv').addEventListener('click',function(){setMode('adv');});
 document.getElementById('tabC33').addEventListener('click',function(){setMode('c33');});
 document.getElementById('tabC34').addEventListener('click',function(){setMode('c34');});
 setMode('basic');
+})();
+</script>
+<script id="collapseJs">
+/* 每張卡片右上角加收合鈕;沒有標題的卡片自動補標題 */
+(function(){
+  'use strict';
+  function init(card){
+    if(card.querySelector(':scope > .cbtn')){return;}
+    var h=card.querySelector(':scope > h2, :scope > h3');
+    if(!h){
+      h=document.createElement('h2');h.className='xh';
+      h.textContent=card.getAttribute('aria-label')||(card.classList.contains('controls')?'操作':'控制電路');
+      card.insertBefore(h,card.firstChild);
+    }
+    var name=(h.textContent||'').replace(/【.*?】/g,'').trim()||'此區塊';
+    var b=document.createElement('button');
+    b.type='button';b.className='cbtn';
+    b.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M3.5 6h11L9 13z" fill="currentColor"/></svg>';
+    function sync(){
+      var c=card.classList.contains('collapsed');
+      b.setAttribute('aria-expanded',c?'false':'true');
+      b.setAttribute('aria-label',(c?'展開':'收合')+'「'+name+'」');
+      b.title=(c?'展開':'收合')+name;
+    }
+    function toggle(){card.classList.toggle('collapsed');sync();}
+    b.addEventListener('click',toggle);
+    /* 空白鍵在鈕上用來收合,不要觸發頁面的暫停 */
+    b.addEventListener('keydown',function(e){if(e.key===' '){e.preventDefault();e.stopPropagation();if(!e.repeat){toggle();}}});
+    b.addEventListener('keyup',function(e){if(e.key===' '){e.preventDefault();e.stopPropagation();}});
+    h.addEventListener('click',toggle);
+    card.classList.add('collapsible');
+    card.appendChild(b);sync();
+  }
+  function all(){Array.prototype.forEach.call(document.querySelectorAll('.card'),init);}
+  all();
 })();
 </script>
 </body>

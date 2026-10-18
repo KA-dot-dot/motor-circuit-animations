@@ -58,7 +58,30 @@ h2{font-size:.8rem;letter-spacing:.08em;margin:0 0 8px;color:var(--muted);font-w
 .tk.act .tbar line,.tk.act .tbar polygon,.tk.live .tbar line,.tk.live .tbar polygon{stroke:var(--on)}.tk:not(.nc).act .tbar polygon,.tk.live .tbar polygon{fill:var(--on)}
 #pausePill{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%);z-index:5;background:var(--accent);color:var(--onaccent);padding:4px 14px;border-radius:999px;font-size:.85rem}
 body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-play-state:paused}
-</style></head><body>
+</style><style id="collapseCss">
+/* 手機點按不出現黑底/灰底;按鈕與選擇開關不可選取文字 */
+*{-webkit-tap-highlight-color:transparent}
+.pb,.pb *,.sel,.sel *,.cosg,.cosg *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* 卡片右上角收合鈕(倒三角形,收合後轉向右) */
+.card{position:relative}
+.card>h2,.card>h3{padding-right:44px;text-align:left}
+.card.collapsible>h2,.card.collapsible>h3{cursor:pointer}
+.cbtn{position:absolute;top:2px;right:2px;z-index:2;width:36px;height:36px;padding:0;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+@media (hover:hover){.cbtn:hover{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}}
+.cbtn:focus{outline:none}
+.cbtn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.cbtn svg{display:block;transition:transform .18s}
+.card.collapsed>.cbtn svg{transform:rotate(-90deg)}
+.card.collapsed{box-sizing:border-box;min-height:42px}
+.card.collapsed>*:not(h2):not(h3):not(.cbtn){display:none!important}
+.card.collapsed>h2,.card.collapsed>h3{display:block!important;margin:0!important}
+@media (min-width:960px){
+  .card.controls:not(.collapsed){padding-right:52px}
+  .card.controls>h2.xh{display:none}
+}
+@media (prefers-reduced-motion:reduce){.cbtn svg{transition:none}}
+</style>
+</head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
 <h1>電動機循環控制電路</h1>
@@ -387,4 +410,39 @@ document.addEventListener('visibilitychange',function(){if(!AC){return;}if(docum
 ['T1','T2'].forEach(function(k){var i=$('s'+k);i.addEventListener('change',function(){var v=parseFloat(i.value);if(!isFinite(v)){v=3;}v=Math.min(10,Math.max(1,Math.round(v*2)/2));i.value=v;setSec[k]=v;settle();});});
 buildMain();buildCtl();bindPB();settle();
 })();
-</script></body></html>
+</script><script id="collapseJs">
+/* 每張卡片右上角加收合鈕;沒有標題的卡片自動補標題 */
+(function(){
+  'use strict';
+  function init(card){
+    if(card.querySelector(':scope > .cbtn')){return;}
+    var h=card.querySelector(':scope > h2, :scope > h3');
+    if(!h){
+      h=document.createElement('h2');h.className='xh';
+      h.textContent=card.getAttribute('aria-label')||(card.classList.contains('controls')?'操作':'控制電路');
+      card.insertBefore(h,card.firstChild);
+    }
+    var name=(h.textContent||'').replace(/【.*?】/g,'').trim()||'此區塊';
+    var b=document.createElement('button');
+    b.type='button';b.className='cbtn';
+    b.innerHTML='<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M3.5 6h11L9 13z" fill="currentColor"/></svg>';
+    function sync(){
+      var c=card.classList.contains('collapsed');
+      b.setAttribute('aria-expanded',c?'false':'true');
+      b.setAttribute('aria-label',(c?'展開':'收合')+'「'+name+'」');
+      b.title=(c?'展開':'收合')+name;
+    }
+    function toggle(){card.classList.toggle('collapsed');sync();}
+    b.addEventListener('click',toggle);
+    /* 空白鍵在鈕上用來收合,不要觸發頁面的暫停 */
+    b.addEventListener('keydown',function(e){if(e.key===' '){e.preventDefault();e.stopPropagation();if(!e.repeat){toggle();}}});
+    b.addEventListener('keyup',function(e){if(e.key===' '){e.preventDefault();e.stopPropagation();}});
+    h.addEventListener('click',toggle);
+    card.classList.add('collapsible');
+    card.appendChild(b);sync();
+  }
+  function all(){Array.prototype.forEach.call(document.querySelectorAll('.card'),init);}
+  all();
+})();
+</script>
+</body></html>
