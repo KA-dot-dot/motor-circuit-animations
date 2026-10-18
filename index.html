@@ -5,34 +5,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>電動機控制電路動畫</title>
 <style>
-:root{--bg:#f2f5f8;--panel:#fff;--ink:#18212d;--muted:#556172;--line:#d3dbe5;--accent:#1d5fa6}
-@media (prefers-color-scheme:dark){:root{--bg:#10151b;--panel:#18202a;--ink:#e8edf3;--muted:#9aa7b8;--line:#2b3643;--accent:#6aa9ee}}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif}
-main{max-width:900px;margin:0 auto;padding:24px 16px}
-h1{font-size:1.5rem;margin:0 0 4px}
-p.sub{color:var(--muted);margin:0 0 20px}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+:root{color-scheme:light;--bg:#f2f5f8;--panel:#fff;--ink:#18212d;--muted:#556172;--line:#d3dbe5;--accent:#1d5fa6;--tint:#e3eefa;--onaccent:#fff}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#10151b;--panel:#18202a;--ink:#e8edf3;--muted:#9aa7b8;--line:#2b3643;--accent:#6aa9ee;--tint:#1f3447;--onaccent:#0c1218}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:960px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-right)) 40px max(16px,env(safe-area-inset-left))}
+h1{font-size:1.5rem;margin:0 0 4px;line-height:1.3}
+.sub{color:var(--muted);margin:0 0 18px}
+.search{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.search:focus-visible,.chip:focus-visible,.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}
+.chip{font:inherit;font-size:.88rem;padding:5px 14px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--muted);cursor:pointer;min-height:36px}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--onaccent)}
+.count{color:var(--muted);font-size:.85rem;margin:6px 0 12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
 .card{display:block;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none}
-.card:hover,.card:focus-visible{border-color:var(--accent);outline:none}
-.card b{display:block;margin-bottom:4px}
-.card span{color:var(--muted);font-size:.9rem}
+.card:hover{border-color:var(--accent)}
+.card .top{display:flex;align-items:flex-start;gap:10px}
+.num{flex:none;min-width:28px;text-align:center;font-size:.85rem;font-weight:700;background:var(--tint);color:var(--accent);border-radius:6px;padding:1px 6px;margin-top:2px}
+.card b{display:block;line-height:1.45}
+.card .desc{display:block;color:var(--muted);font-size:.88rem;margin-top:2px}
+.card .tg{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0 38px}
+.card .tg i{font-style:normal;font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 8px}
+.empty{color:var(--muted);padding:24px 0;text-align:center}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <main>
   <h1>電動機控制電路動畫</h1>
   <p class="sub">點選電路後，可直接按圖上的按鈕操作，通電的元件會變紅。</p>
-  <div class="grid">
-    <a class="card" href="circuits/3.電動機手動順序控制_動畫.html">
-      <b>電動機手動順序控制</b><span>基礎圖、進階圖與進階題；PB1～PB4 順序啟動、OL 跳脫</span>
-    </a>
-    <a class="card" href="circuits/5.電動機循環控制電路_動畫.html">
-      <b>電動機循環控制電路</b><span>限時電驛、暫停、聲音</span>
-    </a>
-    <a class="card" href="circuits/10.電動機手自動控制.html">
-      <b>電動機手自動控制</b><span>手動／自動順序控制動畫</span>
-    </a>
-  </div>
+
+  <input class="search" id="q" type="search" placeholder="搜尋電路名稱或編號" aria-label="搜尋電路">
+  <div class="tags" id="tags" role="group" aria-label="依標籤篩選"></div>
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="grid" id="list"></div>
+  <p class="empty" id="empty" hidden>找不到符合的電路，試試別的關鍵字或標籤。</p>
 </main>
+
+<script>
+/* 新增電路:在下面 CIRCUITS 複製一行,改編號、標題、檔名、標籤即可(desc 說明可省略) */
+var CIRCUITS=[
+  {n:1, title:'自保持電路', file:'1.自保持電路_動畫.html', tags:['基礎'], desc:'寸動、動作優先與復歸優先、自保持（含主電路）三個分頁，可模擬 OL 跳脫'},
+  {n:2, title:'三相感應正逆轉電路', file:'2.三相感應正逆轉電路_動畫.html', tags:['基礎'], desc:'按 STOP、FOR、REV，試試正轉中按 REV 會怎樣；主電路馬達跟著轉動'},
+  {n:3, title:'電動機手動順序控制', file:'3.電動機手動順序控制_動畫.html', tags:['順序','限時'], desc:'基礎圖、進階圖與兩題進階題；順序啟動、互鎖、OL 跳脫，順序啟閉含限時電驛延時'},
+  {n:4, title:'電動機降壓啟動', file:'4.電動機降壓啟動_動畫.html', tags:['限時'], desc:'Y-Δ 降壓起動：先 Y 連接，限時電驛計時後切成 Δ 連接；可選量測點看電壓，並設定斷線故障'},
+  {n:5, title:'電動機循環控制電路', file:'5.電動機循環控制電路_動畫.html', tags:['循環','限時'], desc:'按 ON 後 MC1 先運轉，T1 計時換 MC2，T2 計時再換回 MC1，持續循環'},
+  {n:6, title:'電動機順序控制 2顆TIMER 1顆電力電驛', file:'6.電動機順序控制 2顆TIMER 1顆電力電驛_動畫.html', tags:['順序','限時'], desc:'按 OFF、ON1、ON2 操作；MC1 通電後 T1 開始計時，滿設定秒數 MC2 才通電'},
+  {n:7, title:'三顆順序T-循環紅綠燈', file:'7.三顆順序T-循環紅綠燈_動畫.html', tags:['順序','循環','限時'], desc:'紅、綠、黃燈（MC1～MC3）由限時電驛計時，時間到才換下一級，持續循環'},
+  {n:8, title:'二部電動機自動交替運轉控制電路實習', file:'8.二部電動機自動交替運轉控制電路實習_動畫.html', tags:['循環','限時'], desc:'PB1 啟動、PB2 停止，M1 與 M2 自動交替運轉'},
+  {n:9, title:'三燈循環點亮控制電路', file:'9.三燈循環點亮控制電路_動畫.html', tags:['循環','限時'], desc:'PB1 啟動，PL1、PL2、PL3 按順序點亮並循環；線圈旁顯示已計時／設定秒數'},
+  {n:10,title:'電動機手自動控制', file:'10.電動機手自動控制_動畫.html', tags:['順序','限時'], desc:'先用選擇開關選手動或自動，再按 ON；指示燈亮出各自顏色，可模擬 OL 跳脫'}
+];
+var TAGS=['基礎','順序','循環','限時'];
+var cur='全部',q='';
+var listEl=document.getElementById('list'),tagsEl=document.getElementById('tags'),
+    countEl=document.getElementById('count'),emptyEl=document.getElementById('empty'),qEl=document.getElementById('q');
+
+function chipBtn(name){
+  var b=document.createElement('button');
+  b.type='button';b.className='chip';b.textContent=name;
+  b.setAttribute('aria-pressed',name===cur?'true':'false');
+  b.addEventListener('click',function(){cur=name;draw();});
+  return b;
+}
+function draw(){
+  tagsEl.innerHTML='';
+  ['全部'].concat(TAGS).forEach(function(t){tagsEl.appendChild(chipBtn(t));});
+  var kw=q.trim().toLowerCase(),shown=0;
+  listEl.innerHTML='';
+  CIRCUITS.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(c){
+    var hay=(c.n+' '+c.title+' '+(c.desc||'')+' '+c.tags.join(' ')).toLowerCase();
+    if(cur!=='全部'&&c.tags.indexOf(cur)<0){return;}
+    if(kw&&hay.indexOf(kw)<0){return;}
+    shown++;
+    var a=document.createElement('a');
+    a.className='card';a.href='circuits/'+encodeURI(c.file);
+    a.innerHTML='<div class="top"><span class="num"></span><div><b></b><span class="desc"></span></div></div><div class="tg"></div>';
+    a.querySelector('.num').textContent=c.n;
+    a.querySelector('b').textContent=c.title;
+    var d=a.querySelector('.desc');if(c.desc){d.textContent=c.desc;}else{d.remove();}
+    var tg=a.querySelector('.tg');
+    c.tags.forEach(function(t){var i=document.createElement('i');i.textContent=t;tg.appendChild(i);});
+    listEl.appendChild(a);
+  });
+  countEl.textContent='共 '+shown+' 個電路';
+  emptyEl.hidden=shown>0;
+}
+qEl.addEventListener('input',function(){q=qEl.value;draw();});
+draw();
+</script>
 </body>
 </html>
