@@ -234,7 +234,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head>
 <body>
 
 <div id="pausePill" hidden>已暫停</div>
@@ -826,7 +826,7 @@ buildMain();buildControl();bindPB();buildChips();settle();
 
 <script id="tsJs">
 (function(){'use strict';
-var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，PB1、PB2 都沒按。", "只有 GL 亮；X、MC1、MC2、TR1、TR2、馬達都不動。", ["rst"], ""], ["按 PB1：M1 運轉", "按 PB1（鍵盤 a）再放開。", "X、MC1、TR1 通電，RL 亮、GL 熄，M1 轉動，TR1 開始計時。", ["PB1"], "P PB1;W 700"], ["TR1 計時完成：換 M2", "承上步，等 TR1 到設定秒數。", "MC2、TR2 通電，M2 轉動，TR2 開始計時；MC2 常閉接點打開，MC1、TR1 斷電，M1 停。", ["#sTR1"], "P PB1;WI #sTR1"], ["TR2 計時完成：回到 M1", "承上步，再等 TR2 到設定秒數。", "TR2 接點打開，MC2、TR2 斷電，M2 停；MC1、TR1 再次通電，M1 轉動，TR1 重新計時。", ["#sTR2"], "P PB1;WI #sTR1;WI #sTR2"], ["交替持續", "承上步，再等 TR1 一次。", "又換成 M2；只要不按 PB2，M1、M2 就一直交替運轉。", [], "P PB1;WI #sTR1;WI #sTR2;WI #sTR1"], ["調整秒數", "TR1 設 5 秒、TR2 設 2 秒（線圈斷電時才能改），再按 PB1。", "過了 3 秒 M1 仍在運轉（原本 3 秒就會換），要 5 秒才換 M2。", ["#sTR1", "#sTR2"], "S #sTR1 5;S #sTR2 2;P PB1;W 2500"], ["按 PB2 停止", "運轉中按 PB2（鍵盤 s）。", "X、MC、TR 全部斷電，RL 熄、GL 亮，馬達停；放開 PB2 後不會再起動。", ["PB2"], "P PB1;W 1200;P PB2;W 1000"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "所有 MC、TR、X 斷電，RL 熄、GL 亮，BZ 響。", ["trip"], "P PB1;W 1200;C trip;W 900"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停，GL 亮；要重新按 PB1 才會啟動。", ["olr"], "P PB1;W 1200;C trip;W 900;C olr;W 800"], ["秒數鎖定", "按 PB1 後點 TR1 秒數欄；再按 PB2 後再點一次。", "TR1 線圈通電時欄位停用，按 PB2 斷電後恢復，可改 1～10 秒。", ["#sTR1"], "P PB1;W 1200"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）。", ["pwr"], "P PB1;W 1200;C pwr;W 900"]]}, "cs": {"": ["P PB1", "W 600"]}, "init": "S #sTR1 3;S #sTR2 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sTR1,#sTR2", "keys": ["a", "s"]};
+var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，PB1、PB2 都沒按。", "只有 GL 亮；X、MC1、MC2、TR1、TR2、馬達都不動。", ["rst"], ""], ["按 PB1：M1 運轉", "按 PB1（鍵盤 a）再放開。", "X、MC1、TR1 通電，RL 亮、GL 熄，M1 轉動，TR1 開始計時。", ["PB1"], "P PB1;W 700"], ["TR1 計時完成：換 M2", "承上步，等 TR1 到設定秒數。", "MC2、TR2 通電，M2 轉動，TR2 開始計時；MC2 常閉接點打開，MC1、TR1 斷電，M1 停。", ["#sTR1"], "P PB1;WI #sTR1"], ["TR2 計時完成：回到 M1", "承上步，再等 TR2 到設定秒數。", "TR2 接點打開，MC2、TR2 斷電，M2 停；MC1、TR1 再次通電，M1 轉動，TR1 重新計時。", ["#sTR2"], "P PB1;WI #sTR1;W 3100"], ["交替持續", "承上步，再等 TR1 一次。", "又換成 M2；只要不按 PB2，M1、M2 就一直交替運轉。", [], "P PB1;WI #sTR1;WI #sTR2;W 2600"], ["調整秒數", "TR1 設 5 秒、TR2 設 2 秒（線圈斷電時才能改），再按 PB1。", "過了 3 秒 M1 仍在運轉（原本 3 秒就會換），要 5 秒才換 M2。", ["#sTR1", "#sTR2"], "S #sTR1 5;S #sTR2 2;P PB1;W 2500"], ["按 PB2 停止", "運轉中按 PB2（鍵盤 s）。", "X、MC、TR 全部斷電，RL 熄、GL 亮，馬達停；放開 PB2 後不會再起動。", ["PB2"], "P PB1;W 1200;P PB2;W 1000"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "所有 MC、TR、X 斷電，RL 熄、GL 亮，BZ 響。", ["trip"], "P PB1;W 1200;C trip;W 900"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停，GL 亮；要重新按 PB1 才會啟動。", ["olr"], "P PB1;W 1200;C trip;W 900;C olr;W 800"], ["秒數鎖定", "按 PB1 後點 TR1 秒數欄；再按 PB2 後再點一次。", "TR1 線圈通電時欄位停用，按 PB2 斷電後恢復，可改 1～10 秒。", ["#sTR1"], "P PB1;W 1200"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）。", ["pwr"], "P PB1;W 1200;C pwr;W 900"]]}, "cs": {"": ["P PB1", "W 600"]}, "init": "S #sTR1 3;S #sTR2 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sTR1,#sTR2", "keys": ["a", "s"]};
 var $=function(i){return document.getElementById(i);};
 var idx=0,key=null,seen={},list=[];
 function curKey(){if(!CFG.tabs){return '';}for(var i=0;i<CFG.tabs.length;i++){var b=$(CFG.tabs[i]);if(b&&b.getAttribute('aria-pressed')==='true'){return CFG.tabs[i];}}return CFG.tabs[0];}
@@ -1046,5 +1046,46 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body>
+<script id="netJs">
+(function(){'use strict';
+var V={"8|None":{"n":13,"pg":{"50,60":11,"90,60":11,"128,60":11,"190,60":11,"350,60":11,"510,60":11,"590,60":11,"680,60":11,"765,60":11,"850,60":11,"190,402":11,"190,438":1,"190,525":1,"235,525":1,"350,93":11,"350,145":3,"350,172":3,"270,172":3,"270,213.5":3,"270,228.5":4,"270,277":4,"350,195":3,"350,247":4,"350,277":4,"430,277":4,"430,402":4,"270,311.5":4,"270,326.5":8,"270,365":8,"270,402":8,"350,365":8,"350,402":8,"510,111.5":11,"510,126.5":0,"510,213.5":0,"510,228.5":5,"510,277":5,"510,402":5,"590,277":5,"590,195":11,"590,247":5,"590,293":5,"590,345":10,"590,402":10,"680,213.5":11,"680,228.5":6,"680,277":6,"765,277":6,"765,213.5":11,"765,228.5":6,"765,402":6,"850,213.5":11,"850,228.5":7,"850,311.5":7,"850,326.5":9,"850,402":9,"850,438":12,"850,620":12,"765,438":12,"765,620":12,"270,438":2,"270,480":2,"350,438":2,"350,480":2,"430,438":2,"430,480":2,"510,438":2,"510,480":2,"590,438":2,"590,480":2,"270,520":2,"270,572":12,"270,620":12,"128,620":12,"90,620":12,"50,620":12},"adj":[[5,11],[11],[4,5,8,10],[4,11],[2,3,8],[0,2,10,11],[11,12],[9,11],[2,4],[7,12],[2,5],[0,1,3,5,6,7],[6,9]],"tm":[["F",68.1,39.1,17.0,11,null],["F",132.9,39.1,17.0,11,null],["NC",354.9,77.1,23.2,11,null],["8",514.9,90.6,17.0,11,null],["6",514.9,131.4,17.0,0,null],["NC",354.9,144.9,23.2,3,null],["NO",321.9,179.1,23.2,3,null],["8",568.1,179.1,17.0,11,null],["21",854.9,188.6,23.2,11,null],["1",274.9,192.6,17.0,3,null],["13",514.9,192.6,23.2,0,null],["83",684.9,192.6,23.2,11,null],["13",769.9,192.6,23.2,11,null],["3",274.9,233.4,17.0,4,null],["14",514.9,233.4,23.2,5,null],["84",684.9,233.4,23.2,6,null],["14",769.9,233.4,23.2,6,null],["22",854.9,237.4,23.2,7,null],["NO",321.9,246.9,23.2,4,null],["6",568.1,246.9,17.0,5,null],["8",597.1,274.9,17.0,5,null],["21",274.9,286.6,23.2,4,null],["71",854.9,286.6,23.2,7,null],["22",274.9,335.4,23.2,8,null],["72",854.9,335.4,23.2,9,null],["5",568.1,344.9,17.0,10,null],["BZ",194.9,381.1,23.2,11,null],["2",274.9,381.1,17.0,8,null],["A1",354.9,381.1,23.2,8,null],["2",434.9,381.1,17.0,4,null],["2",514.9,381.1,17.0,5,null],["A1",594.9,381.1,23.2,10,null],["PL3",769.9,381.1,30.8,6,null],["PL1",854.9,381.1,30.8,9,null],["BZ",161.9,442.9,23.2,1,null],["7",274.9,442.9,17.0,2,null],["A2",354.9,442.9,23.2,2,null],["7",434.9,442.9,17.0,2,null],["7",514.9,442.9,17.0,2,null],["A2",594.9,442.9,23.2,2,null],["PL3",769.9,442.9,30.8,12,null],["PL1",854.9,442.9,30.8,12,null],["F",68.1,599.1,17.0,12,null],["F",132.9,599.1,17.0,12,null]],"col":[12,4,10,6,3,9,2,7,11,5,8,0,1]}},CIRC='8',TABS=null,KMAP={},ANCH='btnReset',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body>
 </html>

@@ -135,7 +135,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head><body>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
 <h1>4.電動機降壓啟動（Y-Δ 起動）</h1>
@@ -495,7 +495,7 @@ buildCtl();buildMain(1);bindPB();fillTab();settle();
 })();
 </script><script id="tsJs">
 (function(){'use strict';
-var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "只有 GL 亮；MC、Y-Δ 限時電驛、MCY、MCΔ 都沒通電，電動機不轉。", ["rst"], ""], ["按 ON：Y 連接起動", "按 ON（鍵盤 s）再放開。", "MC、Y-Δ 電驛、MCY 通電，RL 亮，電動機接成 Y 起動，繞組電壓約 127 V；Y-Δ 電驛開始計時。", ["ON"], "P ON;W 700"], ["計時完成：切成 Δ 連接", "承上步，等 Y-Δ 電驛到設定秒數。", "MCY 斷電（RL 熄）、MCΔ 通電（YL 亮）同時切換，電動機接成 Δ 運轉，繞組電壓約 220 V；兩者由同一個限時電驛的 b、a 接點控制，不會同時通電。", ["#sT"], "P ON;WI #sT"], ["量測線電壓", "Δ 運轉後，在量測區選「線電壓」。", "不論 Y 或 Δ，任兩條電源線之間都是 220 V。", ["[data-k=\"L\"]"], "P ON;WI #sT;C [data-k=\"L\"];W 500"], ["調整計時秒數", "Y-Δ 計時設 6 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒仍是 Y 連接（原本 3 秒就會切換），要 6 秒才切成 Δ。", ["#sT"], "S #sT 6;P ON;W 3000"], ["按 OFF 停止", "Δ 運轉中按 OFF（鍵盤 a）。", "MC 自保持被切斷，線圈一級一級斷電，電動機停轉，GL 亮。", ["OFF"], "P ON;WI #sT;P OFF;W 1200"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "控制電路斷電，電動機停，BZ 響。", ["trip"], "P ON;WI #sT;C trip;W 900"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停；要重新按 ON 才會起動。", ["olr"], "P ON;WI #sT;C trip;W 900;C olr;W 800"], ["秒數鎖定", "按 ON 後點計時秒數欄；再按 OFF 後再點一次。", "Y-Δ 電驛通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT"], "P ON;W 1200"], ["分頁 2：環形接法", "切到「分頁 2」，按 ON。", "主電路改成乙級冰水主機的環形接法（6C），下方出現說明；Y 起動仍是 127 V。", ["#tab2", "ON"], "C #tab2;P ON;W 800"], ["模擬環線斷路", "分頁 2（示範時計時先設 6 秒）起動後，按「斷粉紅線」。", "被斷的線變淡並出現紅色 ✕；Y 起動仍是 127 V，電動機照常轉。", ["[data-b=\"1\"]"], "S #sT 6;C #tab2;P ON;W 800;C [data-b=\"1\"];W 800"], ["分頁 3：端子排 Z X Y", "切到「分頁 3」，按 ON 等到切成 Δ。", "電氣結果與分頁 2 相同（Δ 約 220 V），只差端子排順序與走線。", ["#tab3"], "C #tab3;P ON;WI #sT"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "C #tab1;C [data-k=\"U\"];S #sT 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sT,#tab1,#tab2,#tab3,#brkRow .btn", "keys": ["a", "s"]};
+var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "只有 GL 亮；MC、Y-Δ 限時電驛、MCY、MCΔ 都沒通電，電動機不轉。", ["rst"], ""], ["按 ON：Y 連接起動", "按 ON（鍵盤 s）再放開。", "MC、Y-Δ 電驛、MCY 通電，RL 亮，電動機接成 Y 起動，繞組電壓約 127 V；Y-Δ 電驛開始計時。", ["ON"], "P ON;W 700"], ["計時完成：切成 Δ 連接", "承上步，等 Y-Δ 電驛到設定秒數。", "MCY 斷電（RL 熄）、MCΔ 通電（YL 亮）同時切換，電動機接成 Δ 運轉，繞組電壓約 220 V；兩者由同一個限時電驛的 b、a 接點控制，不會同時通電。", ["#sT"], "P ON;WI #sT"], ["量測線電壓", "Δ 運轉後，在量測區選「線電壓」。", "不論 Y 或 Δ，任兩條電源線之間都是 220 V。", ["[data-k=\"L\"]"], "P ON;WI #sT;C [data-k=\"L\"];W 500"], ["調整計時秒數", "Y-Δ 計時設 6 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒仍是 Y 連接（原本 3 秒就會切換），要 6 秒才切成 Δ。", ["#sT"], "S #sT 6;P ON;W 1700"], ["按 OFF 停止", "Δ 運轉中按 OFF（鍵盤 a）。", "MC 自保持被切斷，線圈一級一級斷電，電動機停轉，GL 亮。", ["OFF"], "P ON;WI #sT;P OFF;W 1200"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "控制電路斷電，電動機停，BZ 響。", ["trip"], "P ON;WI #sT;C trip;W 900"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停；要重新按 ON 才會起動。", ["olr"], "P ON;WI #sT;C trip;W 900;C olr;W 800"], ["秒數鎖定", "按 ON 後點計時秒數欄；再按 OFF 後再點一次。", "Y-Δ 電驛通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT"], "P ON;W 900"], ["分頁 2：環形接法", "切到「分頁 2」，按 ON。", "主電路改成乙級冰水主機的環形接法（6C），下方出現說明；Y 起動仍是 127 V。", ["#tab2", "ON"], "C #tab2;P ON;W 800"], ["模擬環線斷路", "分頁 2（示範時計時先設 6 秒）起動後，按「斷粉紅線」。", "被斷的線變淡並出現紅色 ✕；Y 起動仍是 127 V，電動機照常轉。", ["[data-b=\"1\"]"], "S #sT 6;C #tab2;P ON;W 800;C [data-b=\"1\"];W 800"], ["分頁 3：端子排 Z X Y", "切到「分頁 3」，按 ON 等到切成 Δ。", "電氣結果與分頁 2 相同（Δ 約 220 V），只差端子排順序與走線。", ["#tab3"], "C #tab3;P ON;WI #sT"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "C #tab1;C [data-k=\"U\"];S #sT 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sT,#tab1,#tab2,#tab3,#brkRow .btn", "keys": ["a", "s"]};
 var $=function(i){return document.getElementById(i);};
 var idx=0,key=null,seen={},list=[];
 function curKey(){if(!CFG.tabs){return '';}for(var i=0;i<CFG.tabs.length;i++){var b=$(CFG.tabs[i]);if(b&&b.getAttribute('aria-pressed')==='true'){return CFG.tabs[i];}}return CFG.tabs[0];}
@@ -715,4 +715,45 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body></html>
+<script id="netJs">
+(function(){'use strict';
+var V={"4|tab1":{"n":10,"pg":{"270,45":8,"316,45":8,"350,45":8,"362,45":8,"448,45":8,"498,45":8,"676,45":8,"362,214":8,"448,70":8,"448,102":1,"448,117":1,"448,132":1,"448,164":3,"448,182":3,"448,214":3,"448,250":7,"448,268":7,"405,117":1,"405,140.5":1,"405,155.5":3,"405,182":3,"405,214":3,"405,250":7,"405,268":7,"498,70":8,"498,85":0,"498,100":0,"498,124":0,"498,160":4,"498,196":4,"498,214":4,"498,250":7,"498,268":7,"541,196":4,"541,214":4,"541,250":7,"541,268":7,"585,100":0,"585,124":0,"585,160":5,"585,196":5,"585,214":5,"585,250":7,"585,268":7,"628,196":5,"628,214":5,"628,250":7,"628,268":7,"676,100":8,"676,115":2,"676,214":2,"676,250":7,"676,268":7,"585,284":7,"585,312":9,"585,335":9,"362,250":6,"362,284":6,"558,284":6,"350,335":9,"316,335":9,"270,335":9},"adj":[[4,5,8],[3,8],[7,8],[1,7],[0,7],[0,7],[8],[2,3,4,5],[0,1,2,6],[]],"tm":[["F",294.1,24.1,17.0,8,null],["F",354.9,24.1,17.0,8,null],["NC",419.9,49.1,23.2,8,null],["13",469.9,49.1,23.2,8,null],["14",515.7,51.3,23.2,0,[498.0,85.0,515.7,67.3]],["21",680.9,79.1,23.2,8,null],["NC",417.8,94.0,23.2,1,null],["22",680.9,119.9,23.2,2,null],["8",502.9,103.1,17.0,0,null],["8",563.1,103.1,17.0,0,null],["NO",460.9,113.4,23.2,1,null],["83",409.9,119.6,23.2,1,null],["84",409.9,160.4,23.2,3,null],["5",502.9,164.9,17.0,4,null],["6",563.1,164.9,17.0,5,null],["NO",455.1,171.1,23.2,3,null],["BZ",333.9,193.1,23.2,8,null],["2",383.1,193.1,17.0,3,null],["A1",419.9,193.1,23.2,3,null],["A1",469.9,193.1,23.2,4,null],["PL3",545.9,193.1,30.8,4,null],["A1",591.5,198.1,23.2,5,null],["PL2",612.6,173.0,30.8,5,[628.0,214.0,628.0,189.0]],["PL1",640.3,193.1,30.8,2,null],["BZ",333.9,254.9,23.2,6,null],["7",381.5,249.9,17.0,7,null],["A2",418.3,249.9,23.2,7,null],["A2",468.3,249.9,23.2,7,null],["PL3",547.5,249.9,30.8,7,null],["A2",591.5,249.9,23.2,7,null],["PL2",634.5,249.9,30.8,7,null],["PL1",660.6,275.0,30.8,7,[676.0,250.0,676.0,275.0]],["F",294.1,314.1,17.0,9,null],["F",354.9,314.1,17.0,9,null]],"col":[3,8,2,6,7,9,5,0,1,4]}},CIRC='4',TABS=["tab1", "tab2", "tab3"],KMAP={"tab2": "tab1", "tab3": "tab1"},ANCH='btnReset',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body></html>

@@ -140,7 +140,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head><body>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
 <h1>三相感應電動機正逆轉控制電路</h1>
@@ -701,4 +701,45 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body></html>
+<script id="netJs">
+(function(){'use strict';
+var V={"2|None":{"n":11,"pg":{"50,40":9,"60,40":9,"98,40":9,"110,40":9,"320,40":9,"540,40":9,"320,66":9,"320,110":1,"320,125":1,"268,125":1,"185,125":1,"365,125":1,"450,125":1,"268,144":1,"268,188":2,"268,205":2,"185,158.5":1,"185,173.5":2,"185,205":2,"268,233":2,"268,248":5,"268,278":5,"268,302":5,"268,338":8,"268,360":8,"185,278":5,"185,302":5,"185,338":8,"185,360":8,"450,144":1,"450,188":3,"450,205":3,"365,158.5":1,"365,173.5":3,"365,205":3,"450,233":3,"450,248":6,"450,278":6,"450,302":6,"450,338":8,"450,360":8,"365,278":6,"365,302":6,"365,338":8,"365,360":8,"540,82":9,"540,97":0,"540,178":0,"540,193":4,"540,302":4,"540,338":10,"540,465":10,"110,302":9,"110,338":7,"110,385":7,"420,385":7,"450,380":8,"450,435":10,"450,465":10,"98,465":10,"60,465":10,"50,465":10},"adj":[[4,9],[2,3,9],[1,5],[1,6],[0,10],[2,8],[3,8],[9],[5,6],[0,1,7],[4]],"tm":[["F",38.1,19.1,17.0,9,null],["F",102.9,19.1,17.0,9,null],["NC",324.9,49.1,23.2,9,null],["21",544.9,61.1,23.2,9,null],["22",544.9,101.9,23.2,0,null],["NC",327.0,98.0,23.2,1,null],["NO",239.9,127.1,23.2,1,null],["NO",421.9,127.1,23.2,1,null],["13",189.9,137.6,23.2,1,null],["13",369.9,137.6,23.2,1,null],["14",189.9,178.4,23.2,2,null],["14",369.9,178.4,23.2,3,null],["21",544.9,157.1,23.2,0,null],["NO",275.1,191.1,23.2,2,null],["NO",457.1,191.1,23.2,3,null],["22",544.9,197.9,23.2,4,null],["71",272.9,212.1,23.2,2,null],["71",454.9,212.1,23.2,3,null],["72",272.9,252.9,23.2,5,null],["72",454.9,252.9,23.2,6,null],["BZ",114.9,281.1,23.2,9,null],["PL3",189.9,281.1,30.8,5,null],["A1",272.9,281.1,23.2,5,null],["PL2",369.9,281.1,30.8,6,null],["A1",454.9,281.1,23.2,6,null],["PL1",544.9,281.1,30.8,4,null],["BZ",114.9,342.9,23.2,7,null],["PL3",149.3,342.9,30.8,8,null],["A2",274.5,337.9,23.2,8,null],["PL2",371.5,337.9,30.8,8,null],["A2",454.9,342.9,23.2,8,null],["PL1",544.9,342.9,30.8,10,null],["F",38.1,444.1,17.0,10,null],["F",102.9,444.1,17.0,10,null]],"col":[9,1,8,2,3,6,10,4,5,0,7]}},CIRC='2',TABS=null,KMAP={},ANCH='btnReset',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body></html>

@@ -120,7 +120,7 @@ body.paused .w.hot,body.paused .motor.run .rot{animation-play-state:paused}
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head><body>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
 <h1>三顆順序 T 循環紅綠燈</h1>
@@ -361,7 +361,7 @@ build();buildMain();bindPB();settle();
 })();
 </script><script id="tsJs">
 (function(){'use strict';
-var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "所有線圈、限時電驛、燈都沒通電。", ["rst"], ""], ["按 ON：紅燈", "按 ON（鍵盤 s）再放開。", "MC1、T1、RL 通電，MC1 自保持，T1 開始計時，M1 轉動。", ["ON"], "P ON;W 600"], ["T1 計時完成：綠燈", "承上步，等 T1 到設定秒數。", "MC2、T2、GL 通電並自保持；MC2 常閉接點打開，MC1、T1、RL 斷電。", ["#sT1"], "P ON;WI #sT1"], ["T2 計時完成：黃燈", "承上步，再等 T2 到設定秒數。", "MC3、T3、YL 通電並自保持；MC3 常閉接點打開，MC2、T2、GL 斷電。", ["#sT2"], "P ON;WI #sT1;WI #sT2"], ["T3 計時完成：回到紅燈", "承上步，再等 T3 到設定秒數。", "MC1、T1、RL 再次通電，MC3、T3、YL 斷電；紅 → 綠 → 黃一直循環。", ["#sT3"], "P ON;WI #sT1;WI #sT2;WI #sT3"], ["調整秒數", "T1 設 5 秒、T2 設 2 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒紅燈仍亮（原本 3 秒就會換），要 5 秒才換綠燈。", ["#sT1", "#sT2", "#sT3"], "S #sT1 5;S #sT2 2;P ON;W 2500"], ["按 OFF 停止", "運轉中按 OFF（鍵盤 a）。", "全部線圈與燈斷電、計時歸零；要重新按 ON 才會再開始。", ["OFF"], "P ON;W 1200;P OFF;W 900"], ["秒數鎖定", "按 ON 後點 T1 秒數欄；再按 OFF 後再點一次。", "T1 線圈通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT1"], "P ON;W 1200"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅；再按一次恢復送電，要重新按 ON。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "S #sT1 3;S #sT2 3;S #sT3 3", "take": ".pb,#btnPower,#btnReset,#sT1,#sT2,#sT3", "keys": ["a", "s"]};
+var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "所有線圈、限時電驛、燈都沒通電。", ["rst"], ""], ["按 ON：紅燈", "按 ON（鍵盤 s）再放開。", "MC1、T1、RL 通電，MC1 自保持，T1 開始計時，M1 轉動。", ["ON"], "P ON;W 600"], ["T1 計時完成：綠燈", "承上步，等 T1 到設定秒數。", "MC2、T2、GL 通電並自保持；MC2 常閉接點打開，MC1、T1、RL 斷電。", ["#sT1"], "P ON;WI #sT1"], ["T2 計時完成：黃燈", "承上步，再等 T2 到設定秒數。", "MC3、T3、YL 通電並自保持；MC3 常閉接點打開，MC2、T2、GL 斷電。", ["#sT2"], "P ON;WI #sT1;W 3150"], ["T3 計時完成：回到紅燈", "承上步，再等 T3 到設定秒數。", "MC1、T1、RL 再次通電，MC3、T3、YL 斷電；紅 → 綠 → 黃一直循環。", ["#sT3"], "P ON;WI #sT1;WI #sT2;W 2500"], ["調整秒數", "T1 設 5 秒、T2 設 2 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒紅燈仍亮（原本 3 秒就會換），要 5 秒才換綠燈。", ["#sT1", "#sT2", "#sT3"], "S #sT1 5;S #sT2 2;P ON;W 2500"], ["按 OFF 停止", "運轉中按 OFF（鍵盤 a）。", "全部線圈與燈斷電、計時歸零；要重新按 ON 才會再開始。", ["OFF"], "P ON;W 1200;P OFF;W 900"], ["秒數鎖定", "按 ON 後點 T1 秒數欄；再按 OFF 後再點一次。", "T1 線圈通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT1"], "P ON;W 700"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅；再按一次恢復送電，要重新按 ON。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "S #sT1 3;S #sT2 3;S #sT3 3", "take": ".pb,#btnPower,#btnReset,#sT1,#sT2,#sT3", "keys": ["a", "s"]};
 var $=function(i){return document.getElementById(i);};
 var idx=0,key=null,seen={},list=[];
 function curKey(){if(!CFG.tabs){return '';}for(var i=0;i<CFG.tabs.length;i++){var b=$(CFG.tabs[i]);if(b&&b.getAttribute('aria-pressed')==='true'){return CFG.tabs[i];}}return CFG.tabs[0];}
@@ -581,4 +581,45 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body></html>
+<script id="netJs">
+(function(){'use strict';
+var V={"7|None":{"n":10,"pg":{"50,60":8,"90,60":8,"128,60":8,"150,60":8,"50,520":9,"90,520":9,"128,520":9,"150,520":9,"150,96":8,"150,132":0,"150,170":0,"250,170":0,"420,170":0,"520,170":0,"690,170":0,"790,170":0,"70,170":0,"70,211.5":0,"70,226.5":1,"70,330":1,"150,330":1,"150,197":0,"150,241":4,"150,270":4,"150,285":1,"250,197":0,"250,241":1,"250,330":1,"150,360":1,"150,375":7,"150,420":7,"420,211.5":0,"420,226.5":2,"420,270":2,"520,197":0,"520,241":2,"520,270":2,"420,310":2,"420,325":5,"420,420":5,"690,211.5":0,"690,226.5":3,"690,270":3,"790,197":0,"790,241":3,"790,270":3,"690,310":3,"690,325":6,"690,420":6,"150,452":7,"150,488":9,"235,420":7,"235,452":7,"235,488":9,"235,520":9,"320,420":7,"320,452":7,"320,488":9,"320,520":9,"420,452":5,"420,488":9,"420,520":9,"505,420":5,"505,452":5,"505,488":9,"505,520":9,"590,420":5,"590,452":5,"590,488":9,"590,520":9,"690,452":6,"690,488":9,"690,520":9,"775,420":6,"775,452":6,"775,488":9,"775,520":9,"860,420":6,"860,452":6,"860,488":9,"860,520":9},"adj":[[1,2,3,4,8],[0,4,7],[0,5],[0,6],[0,1],[2,9],[3,9],[1,9],[0],[5,6,7]],"tm":[["F",68.1,39.1,17.0,8,null],["F",132.9,39.1,17.0,8,null],["NC",154.9,75.1,23.2,8,null],["NC",154.9,136.9,23.2,0,null],["NO",121.9,180.1,23.2,0,null],["8",228.1,180.1,17.0,0,null],["8",498.1,180.1,17.0,0,null],["8",768.1,180.1,17.0,0,null],["13",74.9,190.6,23.2,0,null],["13",424.9,190.6,23.2,0,null],["13",694.9,190.6,23.2,0,null],["14",74.9,231.4,23.2,1,null],["14",424.9,231.4,23.2,2,null],["14",694.9,231.4,23.2,3,null],["NO",121.9,241.9,23.2,4,null],["6",228.1,241.9,17.0,1,null],["6",498.1,241.9,17.0,2,null],["6",768.1,241.9,17.0,3,null],["21",154.9,246.1,23.2,4,null],["22",154.9,292.9,23.2,1,null],["71",424.9,286.1,23.2,2,null],["21",694.9,286.1,23.2,3,null],["72",424.9,332.9,23.2,5,null],["22",694.9,332.9,23.2,6,null],["21",154.9,336.1,23.2,1,null],["22",154.9,382.9,23.2,7,null],["A1",154.9,431.1,23.2,7,null],["2",239.9,431.1,17.0,7,null],["PL3",324.9,431.1,30.8,7,null],["A1",424.9,431.1,23.2,5,null],["2",509.9,431.1,17.0,5,null],["PL1",594.9,431.1,30.8,5,null],["A1",694.9,431.1,23.2,6,null],["2",779.9,431.1,17.0,6,null],["PL2",864.9,431.1,30.8,6,null],["A2",154.9,492.9,23.2,9,null],["7",213.1,492.9,17.0,9,null],["PL3",324.9,492.9,30.8,9,null],["A2",424.9,492.9,23.2,9,null],["7",483.1,492.9,17.0,9,null],["PL1",594.9,492.9,30.8,9,null],["A2",694.9,492.9,23.2,9,null],["7",753.1,492.9,17.0,9,null],["PL2",864.9,492.9,30.8,9,null],["F",68.1,499.1,17.0,9,null],["F",132.9,524.9,17.0,9,null]],"col":[0,1,9,7,2,3,5,8,4,6]}},CIRC='7',TABS=null,KMAP={},ANCH='btnReset',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body></html>

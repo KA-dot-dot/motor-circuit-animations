@@ -135,7 +135,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head><body>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
 <h1>電動機循環控制電路</h1>
@@ -160,7 +160,7 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 
 <div class="stage">
 <div class="card fig fm"><h2>主電路</h2><svg id="fig2" viewBox="0 0 360 440" role="img" aria-label="主電路:NFB、MC1 與 MC2 主接點、積熱電驛 TH-RY1、TH-RY2 與馬達 M1、M2"></svg></div>
-<div class="card fig fc"><h2>控制電路</h2><svg id="fig" viewBox="0 0 700 500" role="img" aria-label="循環控制電路圖,含 OFF、ON、X、MC1、MC2、T1、T2、RL1、RL2、GL、BZ 與 OL"><g id="wires"></g><g id="dots"></g><g id="parts"></g><g id="labels"></g></svg></div>
+<div class="card fig fc"><h2>控制電路</h2><svg id="fig" viewBox="0 0 700 500" role="img" aria-label="循環控制電路圖,含 OFF、ON、X、MC1、MC2、T1、T2、RL、YL、GL、BZ 與 OL"><g id="wires"></g><g id="dots"></g><g id="parts"></g><g id="labels"></g></svg></div>
 <aside class="side">
 <section class="card controls" aria-label="操作"><h2>操作</h2>
 <div class="row"><button class="btn" id="btnPause" type="button" aria-pressed="false">暫停(空白鍵)</button><button class="btn" id="btnPower" type="button" aria-pressed="true">送電中</button><button class="btn" id="btnTrip" type="button">模擬 OL 跳脫</button><button class="btn" id="btnResetOL" type="button" disabled>OL 復歸</button><button class="btn" id="btnReset" type="button">全部重設</button><button class="btn" id="btnSnd" type="button" aria-pressed="true">聲音:開</button></div>
@@ -214,8 +214,8 @@ function button(name,c,o){
   var t=el('text',{x:o.tx,y:o.ty,'class':'lb'},g);t.textContent=name;pbEls.push(g);
 }
 function coil(key,cx,cy){var g=el('g',{'class':'coil'},gP);el('circle',{cx:cx,cy:cy,r:18,'class':'body'},g);var t=el('text',{x:cx,y:cy+4.6},g);t.textContent=key;coilEls[key]=g;}
-function lamp(key,cx,cy,c){
-  var g=el('g',{'class':'lamp',style:'--lc:'+c+';--rc:'+c+';--hc:'+c+';--tc:#fff'},gP);
+function lamp(key,cx,cy,c,tc){
+  var g=el('g',{'class':'lamp',style:'--lc:'+c+';--rc:'+c+';--hc:'+c+';--tc:'+(tc||'#fff')},gP);
   el('circle',{cx:cx,cy:cy,r:27,'class':'halo'},g);
   [45,135,225,315].forEach(function(a){var r=a*Math.PI/180,cs=Math.cos(r),sn=Math.sin(r);el('line',{x1:cx+21*cs,y1:cy+21*sn,x2:cx+31*cs,y2:cy+31*sn,'class':'ray'},g);});
   el('circle',{cx:cx,cy:cy,r:18,'class':'body'},g);var t=el('text',{x:cx,y:cy+4.6},g);t.textContent=key;lampEls[key]=g;
@@ -255,20 +255,20 @@ function buildCtl(){
   wire('J300','xt','M300 65V90');swi('xt','xb',ON('X'));wire('xb','F1n','M300 105V135');
   contact(300,90,105,18,{label:'X',lx:322,ly:102,test:ON('X')});
   wire('F1n','F3','M300 135H420');wire('F3','F4','M420 135H490');
-  /* MC1、RL1 */
+  /* MC1、RL */
   wire('F1n','t1t','M300 135V157');swi('t1t','t1b',function(){return !st.d.T1;});wire('t1b','K1','M300 193V235');
   tcontact(300,157,193,true,'T1',function(){return st.d.T1;},function(r){return !st.d.T1&&!!r.on.MC1;});
   wire('K1','CT1','M300 235V282');coil('MC1',300,300);load('CT1','CB1','MC1');wire('CB1','Bb300','M300 318V350');
-  wire('K1','LT1','M300 235H358V282');lamp('RL1',358,300,'#e5484d');load('LT1','LB1','RL1');wire('LB1','Bb358','M358 318V350');
+  wire('K1','LT1','M300 235H358V282');lamp('RL',358,300,'#e5484d');load('LT1','LB1','RL');wire('LB1','Bb358','M358 318V350');
   /* T1 線圈(經 T2 常閉接點) */
   wire('F3','t2t','M420 135V157');swi('t2t','t2b',function(){return !st.d.T2;});wire('t2b','CT3','M420 193V282');
   tcontact(420,157,193,true,'T2',function(){return st.d.T2;},function(r){return !st.d.T2&&!!r.on.T1;});
   coil('T1',420,300);load('CT3','CB3','T1');wire('CB3','Bb420','M420 318V350');tms.T1=txt(425,338,'','lb sm');
-  /* T1 常開接點 → MC2、RL2、T2 */
+  /* T1 常開接點 → MC2、YL、T2 */
   wire('F4','t3t','M490 135V157');swi('t3t','t3b',function(){return st.d.T1;});wire('t3b','K2','M490 193V235');
   tcontact(490,157,193,false,'T1',function(){return st.d.T1;});
   wire('K2','CT2','M490 235V282');coil('MC2',490,300);load('CT2','CB2','MC2');wire('CB2','Bb490','M490 318V350');
-  wire('K2','K2b','M490 235H548');wire('K2b','LT2','M548 235V282');lamp('RL2',548,300,'#e5484d');load('LT2','LB2','RL2');wire('LB2','Bb548','M548 318V350');
+  wire('K2','K2b','M490 235H548');wire('K2b','LT2','M548 235V282');lamp('YL',548,300,'#e0a800','#18212d');load('LT2','LB2','YL');wire('LB2','Bb548','M548 318V350');
   wire('K2b','CT4','M548 235H606V282');coil('T2',606,300);load('CT4','CB4','T2');wire('CB4','Bb606','M606 318V350');tms.T2=txt(611,338,'','lb sm');
   /* GL(X 常閉接點) */
   wire('J670','gt','M670 65V90');swi('gt','gb',function(){return !st.c.X;});wire('gb','GT','M670 105V282');
@@ -343,17 +343,17 @@ function solve(){
 
 /* ---- 狀態區與說明 ---- */
 var CHIPS=[['X','通電','斷電','var(--on)'],['MC1','通電','斷電','var(--on)'],['MC2','通電','斷電','var(--on)'],['T1','通電','斷電','var(--on)'],['T2','通電','斷電','var(--on)'],
-  ['RL1','亮','熄','#e5484d'],['RL2','亮','熄','#e5484d'],['GL','亮','熄','#2f9e58'],['BZ','響','靜','var(--bz)'],['M1','轉動','停止','#4a86d8'],['M2','轉動','停止','#4a86d8']];
+  ['RL','亮','熄','#e5484d'],['YL','亮','熄','#e0a800'],['GL','亮','熄','#2f9e58'],['BZ','響','靜','var(--bz)'],['M1','轉動','停止','#4a86d8'],['M2','轉動','停止','#4a86d8']];
 var chipsEl=document.getElementById('chips'),chipRefs={};
 CHIPS.forEach(function(c){var li=document.createElement('li');li.style.setProperty('--c',c[3]);li.innerHTML='<i></i><span>'+c[0]+'</span><b></b>';chipsEl.appendChild(li);chipRefs[c[0]]={li:li,b:li.querySelector('b'),on:c[1],off:c[2]};});
 function message(){
   var c=st.c,tr=st.tr;
   if(!st.power){return ['斷電中','整個電路沒有電,所有元件都不會動作。按「送電」開始。'];}
-  if(tr[0]){return ['OL 跳脫','積熱電驛動作,控制電路失去回到 T 的通路,所有線圈、RL1、RL2 與計時都停止,馬達停轉;蜂鳴器 BZ 改經 OL 的另一側接點通電而發聲。X 斷電後常閉接點回到閉合,GL 不經 OL,仍然亮著。按「OL 復歸」解除。'];}
+  if(tr[0]){return ['OL 跳脫','積熱電驛動作,控制電路失去回到 T 的通路,所有線圈、RL、YL 與計時都停止,馬達停轉;蜂鳴器 BZ 改經 OL 的另一側接點通電而發聲。X 斷電後常閉接點回到閉合,GL 不經 OL,仍然亮著。按「OL 復歸」解除。'];}
   if(st.p.OFF){return ['按著 OFF','OFF 是常閉按鈕,按下後 X 線圈失去電源,自保接點與電源側接點放開,循環停止。'];}
   if(!c.X){return ['送電待機','X 沒有通電,綠燈 GL 經 X 的常閉接點亮著。按 ON 讓 X 通電,開始循環。'];}
-  if(st.d.T1&&c.MC2){return ['第二階段:MC2 運轉','T1 計時完成:T1 的常閉接點打開,MC1、RL1 斷電;常開接點閉合,MC2、RL2、T2 通電,M2 轉動。T2 計時完成後會回到第一階段。'];}
-  if(!st.d.T1&&c.MC1){return ['第一階段:MC1 運轉','X 通電並自保持,GL 熄滅。MC1、RL1、T1 通電,M1 轉動。T1 計時 '+setSec.T1+' 秒後換 MC2 運轉。'];}
+  if(st.d.T1&&c.MC2){return ['第二階段:MC2 運轉','T1 計時完成:T1 的常閉接點打開,MC1、RL 斷電;常開接點閉合,MC2、YL、T2 通電,M2 轉動。T2 計時完成後會回到第一階段。'];}
+  if(!st.d.T1&&c.MC1){return ['第一階段:MC1 運轉','X 通電並自保持,GL 熄滅。MC1、RL、T1 通電,M1 轉動。T1 計時 '+setSec.T1+' 秒後換 MC2 運轉。'];}
   return ['接點切換中','計時接點動作後,線圈一級一級更新,稍等一下。'];
 }
 function render(r){
@@ -484,7 +484,7 @@ buildMain();buildCtl();bindPB();settle();
 })();
 </script><script id="tsJs">
 (function(){'use strict';
-var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "只有 GL 亮（經 X 常閉接點）；X、MC1、MC2、T1、T2 都沒通電。", ["rst"], ""], ["按 ON：第一階段", "按 ON（鍵盤 s）再放開。", "X 通電並自保持，GL 熄；MC1、RL1、T1 通電，M1 轉動，T1 開始計時。", ["ON"], "P ON;W 600"], ["T1 計時完成：換 MC2", "承上步（按過 ON），等 T1 到設定秒數。", "MC1 斷電，MC2、RL2、T2 通電，M2 轉動，T2 開始計時（T1 線圈仍通電）。", ["#sT1"], "P ON;WI #sT1"], ["T2 計時完成：回到 MC1", "承上步，再等 T2 到設定秒數。", "T1 斷電、接點復原，MC2 斷電，MC1 再次通電，M1 轉動，T1 重新計時。", ["#sT2"], "P ON;WI #sT1;WI #sT2"], ["循環持續", "承上步，再等 T1 一次。", "又換成 MC2 運轉；只要不按 OFF，MC1、MC2 就一直輪流運轉。", [], "P ON;WI #sT1;WI #sT2;WI #sT1"], ["調整秒數", "T1 設 5 秒、T2 設 2 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒 MC1 仍在運轉（原本 3 秒就會換），要 5 秒才換 MC2；MC2 只運轉 2 秒就換回 MC1。", ["#sT1", "#sT2"], "S #sT1 5;S #sT2 2;P ON;W 2500"], ["按 OFF 停止", "運轉中按 OFF（鍵盤 a）。", "X、MC、T 全部斷電，馬達停轉，GL 亮；放開 OFF 後也不會再起動。", ["OFF"], "P ON;W 1200;P OFF;W 900"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "全部線圈、RL1、RL2 與計時停止，BZ 響；X 斷電後常閉接點回到原始的閉合狀態，GL 仍亮。", ["trip"], "P ON;W 1200;C trip"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停，GL 亮；要重新按 ON 才會再起動。", ["olr"], "P ON;W 1200;C trip;W 900;C olr"], ["秒數鎖定", "按 ON 後點 T1 秒數欄；再按 OFF 後再點一次。", "T1 線圈通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT1"], "P ON;W 1200"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）；再按一次恢復送電。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "S #sT1 3;S #sT2 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sT1,#sT2", "keys": ["a", "s"]};
+var CFG={"tabs": null, "ids": {"pause": "btnPause", "flow": "chkFlow", "snd": "btnSnd", "trip": "btnTrip", "olr": "btnResetOL", "pwr": "btnPower", "rst": "btnReset"}, "steps": {"": [["待機", "按「全部重設」，OFF、ON 都沒按。", "只有 GL 亮（經 X 常閉接點）；X、MC1、MC2、T1、T2 都沒通電。", ["rst"], ""], ["按 ON：第一階段", "按 ON（鍵盤 s）再放開。", "X 通電並自保持，GL 熄；MC1、RL、T1 通電，M1 轉動，T1 開始計時。", ["ON"], "P ON;W 600"], ["T1 計時完成：換 MC2", "承上步（按過 ON），等 T1 到設定秒數。", "MC1 斷電，MC2、YL、T2 通電，M2 轉動，T2 開始計時（T1 線圈仍通電）。", ["#sT1"], "P ON;WI #sT1"], ["T2 計時完成：回到 MC1", "承上步，再等 T2 到設定秒數。", "T1 斷電、接點復原，MC2 斷電，MC1 再次通電，M1 轉動，T1 重新計時。", ["#sT2"], "P ON;WI #sT1;WI #sT2"], ["循環持續", "承上步，再等 T1 一次。", "又換成 MC2 運轉；只要不按 OFF，MC1、MC2 就一直輪流運轉。", [], "P ON;WI #sT1;WI #sT2;WI #sT1"], ["調整秒數", "T1 設 5 秒、T2 設 2 秒（線圈斷電時才能改），再按 ON。", "過了 3 秒 MC1 仍在運轉（原本 3 秒就會換），要 5 秒才換 MC2；MC2 只運轉 2 秒就換回 MC1。", ["#sT1", "#sT2"], "S #sT1 5;S #sT2 2;P ON;W 2500"], ["按 OFF 停止", "運轉中按 OFF（鍵盤 a）。", "X、MC、T 全部斷電，馬達停轉，GL 亮；放開 OFF 後也不會再起動。", ["OFF"], "P ON;W 1200;P OFF;W 900"], ["OL 跳脫", "運轉中按「模擬 OL 跳脫」。", "全部線圈、RL、YL 與計時停止，BZ 響；X 斷電後常閉接點回到原始的閉合狀態，GL 仍亮。", ["trip"], "P ON;W 1200;C trip"], ["OL 復歸", "承上步（OL 已跳脫），按「OL 復歸」。", "BZ 停，GL 亮；要重新按 ON 才會再起動。", ["olr"], "P ON;W 1200;C trip;W 900;C olr"], ["秒數鎖定", "按 ON 後點 T1 秒數欄；再按 OFF 後再點一次。", "T1 線圈通電時欄位停用，按 OFF 斷電後恢復，可改 1～10 秒。", ["#sT1"], "P ON;W 1200"], ["斷電（送電鈕）", "運轉中按「送電中」鈕切成「已斷電」。", "全部熄滅（連 GL 也熄）；再按一次恢復送電。", ["pwr"], "P ON;W 1200;C pwr;W 900"]]}, "cs": {"": ["P ON", ""]}, "init": "S #sT1 3;S #sT2 3", "take": ".pb,#btnPower,#btnTrip,#btnResetOL,#btnReset,#sT1,#sT2", "keys": ["a", "s"]};
 var $=function(i){return document.getElementById(i);};
 var idx=0,key=null,seen={},list=[];
 function curKey(){if(!CFG.tabs){return '';}for(var i=0;i<CFG.tabs.length;i++){var b=$(CFG.tabs[i]);if(b&&b.getAttribute('aria-pressed')==='true'){return CFG.tabs[i];}}return CFG.tabs[0];}
@@ -704,4 +704,45 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body></html>
+<script id="netJs">
+(function(){'use strict';
+var V={"5|None":{"n":11,"pg":{"50,65":9,"70,65":9,"108,65":9,"130,65":9,"230,65":9,"300,65":9,"670,65":9,"130,282":9,"130,318":7,"130,378":7,"365,378":7,"400,378":7,"230,80":9,"230,116":2,"230,135":2,"230,155":2,"230,191":3,"230,230":3,"185,135":2,"185,165.5":2,"185,180.5":3,"185,230":3,"230,282":3,"230,318":8,"230,350":8,"300,90":9,"300,105":0,"300,135":0,"420,135":0,"490,135":0,"300,157":0,"300,193":4,"300,235":4,"300,282":4,"300,318":8,"300,350":8,"358,235":4,"358,282":4,"358,318":8,"358,350":8,"420,157":0,"420,193":5,"420,282":5,"420,318":8,"420,350":8,"490,157":0,"490,193":6,"490,235":6,"490,282":6,"490,318":8,"490,350":8,"548,235":6,"548,282":6,"548,318":8,"548,350":8,"606,235":6,"606,282":6,"606,318":8,"606,350":8,"670,90":9,"670,105":1,"670,282":1,"670,318":10,"670,480":10,"420,372":8,"420,407":10,"420,480":10,"50,480":10},"adj":[[4,5,6,9],[9,10],[3,9],[2,8],[0,8],[0,8],[0,8],[9],[3,4,5,6],[0,1,2,7],[1]],"tm":[["F",48.1,44.1,17.0,9,null],["F",112.9,44.1,17.0,9,null],["NC",237.0,72.0,23.2,9,null],["3",304.9,69.1,17.0,9,null],["11",674.9,69.1,23.2,9,null],["6",304.9,109.9,17.0,0,null],["8",674.9,109.9,17.0,1,null],["NC",234.9,120.9,23.2,2,null],["NO",199.8,147.0,23.2,2,null],["8",278.1,136.1,17.0,0,null],["8",427.0,149.0,17.0,0,null],["8",497.1,133.9,17.0,0,null],["1",163.1,144.6,17.0,2,null],["4",189.9,185.4,17.0,3,null],["NO",237.1,198.1,23.2,3,null],["5",304.9,197.9,17.0,4,null],["5",424.9,197.9,17.0,5,null],["6",468.1,197.9,17.0,6,null],["BZ",134.9,261.1,23.2,9,null],["2",234.9,261.1,17.0,3,null],["A1",304.9,261.1,23.2,4,null],["PL3",362.9,261.1,30.8,4,null],["2",424.9,261.1,17.0,5,null],["A1",494.9,261.1,23.2,6,null],["PL2",552.9,261.1,30.8,6,null],["2",610.9,261.1,17.0,6,null],["PL1",634.3,261.1,30.8,1,null],["BZ",134.9,322.9,23.2,7,null],["10",234.9,322.9,23.2,8,null],["A2",304.9,322.9,23.2,8,null],["PL3",362.9,322.9,30.8,8,null],["7",398.1,322.9,17.0,8,null],["A2",494.9,322.9,23.2,8,null],["PL2",552.9,322.9,30.8,8,null],["7",586.6,330.9,17.0,8,null],["PL1",632.3,347.6,30.8,10,[670,318,663.1,347.6]]],"col":[8,0,5,10,7,6,9,2,3,1,4]}},CIRC='5',TABS=null,KMAP={},ANCH='btnReset',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body></html>

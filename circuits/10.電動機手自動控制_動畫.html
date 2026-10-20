@@ -156,7 +156,7 @@ body.paused .w.hot,body.paused .bz.on .wave{animation-play-state:paused}
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
-</head>
+<style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style></head>
 <body>
 <div id="pausePill" role="status" aria-live="polite">已暫停</div>
 <main class="wrap">
@@ -668,5 +668,46 @@ new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFi
   all();
 })();
 </script>
-</body>
+<script id="netJs">
+(function(){'use strict';
+var V={"10|None":{"n":16,"pg":{"70,28":14,"70,48":14,"70,86":14,"70,180":14,"70,240":14,"70,375":14,"650,28":15,"650,48":15,"650,86":15,"650,131":15,"650,185":6,"650,240":6,"650,380":6,"650,610":6,"650,870":6,"650,1110":6,"422,180":14,"458,180":0,"615,180":0,"422,240":14,"458,240":6,"70,437":9,"70,610":9,"70,732":9,"70,748":12,"70,870":12,"70,982":12,"70,998":2,"70,1110":2,"127,380":8,"180,380":8,"210,380":8,"264,380":7,"330,380":7,"422,380":7,"458,380":6,"500,380":6,"180,450":8,"228,450":8,"244,450":7,"330,450":7,"422,450":7,"458,450":6,"500,450":6,"330,310":7,"422,310":7,"458,310":6,"500,310":6,"330,510":7,"330,526":10,"330,610":10,"330,710":10,"330,726":11,"330,770":11,"330,822":13,"330,870":13,"330,970":13,"330,1022":3,"330,1055":3,"330,1071":4,"330,1110":4,"180,610":9,"210,610":9,"264,610":10,"292,610":10,"180,680":9,"228,680":9,"244,680":10,"292,680":10,"385,610":10,"422,610":10,"458,610":6,"500,610":6,"385,682":10,"422,682":10,"458,682":6,"500,682":6,"385,754":10,"422,754":10,"458,754":6,"500,754":6,"117,870":12,"133,870":1,"180,870":1,"210,870":1,"264,870":13,"292,870":13,"180,940":1,"228,940":1,"244,940":13,"292,940":13,"385,870":13,"422,870":13,"458,870":6,"500,870":6,"385,942":13,"422,942":13,"458,942":6,"500,942":6,"385,1014":13,"422,1014":13,"458,1014":6,"500,1014":6,"117,1110":2,"133,1110":5,"180,1110":5,"210,1110":5,"264,1110":4,"292,1110":4,"180,1180":5,"228,1180":5,"244,1180":4,"292,1180":4,"385,1110":4,"422,1110":4,"458,1110":6,"500,1110":6,"385,1182":4,"422,1182":4,"458,1182":6,"500,1182":6},"adj":[[14],[12,13],[5,12],[4,13],[3,5,6],[2,4],[4,7,10,13,14],[6,8,10],[7],[10,12],[6,7,9,11],[10,13],[1,2,9],[1,3,6,11],[0,6],[]],"tm":[["F",74.9,27.1,17.0,14,null],["F",654.9,27.1,17.0,15,null],["F",74.9,90.9,17.0,14,null],["F",654.9,90.9,17.0,15,null],["BZ",393.9,159.1,23.2,14,null],["BZ",462.9,184.9,23.2,0,null],["PL4",386.3,219.1,30.8,14,null],["PL4",462.9,219.1,30.8,6,null],["2",400.1,289.1,17.0,7,null],["7",462.9,289.1,17.0,6,null],["COM",34.3,359.1,30.8,14,null],["NO",126.9,384.9,23.2,8,null],["NO",184.7,356.9,23.2,8,null],["NO",266.1,356.9,23.2,7,null],["2",400.1,359.1,17.0,7,null],["7",462.9,359.1,17.0,6,null],["NO",74.9,436.9,23.2,9,null],["8",206.1,454.9,17.0,8,null],["6",248.9,454.9,17.0,7,null],["2",400.1,429.1,17.0,7,null],["7",462.9,429.1,17.0,6,null],["1",334.9,489.1,17.0,7,null],["3",334.9,530.9,17.0,10,null],["NO",184.7,586.9,23.2,9,null],["NO",266.1,586.9,23.2,10,null],["A1",393.9,589.1,23.2,10,null],["A2",462.9,589.1,23.2,6,null],["13",199.9,684.9,23.2,9,null],["14",248.9,684.9,23.2,10,null],["PL3",392.8,656.8,30.8,10,null],["PL3",462.9,661.1,30.8,6,null],["8",334.9,689.1,17.0,10,null],["6",334.9,730.9,17.0,11,null],["8",77.1,708.9,17.0,9,null],["5",77.1,755.1,17.0,12,null],["2",400.1,733.1,17.0,10,null],["7",462.9,733.1,17.0,6,null],["8",308.1,754.1,17.0,11,null],["6",308.1,821.9,17.0,13,null],["83",88.9,874.9,23.2,12,null],["84",137.9,874.9,23.2,1,null],["NO",184.7,846.9,23.2,1,null],["NO",266.1,846.9,23.2,13,null],["A1",393.9,849.1,23.2,13,null],["A2",462.9,849.1,23.2,6,null],["13",199.9,944.9,23.2,1,null],["14",248.9,944.9,23.2,13,null],["PL1",392.8,916.8,30.8,13,null],["PL1",462.9,921.1,30.8,6,null],["8",308.1,954.1,17.0,13,null],["1",77.1,958.9,17.0,12,null],["4",77.1,1005.1,17.0,2,null],["2",400.1,993.1,17.0,13,null],["7",462.9,993.1,17.0,6,null],["6",308.1,1021.9,17.0,3,null],["1",334.9,1034.1,17.0,3,null],["3",334.9,1075.9,17.0,4,null],["83",88.9,1114.9,23.2,2,null],["84",137.9,1114.9,23.2,5,null],["NO",184.7,1086.9,23.2,5,null],["NO",266.1,1086.9,23.2,4,null],["A1",393.9,1089.1,23.2,4,null],["A2",462.9,1089.1,23.2,6,null],["13",199.9,1184.9,23.2,5,null],["14",248.9,1184.9,23.2,4,null],["PL2",386.3,1186.9,30.8,4,null],["PL2",462.9,1161.1,30.8,6,null]],"col":[5,7,13,11,10,15,2,1,8,9,0,6,14,3,12,4]}},CIRC='10',TABS=null,KMAP={},ANCH='bR',HIDE2=null;
+var B=document.body,svg=document.getElementById('fig'),NS='http://www.w3.org/2000/svg';
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function pts(d){var r=[],x=0,y=0,m,re=/([MHVL])\s*([\d.\-]+)(?:[ ,]([\d.\-]+))?/g;
+  while((m=re.exec(d))){var v=parseFloat(m[2]);if(m[1]==='H'){x=v;}else if(m[1]==='V'){y=v;}else{x=v;y=parseFloat(m[3]);}r.push(x+','+y);}return r;}
+function curKey(){var id='None';if(TABS){for(var i=0;i<TABS.length;i++){var b=document.getElementById(TABS[i]);if(b&&b.getAttribute('aria-pressed')==='true'){id=TABS[i];break;}}if(!id){id=TABS[0];}id=KMAP[id]||id;}return CIRC+'|'+id;}
+var gC,gH,gT,focus=-1,cur=null,miss=0,lastKey=null;
+function setFocus(g){focus=g;B.classList.toggle('netfocus',g>=0);
+  document.querySelectorAll('#fig .wc,#fig .tm').forEach(function(e){e.classList.toggle('fo',+e.getAttribute('data-g')===g);});}
+function layer(id,before){var g=document.getElementById(id);if(g){g.innerHTML='';return g;}g=el('g',{id:id});before?before.parentNode.insertBefore(g,before):svg.appendChild(g);return g;}
+function rebuild(){
+  var gW=svg.querySelector('#wires');if(!gW||!gW.querySelector('path.w')){return;}
+  var key=curKey(),D=V[key];if(!D){return;}lastKey=key;
+  gC=layer('wcol',gW);gH=layer('whit',gW.nextSibling);gT=layer('tmk');svg.appendChild(gT);setFocus(-1);
+  var col=D.col;miss=0;function vc(g){return 'var(--n'+col[g]+')';}
+  Array.prototype.forEach.call(gW.querySelectorAll('path.w'),function(p){
+    var d=p.getAttribute('d'),q=pts(d),g;for(var i=0;i<q.length&&g===undefined;i++){g=D.pg[q[i]];}
+    if(g===undefined){miss++;return;}
+    el('path',{d:d,'class':'wc','data-g':g,style:'stroke:'+vc(g)},gC);el('path',{d:d,'class':'wh','data-g':g},gH);});
+  D.tm.forEach(function(t){var g=el('g',{'class':'tm','data-g':t[4],style:'--g:'+vc(t[4])},gT);
+    if(t[5]){el('line',{x1:t[5][0],y1:t[5][1],x2:t[5][2],y2:t[5][3]},g);}
+    el('rect',{x:t[1],y:t[2],width:t[3],height:16,rx:3.5},g);el('text',{x:t[1]+t[3]/2,y:t[2]+8.5},g).textContent=t[0];});
+  if(HIDE2&&key===HIDE2[0]){Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(e){if(e.textContent==='2'&&e.getAttribute('x')===HIDE2[1]&&e.getAttribute('y')===HIDE2[2]){e.style.display='none';}});}
+  window.__net={miss:miss,key:key,n:D.tm.length,wc:gC.childNodes.length};
+}
+svg.addEventListener('click',function(e){var t=e.target;
+  if(B.classList.contains('netcolor')&&t.classList&&t.classList.contains('wh')){var g=+t.getAttribute('data-g');setFocus(focus===g?-1:g);}
+  else if(focus>=0&&!(t.closest&&t.closest('#parts'))){setFocus(-1);}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&focus>=0){setFocus(-1);}});
+var anchor=document.getElementById(ANCH);
+function mk(id,txt,cls,fn){var b=document.createElement('button');b.className=anchor.className;b.id=id;b.type='button';b.setAttribute('aria-pressed','false');b.textContent=txt(false);
+  b.addEventListener('click',function(){var v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v?'true':'false');b.textContent=txt(v);B.classList.toggle(cls,v);if(fn){fn(v);}});return b;}
+var bn=mk('btnNet',function(v){return v?'色彩:彩色':'色彩:原始';},'netcolor',function(v){if(!v){setFocus(-1);}});
+var bt=mk('btnTm',function(v){return v?'端子編號:顯示':'端子編號:隱藏';},'netmark');
+anchor.parentNode.insertBefore(bn,anchor.nextSibling);anchor.parentNode.insertBefore(bt,bn.nextSibling);
+var pend=false;
+new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve().then(function(){pend=false;rebuild();});}).observe(svg.querySelector('#wires'),{childList:true});
+rebuild();
+})();
+</script></body>
 </html>
