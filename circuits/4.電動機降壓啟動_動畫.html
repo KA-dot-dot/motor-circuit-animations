@@ -136,13 +136,27 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 @media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
 <style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style><style id="olCss">
-#olhit .olhit{fill:transparent;stroke:transparent;stroke-width:2;pointer-events:all;cursor:pointer;outline:none;touch-action:manipulation}
-#olhit .olhit:hover,#olhit .olhit:focus-visible{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke:var(--accent);stroke-dasharray:5 3}
+#olhit .olhit{fill:transparent;stroke:transparent;stroke-width:2;pointer-events:all;cursor:pointer;outline:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#olhit .olhit:focus-visible{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-dasharray:5 3}
+@media (hover:hover){#olhit .olhit:hover{fill:var(--accent);fill-opacity:.14;stroke:var(--accent);stroke-dasharray:5 3}}
 #olhit .olhit.off{cursor:not-allowed}
-#olhit .olhit.off:hover{fill:transparent;stroke:var(--muted)}
+@media (hover:hover){#olhit .olhit.off:hover{fill:transparent;stroke:var(--muted)}}
 #fig2 .th{cursor:pointer}
 #fig2 .th:not(.tripped):hover{stroke:var(--accent);stroke-width:2.4}
 #fig2 .th.off{cursor:not-allowed}
+</style>
+<style id="cmFix">
+/* 舊版 Safari(約 iOS 16.2 以前)不支援 color-mix():含 var() 的宣告會在計算時失效,繼承屬性(如 SVG 的 fill)會變成黑色。
+   OL 命中區已改用 fill+fill-opacity;下面是其他高亮的純色備援。 */
+@supports not (color:color-mix(in srgb,red,blue)){
+.tsDots button.v{background:var(--tint)}
+.cbtn:hover{background:var(--tint)}
+.chips i{box-shadow:inset 0 0 0 1px var(--muted)}
+.ynote li.on{background:var(--tint)}
+.ynote .hw.on,.ynote .hw:hover,.ynote .hw:focus-visible{background:var(--tint);box-shadow:inset 0 -2px 0 var(--wc)}
+.mt tr.on{background:var(--tint)}
+@keyframes tfP{50%{box-shadow:0 0 0 7px var(--tint)}}
+}
 </style>
 </head><body>
 <div id="pausePill" hidden>已暫停</div>
