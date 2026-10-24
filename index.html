@@ -47,6 +47,7 @@ h1{font-size:1.5rem;margin:0 0 4px;line-height:1.3}
 <script>
 /* 新增電路:在下面 CIRCUITS 複製一行,改編號、標題、檔名、標籤即可(desc 說明可省略) */
 var CIRCUITS=[
+  {n:0, title:'工配練習台', file:'0.工配練習台.html', tags:['練習'], desc:'自己拖元件、從端子拖到端子接控制電路，切到執行模式按按鈕檢查動作；端子台與自由配置兩種檢視，含自保持、Y-Δ 兩個範例'},
   {n:1, title:'自保持電路', file:'1.自保持電路_動畫.html', tags:['基礎'], desc:'寸動、動作優先與復歸優先、自保持（含主電路）三個分頁，可模擬 OL 跳脫'},
   {n:2, title:'三相感應正逆轉電路', file:'2.三相感應正逆轉電路_動畫.html', tags:['基礎'], desc:'按 STOP、FOR、REV，試試正轉中按 REV 會怎樣；主電路馬達跟著轉動'},
   {n:3, title:'電動機手動順序控制', file:'3.電動機手動順序控制_動畫.html', tags:['順序','限時'], desc:'基礎圖、進階圖與兩題進階題；順序啟動、互鎖、OL 跳脫，順序啟閉含限時電驛延時，COS 可選跳脫時亮 PL3 或響 BZ'},
@@ -58,7 +59,7 @@ var CIRCUITS=[
   {n:9, title:'三燈循環點亮控制電路', file:'9.三燈循環點亮控制電路_動畫.html', tags:['循環','限時'], desc:'PB1 啟動，PL1、PL2、PL3 按順序點亮並循環；線圈旁顯示已計時／設定秒數'},
   {n:10,title:'電動機手自動控制', file:'10.電動機手自動控制_動畫.html', tags:['順序','限時'], desc:'先用選擇開關選手動或自動，再按 ON；指示燈亮出各自顏色，可模擬 OL 跳脫'}
 ];
-var TAGS=['基礎','順序','循環','限時'];
+var TAGS=['練習','基礎','順序','循環','限時'];
 var cur='全部',q='';
 var listEl=document.getElementById('list'),tagsEl=document.getElementById('tags'),
     countEl=document.getElementById('count'),emptyEl=document.getElementById('empty'),qEl=document.getElementById('q');
