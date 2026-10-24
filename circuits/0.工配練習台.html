@@ -14,7 +14,7 @@ button{font:inherit;padding:6px 12px;min-height:36px;border:1px solid var(--ln);
 button:hover:not(:disabled){border-color:var(--ac)}button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac)}button:disabled{opacity:.45}[hidden]{display:none!important}#ls{display:flex;align-items:center;gap:6px}#sT{font:inherit;width:4.6em;padding:5px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--p);color:var(--ink)}#sT:disabled{opacity:.45}
 .g{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}aside{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}aside .card{margin:0}
 @media(max-width:860px){.g{grid-template-columns:minmax(0,1fr)}}
-#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none}#cv .tr,#cv .bx,#cv .wh{touch-action:none}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
+#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#cv .bx{touch-action:none}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
 .card{background:var(--p);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:12px}
 h2{font-size:.85rem;margin:0 0 8px;color:var(--mu);font-weight:500}
 ul{list-style:none;margin:0;padding:0}
@@ -25,18 +25,18 @@ ul{list-style:none;margin:0;padding:0}
 #msg{margin:0}
 .w{fill:none;stroke:var(--w);stroke-width:1.8}.w.hot{stroke:var(--fl);stroke-width:3}
 .wh{fill:none;stroke:transparent;stroke-width:12;pointer-events:none}
-body.wm .wh{pointer-events:stroke;cursor:pointer}body.wm .wh:hover{stroke:rgba(216,53,42,.35)}
+body.wm .wh{pointer-events:stroke;cursor:pointer}@media(hover:hover){body.wm .wh:hover{stroke:rgba(216,53,42,.35)}}
 .bx{fill:var(--tm);stroke:var(--w);stroke-width:1.5;cursor:grab}body:not(.wm) .bx{cursor:default}
 .nm{font:700 12px Arial,sans-serif;fill:var(--ink);pointer-events:none}.nm.pr{fill:var(--on)}.bx.sel{stroke:var(--ac);stroke-width:3}.zn{fill:var(--bg);stroke:var(--ln);stroke-dasharray:5 4}.zt{font:12px Arial,sans-serif;fill:var(--mu)}
 .tl{font:11px Arial,sans-serif;fill:var(--ink);text-anchor:middle;pointer-events:none}
-.tr{fill:var(--p);stroke:var(--w);stroke-width:1.5;cursor:crosshair}body.wm .tr:hover{fill:var(--ac)}
+.tr{fill:var(--p);stroke:var(--w);stroke-width:1.5;cursor:crosshair}@media(hover:hover){body.wm .tr:hover{fill:var(--ac)}}
 .lc{fill:none;stroke:var(--w);stroke-width:1.5;pointer-events:none}.lc.on{fill:var(--on)}
 .cl{stroke:var(--w);stroke-width:2.6;pointer-events:none}.cl.on{stroke:var(--on)}.fw{display:flex;align-items:center;gap:6px;cursor:pointer}.w.fl{stroke:var(--fl);stroke-width:3;stroke-dasharray:7 5;animation:flw .7s linear infinite}@keyframes flw{to{stroke-dashoffset:-12}}body.paused .w.fl{animation-play-state:paused}#pz{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%);background:var(--ac);color:var(--bg);padding:3px 14px;border-radius:999px;z-index:5}@media(prefers-reduced-motion:reduce){.w.fl{animation:none}}
 :root{--ci:#cde8f5;--co:#f9dfbd;--ci2:#1f5fa8;--co2:#c47a1a;--ce2:#2f8f4e}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ci:#2d5167;--co:#5a4326;--ci2:#6aa9ee;--co2:#e0a050;--ce2:#5cc07e}}
 :root[data-theme="dark"]{--ci:#2d5167;--co:#5a4326;--ci2:#6aa9ee;--co2:#e0a050;--ce2:#5cc07e}
 .bx.ci{fill:var(--ci)}.bx.co{fill:var(--co)}.bx.trp{stroke:var(--on);stroke-width:3}.bx.on{fill:var(--on)}
-.tbb{fill:#d9dbde}.tbc{fill:#eceef0;stroke:#b4b8bd}.tbl{font:9px Arial,sans-serif;fill:#2a2f36;text-anchor:middle;pointer-events:none}.tbn{font:9px Arial,sans-serif;fill:var(--mu);pointer-events:none}.tr.t2{fill:#fff;stroke:#555}.tr.t1{fill:#9db4cc;stroke:#555;cursor:not-allowed}body.wm .tr.t1:hover{fill:#9db4cc}.tbr{font:9px Arial,sans-serif;fill:var(--ink);pointer-events:none}
+.tbb{fill:#d9dbde}.tbc{fill:#eceef0;stroke:#b4b8bd}.tbl{font:9px Arial,sans-serif;fill:#2a2f36;text-anchor:middle;pointer-events:none}.tbn{font:9px Arial,sans-serif;fill:var(--mu);pointer-events:none}.tr.t2{fill:#fff;stroke:#555}.tr.t1{fill:#9db4cc;stroke:#555;cursor:not-allowed}@media(hover:hover){body.wm .tr.t1:hover{fill:#9db4cc}}.tbr{font:9px Arial,sans-serif;fill:var(--ink);pointer-events:none}
 .gi button{border-left:5px solid var(--ci2)}.go button{border-left:5px solid var(--co2)}.ge button{border-left:5px solid var(--ce2)}
 .gi>span,.go>span,.ge>span{font-weight:700;min-width:5em}.gi>span{color:var(--ci2)}.go>span{color:var(--co2)}.ge>span{color:var(--ce2)}
 .side{margin-bottom:8px}
@@ -46,10 +46,12 @@ body.wm .wh{pointer-events:stroke;cursor:pointer}body.wm .wh:hover{stroke:rgba(2
 .side .bar>button{text-align:left}.side aside{grid-template-columns:minmax(0,1fr)}
 #cvw{max-height:calc(100vh - 136px)}}
 body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
+/* 點一下再點一下接線:th 是看不見的放大點擊區(fill 固定 none,不隨狀態改 fill),pd 是已選端子,pdr 是外圈 */
+.th{fill:none;stroke:none;pointer-events:all}body:not(.wm) .th{pointer-events:none}.tr.pd{fill:var(--ac);stroke:var(--ac);stroke-width:3}.pdr{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
 </style></head><body class="wm">
 <div id="pz" hidden>已暫停</div><div id="tst" hidden></div><main class="wrap">
 <h1>工配練習台（控制電路）</h1>
-<p class="sub">接線模式：從端子拖到端子接線，點導線刪除，拖元件移動，雙擊元件刪除。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
+<p class="sub">接線模式：從端子拖到端子接線，或先點一個端子、再點另一個端子（手機請用點的）；點導線刪除，拖元件移動，雙擊元件刪除。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
 <div class="app"><div class="side" id="sd"><div class="bar gi" id="pi"><span>輸入元件</span></div><div class="bar go" id="po"><span>輸出元件</span></div><div class="bar ge" id="pe"><span>範例</span></div>
 <aside>
 <section class="card"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
@@ -75,7 +77,7 @@ YD:[['2','7','coil'],['8','5','cy','6'],['1','4','co','3']],
 PX:[['NO','NO','px']]};
 var NAMES={F:'保險絲 F',ON:'常開按鈕 ON',OFF:'常閉按鈕 OFF',MC:'接觸器 MC',OL:'積熱電驛 OL',PL:'指示燈 PL',BZ:'蜂鳴器 BZ',X:'中間電驛 X(8腳)',X11:'中間電驛 X(11腳)',TM:'限時電驛 T',FR:'閃爍電驛 FR',COS:'選擇開關 COS',TF:'斷電延遲電驛 T',YD:'Y-Δ 專用電驛',PX:'近接開關 PXS'};
 var CAT={F:'i',ON:'i',OFF:'i',COS:'i',PX:'i',OL:'i',MC:'o',X:'o',X11:'o',TM:'o',TF:'o',YD:'o',FR:'o',PL:'o',BZ:'o'};
-var C=[],W=[],cnt={},st={pw:true,tr:false,p:{},c:{},t:{},d:{},ss:{},px:{}},run=false,paused=false,flow=false,tb=true,LY=null,R=null,tmr=0,drag=null,sh=false,at={},spawn=0,sel=null;
+var C=[],W=[],cnt={},st={pw:true,tr:false,p:{},c:{},t:{},d:{},ss:{},px:{}},run=false,paused=false,flow=false,tb=true,LY=null,R=null,tmr=0,drag=null,sh=false,at={},spawn=0,sel=null,pend=null,CO=false;
 function add(t,x,y){var p=t==='TM'||t==='TF'?'T':t==='X11'?'X':t,id=(t==='R'||t==='T')?t:p+(cnt[p]=(cnt[p]||0)+1);C.push({id:id,t:t,x:x,y:y,r:0,s:t==='FR'?1:3});return id;}
 function comp(id){return C.filter(function(o){return o.id===id;})[0];}
 function tp(k,r){if(tb&&LY&&LY.pos[k]){var o=LY.pos[k];return o[r==='u'||r==='l'?r:(o.z==='U'?'l':'u')];}var a=k.split(':'),c=comp(a[0]);if(!c){return null;}
@@ -144,7 +146,7 @@ function routeOld(k1,k2){
   return M+'V'+(a[1]+da*G)+'H'+x+'V'+(b[1]+db*G)+'H'+b[0]+'V'+b[1];
 }
 function draw(){
-  gW.innerHTML='';gP.innerHTML='';var gz=$('gz');gz.innerHTML='';if(tb){LY=layout();}else{el('rect',{x:808,y:30,width:88,height:500,rx:8,'class':'zn'},gz);}fit();
+  CO=coarse();gW.innerHTML='';gP.innerHTML='';var gz=$('gz');gz.innerHTML='';if(tb){LY=layout();}else{el('rect',{x:808,y:30,width:88,height:500,rx:8,'class':'zn'},gz);}fit();
   W.forEach(function(w,i){var a=tp(w[0],w[2]),b=tp(w[1],w[3]),d='M'+a+'L'+b;
     el('path',{d:d,'class':'w'+(R&&R.rn[R.f(w[0])]?' hot':'')+(flow&&R&&(R.hr[R.f(w[0])]||R.ht[R.f(w[0])])?' fl':'')},gW);el('path',{d:d,'class':'wh','data-w':i},gW);});
   if(tb){drawTB();return;}
@@ -163,7 +165,10 @@ function draw(){
         el('line',{x1:x,y1:22,x2:x+(cl?0:-7),y2:38,'class':'cl'+(act?' on':'')},g);}
       ['t','b','c'].forEach(function(s,j){var lb=c.t==='PL'&&j<2?c.id:[q[0],q[1],q[3]][j],xx=x+(q[3]!==undefined?[0,-9,9][j]:0);
         if(lb===null||lb===undefined){return;}
-        el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?5:6,'class':'tr','data-k':c.id+':'+i+':'+s},g);
+        var tk=c.id+':'+i+':'+s,isp=!!pend&&pend.k===tk;
+        if(CO){el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?8.5:13,'class':'th','data-k':tk,fill:'none'},g);}
+        el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?5:6,'class':'tr'+(isp?' pd':''),'data-k':tk},g);
+        if(isp){el('circle',{cx:xx,cy:j?60:0,r:13,'class':'pdr'},g);}
         el('text',{x:xx,y:j?50:14,'class':'tl',transform:'rotate('+(-(c.r||0))+' '+xx+' '+(j?50:14)+')'},g).textContent=lb;});tagsFree(g,c,q,i,18+36*i);});});
 }
 function render(){
@@ -173,7 +178,8 @@ function render(){
     h+='<li class="'+(v?'on':'')+'"><i></i>'+c.id+'<b>'+(k==='coil'?(v?'通電':'斷電'):(c.t==='BZ'?(v?'響':'靜'):(v?'亮':'熄')))+'</b></li>';}});
   $('chips').innerHTML=h||'<li>尚未加入線圈或燈</li>';
   $('warn').innerHTML=w.map(function(x){return '<li>'+x+'</li>';}).join('')||'<li class="ok">沒有發現接線問題</li>';
-  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':!run?'接線模式：已自動斷電。從端子拖到端子接線；切到執行模式會自動送電。OL 的 95 與 97 要不要跳線由你決定。':sh?'R、T 經接點直接相連（短路），已自動斷電。找出把電源兩端接在一起的那條線，修正後按「送電」。':
+  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
+    !run?'接線模式：已自動斷電。從端子拖到端子接線，或先點一個端子再點另一個端子；切到執行模式會自動送電。OL 的 95 與 97 要不要跳線由你決定。':sh?'R、T 經接點直接相連（短路），已自動斷電。找出把電源兩端接在一起的那條線，修正後按「送電」。':
     !st.pw?'已斷電，所有元件都不會動作。':st.tr?'OL 已跳脫：95-96 斷開，97-98 接通。':
     run?'執行模式：按住圖上的 ON、OFF 按鈕操作。':'接線模式：從端子拖到端子接線；OL 的 95 與 97 要不要跳線由你決定。';
   $('bp').setAttribute('aria-pressed',st.pw?'true':'false');$('bp').textContent=st.pw?'送電中':'已斷電';
@@ -188,62 +194,102 @@ function settle(){
   R=r;render();
   if(ch){tmr=setTimeout(settle,170);}
 }
+function coarse(){return !!(window.matchMedia&&matchMedia('(any-pointer:coarse)').matches);}
 function pt(e){var p=cv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;p=p.matrixTransform(cv.getScreenCTM().inverse());return [p.x,p.y];}
+/* 指標事件:dg() 記下指標編號與起點;觸控時端子與導線不鎖 touch-action,手指滑動是捲動畫布(收到 pointercancel),只有「點」才算選取或刪除 */
+function dg(o,e){o.id=e.pointerId;o.x0=e.clientX;o.y0=e.clientY;o.touch=e.pointerType==='touch';return o;}
+function near(d,e){return Math.hypot(e.clientX-d.x0,e.clientY-d.y0)<(d.touch?24:8);}
+function tryConn(k1,k2,r1,r2){
+  if(k1===k2){return;}
+  if(W.some(function(w){return (w[0]===k1&&w[1]===k2)||(w[1]===k1&&w[0]===k2);})){toast('這兩個端子已經接過線了。');return;}
+  var bad=deg(k1)>=2?k1:deg(k2)>=2?k2:null;
+  if(bad){lm='無法接線：'+tnm(bad)+' 已接 2 條線，二次側每個端子最多接 2 條。需要更多分支時，請從另一個端子接力。';toast(lm);}
+  else{mark();W.push([k1,k2,r1,r2]);}
+}
+/* 點一下再點一下:第一下記下端子,第二下接線;點同一個端子取消 */
+function tapTerm(k,r){
+  if(!pend){pend={k:k,r:r};toast('已選 '+tnm(k)+'，請再點另一個端子完成接線（點同一個取消）。');return;}
+  var a=pend;pend=null;
+  if(a.k===k){toast('已取消選取。');return;}
+  tryConn(a.k,k,a.r,r);
+}
 cv.addEventListener('pointerdown',function(e){
   var t=e.target,P=pt(e),id=t.getAttribute('data-c'),c=id&&comp(id),k=t.getAttribute('data-k'),w=t.getAttribute('data-w');
-  if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();drag={press:id};sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
-  if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){return;}drag={wire:k,row:rr};e.preventDefault();return;}
-  if(w!==null){mark();W.splice(+w,1);settle();return;}
-  if(c){var now=performance.now();if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'){last={};delComp(id);return;}sel=id;last={id:id,t:now};mark();drag={c:c,dx:P[0]-c.x,dy:P[1]-c.y};render();}else if(!k&&w===null){sel=null;render();}
+  if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();drag=dg({press:id},e);sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
+  if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){drag=dg({pri:true},e);return;}drag=dg({wire:k,row:rr},e);if(!drag.touch){e.preventDefault();}return;}
+  if(w!==null){if(e.pointerType==='touch'){drag=dg({wdel:+w},e);return;}mark();W.splice(+w,1);settle();return;}
+  if(c){var now=performance.now();if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'){last={};delComp(id);return;}sel=id;last={id:id,t:now};mark();drag=dg({c:c,dx:P[0]-c.x,dy:P[1]-c.y},e);render();}
+  else{drag=dg({blank:true},e);}
 });
 window.addEventListener('pointermove',function(e){
-  if(!drag){return;}if(drag.wire||drag.c){edge(e);}var P=pt(e);
+  if(!drag||drag.id!==e.pointerId){return;}if(drag.wire||drag.c){edge(e);}var P=pt(e);
   if(drag.c){drag.c.x=Math.round((P[0]-drag.dx)/10)*10;drag.c.y=Math.round((P[1]-drag.dy)/10)*10;clampC(drag.c);render();}
-  else if(drag.wire){var a=tp(drag.wire,drag.row);gT.innerHTML='';el('line',{x1:a[0],y1:a[1],x2:P[0],y2:P[1],stroke:'var(--ac)','stroke-width':2,'stroke-dasharray':'5 4'},gT);}
+  else if(drag.wire&&!drag.touch){var a=tp(drag.wire,drag.row);gT.innerHTML='';el('line',{x1:a[0],y1:a[1],x2:P[0],y2:P[1],stroke:'var(--ac)','stroke-width':2,'stroke-dasharray':'5 4'},gT);}
 });
-window.addEventListener('pointerup',function(e){
-  if(!drag){return;}var d=drag;drag=null;gT.innerHTML='';if(d.c&&hist.length&&hist[hist.length-1]===snap()){hist.pop();}
+function endDrag(e,cancel){
+  if(!drag||drag.id!==e.pointerId){return;}var d=drag;drag=null;gT.innerHTML='';if(d.c&&hist.length&&hist[hist.length-1]===snap()){hist.pop();}
   if(d.press){setTimeout(function(){st.p[d.press]=false;sfxBtn(false);settle();},Math.max(0,260-(performance.now()-at[d.press])));}
-  else if(d.wire){var o=document.elementFromPoint(e.clientX,e.clientY),k2=o&&o.getAttribute&&o.getAttribute('data-k');
-    if(k2&&k2!==d.wire&&!(tb&&o.getAttribute('data-r')===prim(k2))&&!W.some(function(w){return (w[0]===d.wire&&w[1]===k2)||(w[1]===d.wire&&w[0]===k2);})){var bad=deg(d.wire)>=2?d.wire:deg(k2)>=2?k2:null;if(bad){lm='無法接線：'+tnm(bad)+' 已接 2 條線，二次側每個端子最多接 2 條。需要更多分支時，請從另一個端子接力。';toast(lm);}else{mark();W.push([d.wire,k2,d.row,o.getAttribute('data-r')]);}}settle();}
+  else if(d.wire&&!cancel){
+    if(near(d,e)){tapTerm(d.wire,d.row);}
+    else if(!d.touch){var o=document.elementFromPoint(e.clientX,e.clientY),k2=o&&o.getAttribute&&o.getAttribute('data-k');
+      if(k2&&k2!==d.wire&&!(tb&&o.getAttribute('data-r')===prim(k2))){pend=null;tryConn(d.wire,k2,d.row,o.getAttribute('data-r'));}}
+    settle();}
+  else if(d.pri&&!cancel&&near(d,e)){toast('一次側已配好、鎖定，請點旁邊內側的二次側端子。');settle();}
+  else if(d.wdel!==undefined&&!cancel&&near(d,e)){mark();W.splice(d.wdel,1);toast('已刪除導線，可按「復原上一步驟」。');settle();}
+  else if(d.blank){if(!cancel&&near(d,e)){pend=null;sel=null;}settle();}
   else{settle();}
-});
+}
+window.addEventListener('pointerup',function(e){endDrag(e,false);});
+window.addEventListener('pointercancel',function(e){endDrag(e,true);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pend){pend=null;settle();}});
 var last={};
-function delComp(id){mark();
+function delComp(id){mark();pend=null;
   C=C.filter(function(c){return c.id!==id;});W=W.filter(function(w){return w[0].split(':')[0]!==id&&w[1].split(':')[0]!==id;});delete st.c[id];delete st.p[id];if(sel===id){sel=null;}settle();
 }
 Object.keys(NAMES).forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=NAMES[t];
-  b.addEventListener('click',function(){var sl=slot(t);mark();sel=add(t,sl[0],sl[1]);sfxSel();settle();});$(CAT[t]==='i'?'pi':'po').appendChild(b);});
-$('bm').addEventListener('click',function(){run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
+  b.addEventListener('click',function(){var sl=slot(t);mark();pend=null;sel=add(t,sl[0],sl[1]);sfxSel();settle();});$(CAT[t]==='i'?'pi':'po').appendChild(b);});
+$('bm').addEventListener('click',function(){pend=null;run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
 $('bp').addEventListener('click',function(){st.pw=!st.pw;if(st.pw){sh=false;}sfxSel();settle();});
 $('bt').addEventListener('click',function(){st.tr=!st.tr;sfxSel();settle();});
 /* 復原上一步驟:每次改動元件或導線前存一份快照(元件、導線、編號計數),最多 100 步;不包含送電、按鈕、開關等執行狀態 */
 var hist=[];
 function snap(){return JSON.stringify({C:C,W:W,cnt:cnt});}
 function mark(){lm='';hist.push(snap());if(hist.length>100){hist.shift();}}
-function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;settle();}
+function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;pend=null;settle();}
 $('bu').addEventListener('click',undo);
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!run){e.preventDefault();undo();}});
-$('bc').addEventListener('click',function(){if(paused){setPaused(false);}mark();C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
+$('bc').addEventListener('click',function(){if(paused){setPaused(false);}mark();pend=null;C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
 
 
 
 /* 聲音:Web Audio 即時合成,第一次點擊或按鍵後才會發聲 */
 var AC=null,snd=true,master=null,buzz=null;
-function unlock(){if(!AC){var A=window.AudioContext||window.webkitAudioContext;if(!A){return;}AC=new A();var cp=AC.createDynamicsCompressor();master=AC.createGain();master.gain.value=.9;master.connect(cp);cp.connect(AC.destination);}if(AC.state==='suspended'&&!paused){AC.resume();}}
-function tone(f,d,ty,g,t0,f2){if(!AC||!snd){return;}var t=AC.currentTime+(t0||0),o=AC.createOscillator(),v=AC.createGain();o.type=ty;o.frequency.setValueAtTime(f,t);if(f2){o.frequency.exponentialRampToValueAtTime(f2,t+d);}v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(master);o.start(t);o.stop(t+d+.02);}
-function noise(d,g,fc,t0){if(!AC||!snd){return;}var n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0),i;for(i=0;i<n;i++){a[i]=Math.random()*2-1;}var s=AC.createBufferSource(),f=AC.createBiquadFilter(),v=AC.createGain(),t=AC.currentTime+(t0||0);s.buffer=b;f.type='bandpass';f.frequency.value=fc;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(f);f.connect(v);v.connect(master);s.start(t);}
+function aHint(){var b=$('bs');if(!b){return;}b.textContent=!snd?'聲音：關':((AC&&(AC.state==='running'||paused))?'聲音：開':'聲音：開（點畫面啟用）');}
+function whenOn(fn){if(!AC){return;}if(AC.state==='running'){fn();}else{try{AC.resume().then(function(){if(AC.state==='running'){fn();}},function(){});}catch(x){}}}
+/* 解鎖:手機的觸控要等 pointerup、touchend 或 click 才算使用者操作(pointerdown 只有滑鼠算),所以這幾種事件都要呼叫;狀態不是 running(含 iOS 的 interrupted)就恢復 */
+function unlock(){
+  if(!AC){var A=window.AudioContext||window.webkitAudioContext;if(!A){return;}
+    try{if(navigator.audioSession){navigator.audioSession.type='playback';}}catch(x){}   /* iOS 16.4 起:讓 Web Audio 不受靜音撥桿影響 */
+    AC=new A();var cp=AC.createDynamicsCompressor();master=AC.createGain();master.gain.value=.9;master.connect(cp);cp.connect(AC.destination);
+    AC.onstatechange=function(){aHint();syncBuzz();};}
+  if(AC.state!=='running'&&!paused&&!document.hidden){
+    try{var pr=AC.resume();if(pr&&pr.catch){pr.catch(function(){});}}catch(x){}
+    try{var sb=AC.createBufferSource();sb.buffer=AC.createBuffer(1,1,22050);sb.connect(AC.destination);sb.start(0);}catch(x){}}   /* iOS 要在手勢內播一段無聲音訊才算啟用 */
+  aHint();
+}
+function tone(f,d,ty,g,t0,f2){if(!AC||!snd||AC.state!=='running'){return;}var t=AC.currentTime+(t0||0),o=AC.createOscillator(),v=AC.createGain();o.type=ty;o.frequency.setValueAtTime(f,t);if(f2){o.frequency.exponentialRampToValueAtTime(f2,t+d);}v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v);v.connect(master);o.start(t);o.stop(t+d+.02);}
+function noise(d,g,fc,t0){if(!AC||!snd||AC.state!=='running'){return;}var n=Math.floor(AC.sampleRate*d),b=AC.createBuffer(1,n,AC.sampleRate),a=b.getChannelData(0),i;for(i=0;i<n;i++){a[i]=Math.random()*2-1;}var s=AC.createBufferSource(),f=AC.createBiquadFilter(),v=AC.createGain(),t=AC.currentTime+(t0||0);s.buffer=b;f.type='bandpass';f.frequency.value=fc;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(f);f.connect(v);v.connect(master);s.start(t);}
 function sfxBtn(dn){noise(.03,dn?.5:.25,3000);tone(dn?1200:900,.04,'square',dn?.12:.06,0,400);}
 function sfxSel(){tone(220,.09,'triangle',.3,0,110);noise(.04,.3,800);}
 function sfxMC(on,k,dl){var p=[1,.88,.78][((k%3)+3)%3]*(1+(Math.random()-.5)*.04),g=on?1:.5;noise(.03,.7*g,2500*p,dl);tone((on?140:110)*p,on?.14:.08,'sine',.6*g,dl,60*p);tone(900*p,.03,'square',.15*g,dl);if(on){noise(.06,.3,600*p,dl+.05);}}
 function syncBuzz(){var want=snd&&!!AC&&!!R&&C.some(function(c){return c.t==='BZ'&&R.on[c.id];});
   if(want&&!buzz){var o=AC.createOscillator(),lp=AC.createBiquadFilter(),g=AC.createGain();o.type='square';o.frequency.value=2700;lp.type='lowpass';lp.frequency.value=5000;g.gain.value=0;o.connect(lp);lp.connect(g);g.connect(master);o.start();g.gain.setTargetAtTime(.07,AC.currentTime,.02);buzz={o:o,g:g};}
   else if(!want&&buzz){var b=buzz;buzz=null;b.g.gain.setTargetAtTime(0,AC.currentTime,.04);b.o.stop(AC.currentTime+.25);}}
-$('bs').addEventListener('click',function(){snd=!snd;this.setAttribute('aria-pressed',snd?'true':'false');this.textContent=snd?'聲音：開':'聲音：關';if(snd){unlock();sfxMC(true,0,0);}syncBuzz();});
-document.addEventListener('pointerdown',unlock,true);document.addEventListener('keydown',unlock,true);
+$('bs').addEventListener('click',function(){snd=!snd;this.setAttribute('aria-pressed',snd?'true':'false');if(snd){unlock();whenOn(function(){sfxMC(true,0,0);});}syncBuzz();aHint();});
+['pointerdown','pointerup','touchend','click','keydown'].forEach(function(t){document.addEventListener(t,unlock,true);});
 document.addEventListener('visibilitychange',function(){if(!AC){return;}if(document.hidden){AC.suspend();}else if(!paused){AC.resume();}});
 function sfx(c,v,k,dl){if(c.t==='MC'){sfxMC(v,k,dl);}else if(c.t==='X'||c.t==='X11'){var g=v?1:.5;noise(.02,.35*g,4500,dl);tone(1800,.025,'square',.08*g,dl);}}
-function setPaused(v){paused=v;document.body.classList.toggle('paused',v);$('pz').hidden=!v;$('bz').setAttribute('aria-pressed',v?'true':'false');$('bz').textContent=v?'繼續(空白鍵)':'暫停(空白鍵)';if(AC){if(v){AC.suspend();}else if(!document.hidden){AC.resume();}}settle();}
+function setPaused(v){paused=v;document.body.classList.toggle('paused',v);$('pz').hidden=!v;$('bz').setAttribute('aria-pressed',v?'true':'false');$('bz').textContent=v?'繼續(空白鍵)':'暫停(空白鍵)';if(AC){if(v){AC.suspend();}else if(!document.hidden){AC.resume();}}aHint();settle();}
 $('bz').addEventListener('click',function(){setPaused(!paused);});
 $('cf').addEventListener('change',function(){flow=this.checked;settle();});
 document.addEventListener('keydown',function(e){var tg=e.target&&e.target.tagName;if(e.key===' '&&tg!=='INPUT'&&tg!=='SELECT'){e.preventDefault();if(!e.repeat){setPaused(!paused);}}});
@@ -305,14 +351,17 @@ function drawTB(){
     if(o.z==='E'){el('rect',{x:o.u[0]-11,y:o.u[1]-14,width:44,height:28,rx:2,'class':'tbc'},gz);el('text',{x:o.l[0]+18,y:o.u[1]+3,'class':'tbr'},gz).textContent=o.lb;}
     else{el('rect',{x:o.u[0]-11,y:o.u[1]-12,width:22,height:44,rx:2,'class':'tbc'},gz);el('text',{x:o.u[0],y:o.u[1]-14,'class':'tbl'},gz).textContent=o.lb;}
     if(o.z!=='E'){var tg=tagFor(k);if(tg){el('text',{x:o.u[0],y:GEO(o.z,o.s).y0+84,'class':'tgl'},gP).textContent=tg;}}
-    ['u','l'].forEach(function(r){el('circle',{cx:o[r][0],cy:o[r][1],r:7,'class':'tr '+(r===prim(k)?'t1':'t2'),'data-k':k,'data-r':r},gP);});});
+    ['u','l'].forEach(function(r){var isp=!!pend&&pend.k===k&&pend.r===r;
+      if(CO){el('circle',{cx:o[r][0],cy:o[r][1],r:9.5,'class':'th','data-k':k,'data-r':r,fill:'none'},gP);}
+      el('circle',{cx:o[r][0],cy:o[r][1],r:7,'class':'tr '+(r===prim(k)?'t1':'t2')+(isp?' pd':''),'data-k':k,'data-r':r},gP);
+      if(isp){el('circle',{cx:o[r][0],cy:o[r][1],r:13,'class':'pdr'},gP);}});});
   LY.hd.forEach(function(h){var c=h.c,g=GEO(h.z,h.s),v=h.z==='E',k0=D[c.t][0][2],
     on=((k0==='coil'||k0==='load')&&R&&R.on[c.id])||st.p[c.id]||(c.t==='COS'&&sp(c.id)>0)||(c.t==='PX'&&st.px[c.id]),
     x=v?g.x0:30+h.c0*24,y=v?40+h.c0*30:g.y0,w=v?14:h.n*24-2,hh=v?h.n*30-2:14,cx=x+w/2,cy=y+hh/2;
     el('rect',{x:x,y:y,width:w,height:hh,rx:3,'class':'bx'+(CAT[c.t]?' c'+CAT[c.t]:'')+(on?' on':'')+(c.t==='OL'&&st.tr?' trp':'')+(sel===c.id?' sel':''),'data-c':c.id},gP);
     var t=el('text',{x:cx,y:cy+4,'class':'nm','text-anchor':'middle',style:'font-size:10px'},gP);if(v){t.setAttribute('transform','rotate(-90 '+cx+' '+cy+')');}t.textContent=c.id+lbl(c);});
 }
-$('bv').addEventListener('click',function(){tb=!tb;this.textContent=tb?'檢視：端子台':'檢視：自由配置';this.setAttribute('aria-pressed',tb?'true':'false');settle();});
+$('bv').addEventListener('click',function(){pend=null;tb=!tb;this.textContent=tb?'檢視：端子台':'檢視：自由配置';this.setAttribute('aria-pressed',tb?'true':'false');settle();});
 function slot(t){
   var z=Z[t],m,i,x,y;
   if(z==='E'){for(i=0;i<60;i++){x=818+40*Math.floor(i/5);y=60+90*(i%5);if(!C.some(function(c){return Z[c.t]==='E'&&c.x+36*D[c.t].length>x&&x+36*D[t].length>c.x&&Math.abs(c.y-y)<70;})){return [x,y];}}return [818,60];}
@@ -343,11 +392,12 @@ function loadSH(){
   ].forEach(function(w){W.push(w);});
   settle();
 }
-function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();fn();});$('pe').appendChild(b);}
+function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();});$('pe').appendChild(b);}
 exBtn('載入範例：啟動停止自保持',loadSH);exBtn('載入範例：Y-Δ',loadYD);
 ['pi','po','pe'].forEach(function(id){var b=$(id),sp=b.firstChild;sp.tabIndex=0;sp.setAttribute('role','button');sp.setAttribute('aria-expanded','true');
   var tg=function(){var c=b.classList.toggle('clp');sp.setAttribute('aria-expanded',c?'false':'true');};
   sp.addEventListener('click',tg);sp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tg();}});});
-loadYD();
+if(coarse()&&cvw.clientWidth<900){zm=1.4;}   /* 手機預設放大,端子才點得到;可再用＋－調整 */
+aHint();loadYD();
 })();
 </script></body></html>
