@@ -177,7 +177,9 @@ function draw(){
         /* 線號:0°、180° 反向旋轉保持正面朝上(以字的中心為軸,翻轉後仍在原處);90°、270° 不反向旋轉,字沿元件方向排,
            因為正面朝上的字橫過來後寬度(2~3 個字約 12~20 px)比「圓圈內緣到接點斜線」的空間(約 14 px)還寬,怎麼移都會碰到圓圈或斜線 */
         var rr=(((c.r||0)%360)+360)%360,side=rr===90||rr===270,ly=j?50:17,ta={x:xx,y:ly,'class':'tl'};
-        if(rr&&!side){ta.transform='rotate('+(-rr)+' '+xx+' '+(ly-3)+')';}
+        if(rr&&!side){ta.transform='rotate('+(-rr)+' '+xx+' '+(ly-3.5)+')';}
+        /* 單一中文字(COS 的「手」「自」)轉橫後很難辨認,而且一個字只有約 11 px 寬、放得進圓圈與斜線之間(約 14 px),所以 90°、270° 仍保持正面朝上,字心放在這段空隙的正中央(上端 y = 13.7、下端 y = 46.3) */
+        if(side&&lb.length===1&&/[\u3400-\u9fff]/.test(lb)){var c0=j?46.3:13.7;ta.y=c0+4.2;ta.transform='rotate('+(-rr)+' '+xx+' '+c0+')';}
         el('text',ta,g).textContent=lb;});tagsFree(g,c,q,i,18+36*i);});});
 }
 function render(){
@@ -354,7 +356,7 @@ function tagFor(k){var a=k.split(':'),c=comp(a[0]);if(!c){return '';}var q=D[c.t
 /* 自由配置的端子標記:線圈兩端各標「線圈」;切換接點的共點(上端,線號 8、1、3、11)標 COM,常閉、常開標在下端。上端標記畫在上端子圓圈的正上方(y=-11,下端 y=77),元件名稱因此要再往上移(titleExt) */
 function tagsFree(g,c,q,i,x){var kd=q[2],r0=(((c.r||0)%360)+360)%360,side=r0===90||r0===270,
   /* 90°、270° 與線號相同:不反向旋轉,字沿元件方向排;下端標記基準線 77,離開端子圓圈 */
-  put=function(t,xx,y){y=y>0?77:y;var a={x:xx,y:y,'class':'tgl'};if(r0&&!side){a.transform='rotate('+(-r0)+' '+xx+' '+(y-1.75)+')';}el('text',a,g).textContent=t;};
+  put=function(t,xx,y){y=y>0?77:y;var a={x:xx,y:y,'class':'tgl'};if(r0&&!side){a.transform='rotate('+(-r0)+' '+xx+' '+(y-3)+')';}el('text',a,g).textContent=t;};
   if(kd==='coil'){put('線圈',x,-11);put('線圈',x,77);}else if(kd==='no'||kd==='olno'){put('NO',x,77);}else if(kd==='nc'||kd==='olnc'){put('NC',x,77);}
   else if(kd==='co'||kd==='cot'||kd==='cy'){put('COM',x,-11);put('NC',x-9,77);put('NO',x+9,77);}}
 /* 元件名稱(含計時秒數)放在外框上方;上端有標記的(旋轉 0°)要再往上讓出 13 px,旋轉 180° 時下端標記跑到上方,讓出 11 px,避免蓋住名稱 */
