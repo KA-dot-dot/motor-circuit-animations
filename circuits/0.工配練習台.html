@@ -8,13 +8,13 @@
 :root[data-theme="dark"]{--bg:#10151b;--p:#18202a;--ink:#e8edf3;--mu:#9aa7b8;--ln:#2b3643;--w:#b6c1ce;--on:#ff5547;--fl:#ffb04d;--ac:#6aa9ee;--tm:#2d5167;color-scheme:dark}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 "Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif}
 .wrap{max-width:1600px;margin:auto;padding:12px max(16px,env(safe-area-inset-left,0px))}
-h1{font-size:1.25rem;margin:0 0 2px}.sub{margin:0 0 10px;color:var(--mu)}
+h1{font-size:1.25rem;margin:0 0 2px}.hint{display:flex;align-items:flex-start;gap:8px;margin:0 0 8px;color:var(--mu);line-height:1.5}.hint #sub{flex:1;min-width:0}.hint button{flex:none;min-height:28px;padding:1px 10px;font-size:13px}#hp{margin:0 0 8px;font-size:13px;line-height:1.6}#hp ul{display:grid;gap:4px}#hp li b{color:var(--ink);margin-right:8px}
 .bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;align-items:center}.bar span{color:var(--mu);margin-right:4px}
 button{font:inherit;padding:6px 12px;min-height:36px;border:1px solid var(--ln);background:var(--p);color:var(--ink);border-radius:8px;cursor:pointer}
 button:hover:not(:disabled){border-color:var(--ac)}button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac)}button:disabled{opacity:.45}[hidden]{display:none!important}#ls{display:flex;align-items:center;gap:6px}#sT{font:inherit;width:4.6em;padding:5px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--p);color:var(--ink)}#sT:disabled{opacity:.45}
 .g{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}aside{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}aside .card{margin:0}
 @media(max-width:860px){.g{grid-template-columns:minmax(0,1fr)}}
-#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#cv .bx,#cv .hh{touch-action:none}.hh{fill:transparent;stroke:none;pointer-events:all}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
+#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#cv .bx,#cv .hh{touch-action:none}.hh{fill:transparent;stroke:none;pointer-events:all}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{width:max-content;max-width:min(90vw,24em);position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
 .card{background:var(--p);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:12px}
 h2{font-size:.85rem;margin:0 0 8px;color:var(--mu);font-weight:500}
 ul{list-style:none;margin:0;padding:0}
@@ -51,16 +51,24 @@ body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
 /* 目前狀態、接線檢查可收合:點標題(或聚焦後按 Enter) */
 .fold>h2{cursor:pointer;user-select:none;-webkit-user-select:none;padding:6px 0;margin:0 0 2px}.fold>h2::before{content:'▾ '}.fold.clp>h2::before{content:'▸ '}.fold.clp>h2{margin-bottom:0}.fold.clp>*:not(h2){display:none!important}.fold>h2:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 /* 點一下再點一下接線:th 是看不見的放大點擊區(fill 固定 none,不隨狀態改 fill),pd 是已選端子,pdr 是外圈 */
-.th{fill:none;stroke:none;pointer-events:all}body:not(.wm) .th{pointer-events:none}.tr.pd{fill:var(--ac);stroke:var(--ac);stroke-width:3}.pdr{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
+.th{fill:none;stroke:none;pointer-events:all}body:not(.wm) .th,body:not(.wm) .tr{pointer-events:none}.tr.pd{fill:var(--ac);stroke:var(--ac);stroke-width:3}.pdr{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
 </style></head><body class="wm">
 <div id="pz" hidden>已暫停</div><div id="tst" hidden></div><main class="wrap">
 <h1>工配練習台（控制電路）</h1>
-<p class="sub">接線模式：從端子拖到端子接線，或先點一個端子、再點另一個端子（手機請用點的）；點導線刪除，拖元件移動，雙擊元件刪除；自由配置檢視可選取元件後按「旋轉 90°」。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
+<div class="hint"><span id="sub"></span><button id="bh" type="button" aria-expanded="false" aria-controls="hp">說明</button></div>
+<div class="card" id="hp" hidden><ul>
+<li><b>接線</b>點一個端子、再點另一個端子；電腦也可以從端子拖到端子。每個端子最多接 2 條線。</li>
+<li><b>刪導線</b>電腦：點導線，直接刪除。手機、平板：第一下只「選取」（導線變藍、兩端出現虛線圈，狀態列寫出誰接誰），再點一次，或按「刪除所選導線」才刪除；點空白處或按 Esc 取消。</li>
+<li><b>刪元件</b>快速連點兩下元件（R、T 不能刪）。</li>
+<li><b>移動、旋轉</b>只在「自由配置」檢視：拖元件移動；選取後按「旋轉 90°」或鍵盤 R。</li>
+<li><b>復原</b>「復原上一步驟」或 Ctrl+Z，刪錯可以救回。</li>
+<li><b>執行模式</b>按住 ON、OFF；點 COS、OL、近接開關切換位置；橘色導線＝接到 R 側（有電）；空白鍵暫停。</li>
+</ul></div>
 <div class="app"><div class="side" id="sd"><div class="bar gi" id="pi"><span>輸入元件</span></div><div class="bar go" id="po"><span>輸出元件</span></div><div class="bar ge" id="pe"><span>範例</span></div>
 <aside>
 <section class="card fold" id="fs"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
 <section class="card fold" id="fw"><h2 id="wh">接線檢查</h2><ul id="warn"></ul></section>
-</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="br" type="button" hidden title="只在自由配置檢視、已選取元件時可用">旋轉 90°</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／斷電延遲電驛／FR／Y-Δ 設定秒數（斷電延遲為斷電後維持時間，FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
+</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="br" type="button" hidden title="只在自由配置檢視、已選取元件時可用">旋轉 90°</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bd" type="button" hidden>刪除所選導線</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／斷電延遲電驛／FR／Y-Δ 設定秒數（斷電延遲為斷電後維持時間，FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
 <div class="g"><div class="cvh"><div id="cvw"><svg id="cv" viewBox="0 0 900 560" role="img" aria-label="接線畫布"><g id="gz"></g><g id="gw"></g><g id="gp"></g><g id="gt"></g></svg></div></div></div></div></div>
 </main>
 <script>
@@ -206,14 +214,14 @@ function draw(){
         el('text',ta,g).textContent=lb;});tagsFree(g,c,q,i,18+36*i);});});
 }
 function render(){
-  draw();gT.innerHTML='';syncBuzz();
+  draw();gT.innerHTML='';syncBuzz();hintUpd();
   var h='',w=checks();if(lm){w.unshift(lm);}
   C.forEach(function(c){var k=D[c.t][0][2];if(k==='coil'||k==='load'){var v=R&&R.on[c.id];
     h+='<li class="'+(v?'on':'')+'"><i></i>'+c.id+'<b>'+(k==='coil'?(v?'通電':'斷電'):(c.t==='BZ'?(v?'響':'靜'):(v?'亮':'熄')))+'</b></li>';}});
   $('chips').innerHTML=h||'<li>尚未加入線圈或燈</li>';
   $('wh').textContent='接線檢查'+(w.length?'（'+w.length+'）':'');
   $('warn').innerHTML=w.map(function(x){return '<li>'+x+'</li>';}).join('')||'<li class="ok">沒有發現接線問題</li>';
-  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':selWi()>=0&&!run?'已選導線：'+wdesc(selW)+'。再點一次這條線刪除，點空白處取消。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
+  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':selWi()>=0&&!run?'已選導線：'+wdesc(selW)+'。再點一次這條線或按「刪除所選導線」即可刪除；點空白處或按 Esc 取消。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
     !run?'接線模式：已自動斷電。從端子拖到端子接線，或先點一個端子再點另一個端子；切到執行模式會自動送電。OL 的 95 與 97 要不要跳線由你決定。':sh?'R、T 經接點直接相連（短路），已自動斷電。找出把電源兩端接在一起的那條線，修正後按「送電」。':
     !st.pw?'已斷電，所有元件都不會動作。':st.tr?'OL 已跳脫：95-96 斷開，97-98 接通。':
     run?'執行模式：按住圖上的 ON、OFF 按鈕操作。':'接線模式：從端子拖到端子接線；OL 的 95 與 97 要不要跳線由你決定。';
@@ -223,6 +231,7 @@ function render(){
 }
 /* 選取元件後,操作列的秒數欄與旋轉鈕;拖曳元件時只更新這裡,不重畫整張圖 */
 function selUI(){
+  $('bd').hidden=!(selWi()>=0&&!run);
   var sc=sel&&comp(sel),isT=!!sc&&(sc.t==='TM'||sc.t==='FR'||sc.t==='TF'||sc.t==='YD');$('ls').hidden=!isT;$('br').hidden=tb||!sc;if(isT){si.min=sc.t==='FR'?0.5:1;if(document.activeElement!==si){si.value=sc.s;}si.disabled=paused||!!st.c[sc.id]||(sc.t==='TF'&&!!st.d[sc.id]);}
 }
 /* 拖曳中只改被拖元件的位置、名稱與接到它的導線,不清空重畫:手指按著的元素若被換掉,瀏覽器會失去「不可捲動」的目標,改成捲動畫布(手機上元件只能拖一點點就卡住的原因) */
@@ -248,7 +257,7 @@ function near(d,e){return Math.hypot(e.clientX-d.x0,e.clientY-d.y0)<(d.touch?24:
 function tryConn(k1,k2,r1,r2){
   if(k1===k2){return;}
   var dup=W.filter(function(w){return (w[0]===k1&&w[1]===k2)||(w[1]===k1&&w[0]===k2);})[0];
-  if(dup){selW=dup;toast('這兩個端子已經接過線了，已幫你選取那條線（藍色粗線）；再點它可刪除。');return;}
+  if(dup){selW=dup;toast('這兩個端子已接過線，已選取那條線（藍色）；再點一次或按「刪除所選導線」刪除。');return;}
   var bad=deg(k1)>=2?k1:deg(k2)>=2?k2:null;
   if(bad){lm='無法接線：'+tnm(bad)+' 已接 2 條線，二次側每個端子最多接 2 條。需要更多分支時，請從另一個端子接力。';toast(lm);}
   else{mark();W.push([k1,k2,r1,r2]);}
@@ -263,7 +272,7 @@ function tapTerm(k,r){
 }
 cv.addEventListener('pointerdown',function(e){
   var t=e.target,P=pt(e),id=t.getAttribute('data-c'),c=id&&comp(id),k=t.getAttribute('data-k'),w=t.getAttribute('data-w');
-  if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();drag=dg({press:id},e);sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
+  if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();prs[e.pointerId]=id;sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
   if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){drag=dg({pri:true},e);return;}drag=dg({wire:k,row:rr},e);if(!drag.touch){e.preventDefault();}return;}
   if(w!==null){if(e.pointerType==='touch'){drag=dg({wdel:+w},e);return;}mark();W.splice(+w,1);settle();return;}
   if(c){var now=performance.now();/* 觸控時第二下要落在第一下旁 14 px 內才算雙擊刪除:同一元件上連點兩個相鄰端子(沒點中端子而落在方框上)不會被當成雙擊而誤刪元件 */
@@ -278,16 +287,20 @@ window.addEventListener('pointermove',function(e){
   if(drag.c){if(tb){return;}drag.c.x=Math.round((P[0]-drag.dx)/10)*10;drag.c.y=Math.round((P[1]-drag.dy)/10)*10;clampC(drag.c);if(!moveLive(drag.c)){render();}}
   else if(drag.wire&&!drag.touch){var a=tp(drag.wire,drag.row);gT.innerHTML='';el('line',{x1:a[0],y1:a[1],x2:P[0],y2:P[1],stroke:'var(--ac)','stroke-width':2,'stroke-dasharray':'5 4'},gT);}
 });
+/* 執行模式按住的按鈕依指標編號記錄:多指可同時按不同按鈕,各自放開才釋放(原本只記一個 drag,先放開的那根手指會讓按鈕卡在按下) */
+var prs={};
+function relPress(e){var id=prs[e.pointerId];if(id===undefined){return false;}delete prs[e.pointerId];
+  setTimeout(function(){if(Object.keys(prs).some(function(k){return prs[k]===id;})){return;}st.p[id]=false;sfxBtn(false);settle();},Math.max(0,260-(performance.now()-at[id])));return true;}
 function endDrag(e,cancel){
+  if(relPress(e)){return;}
   if(!drag||drag.id!==e.pointerId){return;}var d=drag;drag=null;gT.innerHTML='';if(d.c&&hist.length&&hist[hist.length-1]===snap()){hist.pop();}
-  if(d.press){setTimeout(function(){st.p[d.press]=false;sfxBtn(false);settle();},Math.max(0,260-(performance.now()-at[d.press])));}
-  else if(d.wire&&!cancel){
+  if(d.wire&&!cancel){
     if(near(d,e)){tapTerm(d.wire,d.row);}
     else if(!d.touch){var o=document.elementFromPoint(e.clientX,e.clientY),k2=o&&o.getAttribute&&o.getAttribute('data-k');
       if(k2&&k2!==d.wire&&!(tb&&o.getAttribute('data-r')===prim(k2))){pend=null;tryConn(d.wire,k2,d.row,o.getAttribute('data-r'));}}
     settle();}
   else if(d.pri&&!cancel&&near(d,e)){toast('一次側已配好、鎖定，請點旁邊內側的二次側端子。');settle();}
-  else if(d.wdel!==undefined&&!cancel&&near(d,e)){var tw=W[d.wdel];if(tw&&tw===selW){mark();W.splice(W.indexOf(tw),1);toast('已刪除導線，可按「復原上一步驟」。');}else if(tw){pend=null;selW=tw;toast('已選導線：'+wdesc(tw)+'。再點一次這條線刪除，點空白處取消。');}settle();}
+  else if(d.wdel!==undefined&&!cancel&&near(d,e)){var tw=W[d.wdel];if(tw&&tw===selW){mark();W.splice(W.indexOf(tw),1);toast('已刪除導線，可按「復原上一步驟」。');}else if(tw){pend=null;selW=tw;toast('已選導線：'+wdesc(tw)+'。再點一次或按「刪除所選導線」刪除。');}settle();}
   else if(d.blank){if(!cancel&&near(d,e)){if(pend&&d.touch&&cv.getScreenCTM().a<.7&&!tinyHint){tinyHint=true;toast('畫面縮得很小，端子不好點中；可按「＋」放大再接線（已取消剛才選的端子）。');}pend=null;sel=null;selW=null;}settle();}
   else{settle();}
 }
@@ -295,25 +308,25 @@ cv.addEventListener('touchstart',function(e){var t=e.target;if(t&&t.closest&&t.c
 cv.addEventListener('touchmove',function(e){if(drag&&drag.c&&e.cancelable){e.preventDefault();}},{passive:false});
 window.addEventListener('pointerup',function(e){endDrag(e,false);});
 window.addEventListener('pointercancel',function(e){endDrag(e,true);});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pend){pend=null;settle();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&(pend||selW)){pend=null;selW=null;settle();}});
 var last={};
 function delComp(id){mark();pend=null;
   C=C.filter(function(c){return c.id!==id;});W=W.filter(function(w){return w[0].split(':')[0]!==id&&w[1].split(':')[0]!==id;});delete st.c[id];delete st.p[id];delete st.t[id];delete st.d[id];delete st.ss[id];delete st.px[id];if(sel===id){sel=null;}settle();
 }
 Object.keys(NAMES).forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=NAMES[t];
   b.addEventListener('click',function(){var sl=slot(t);mark();pend=null;sel=add(t,sl[0],sl[1]);sfxSel();settle();});$(CAT[t]==='i'?'pi':'po').appendChild(b);});
-$('bm').addEventListener('click',function(){pend=null;lm='';run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
+$('bm').addEventListener('click',function(){pend=null;selW=null;lm='';prs={};st.p={};run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
 $('bp').addEventListener('click',function(){st.pw=!st.pw;if(st.pw){sh=false;}sfxSel();settle();});
 $('bt').addEventListener('click',function(){st.tr=!st.tr;sfxSel();settle();});
 /* 復原上一步驟:每次改動元件或導線前存一份快照(元件、導線、編號計數),最多 100 步;不包含送電、按鈕、開關等執行狀態 */
 var hist=[];
 function snap(){return JSON.stringify({C:C,W:W,cnt:cnt});}
 function mark(){lm='';selW=null;hist.push(snap());if(hist.length>100){hist.shift();}}
-function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;pend=null;settle();}
+function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;pend=null;selW=null;settle();}
 $('bu').addEventListener('click',undo);
 /* 旋轉:只在自由配置檢視、接線模式、已選取元件時可用;每次順時針 90°,可用「復原上一步驟」退回 */
 $('br').addEventListener('click',function(){var c=sel&&comp(sel);if(!c||tb||run){return;}mark();pend=null;c.r=((c.r||0)+90)%360;clampC(c);sfxSel();settle();});
-document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!run){e.preventDefault();undo();}});
+document.addEventListener('keydown',function(e){var tg=e.target&&e.target.tagName;if(tg==='INPUT'||tg==='SELECT'){return;}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!run){e.preventDefault();undo();}});
 /* R 或 Ctrl+R:旋轉選取的元件(只在自由配置檢視、接線模式、有選取元件時;其餘情況 Ctrl+R 仍是瀏覽器的重新整理) */
 document.addEventListener('keydown',function(e){var tg=e.target&&e.target.tagName;if(e.key.toLowerCase()!=='r'||e.altKey||e.shiftKey||e.repeat||tg==='INPUT'||tg==='SELECT'||tg==='TEXTAREA'){return;}var c=sel&&comp(sel);if(!c||tb||run){return;}e.preventDefault();$('br').click();});
 $('bc').addEventListener('click',function(){if(paused){setPaused(false);}mark();pend=null;C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
@@ -471,6 +484,15 @@ exBtn('載入範例：啟動停止自保持',loadSH);exBtn('載入範例：Y-Δ'
   var tg=function(){var c=b.classList.toggle('clp');sp.setAttribute('aria-expanded',c?'false':'true');};
   sp.addEventListener('click',tg);sp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tg();}});});
 if(coarse()&&cvw.clientWidth<900){zm=1.4;}   /* 手機預設放大,端子才點得到;可再用＋－調整 */
+/* 操作提示:一行短提示依「接線／執行」與最近使用的輸入裝置(觸控／滑鼠)切換,完整說明收在「說明」鈕裡 */
+var H={w:'接線：拖曳或依序點兩個端子連線；點導線＝刪除；雙擊元件＝刪除。',
+  t:'接線：依序點兩個端子連線；點導線＝先選取（變藍），再點一次才刪除。',
+  r:'執行：按住圖上的 ON／OFF 操作；橘色導線＝接到 R 側（有電）。'};
+var tch=!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
+function hintUpd(){var t=run?H.r:(tch?H.t:H.w),e=$('sub');if(e.textContent!==t){e.textContent=t;}}
+document.addEventListener('pointerdown',function(e){var t=e.pointerType==='touch';if(t!==tch){tch=t;hintUpd();}},true);
+$('bh').addEventListener('click',function(){var p=$('hp'),o=p.hidden;p.hidden=!o;this.setAttribute('aria-expanded',o?'true':'false');this.textContent=o?'收起':'說明';});
+$('bd').addEventListener('click',function(){var t=selW;if(!t||W.indexOf(t)<0){return;}mark();W.splice(W.indexOf(t),1);toast('已刪除導線，可按「復原上一步驟」。');settle();});
 aHint();loadYD();
 })();
 </script></body></html>
