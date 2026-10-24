@@ -89,7 +89,7 @@ function tp(k,r){if(tb&&LY&&LY.pos[k]){var o=LY.pos[k];return o[r==='u'||r==='l'
   return [c.x+18*n+Math.round(x*Math.cos(t)-y*Math.sin(t)),c.y+30+Math.round(x*Math.sin(t)+y*Math.cos(t))];}
 function dir(k){var a=k.split(':'),c=comp(a[0]),t=(c.r||0)*Math.PI/180,s=a[2]==='t'?-1:1;return [Math.round(-s*Math.sin(t)),Math.round(s*Math.cos(t))];}
 function clampC(c){var n=D[c.t].length,v=(c.r||0)%180!==0,w=v?60:36*n,h=v?36*n:60;
-  c.x=Math.max(w/2-18*n,Math.min(2400-w/2-18*n,c.x));c.y=Math.max(20+h/2-30+titleExt(c),Math.min(1600-h/2-30,c.y));}
+  c.x=Math.max(w/2-18*n,Math.min(2400-w/2-18*n,c.x));c.y=Math.max(21+h/2-30+titleExt(c),Math.min(1600-h/2-30,c.y));}
 function route2(k1,k2){
   var a=tp(k1),b=tp(k2),u=dir(k1),v=dir(k2),G=16,a1=[a[0]+u[0]*G,a[1]+u[1]*G],b1=[b[0]+v[0]*G,b[1]+v[1]*G],m=u[0]?[a1[0],b1[1]]:[b1[0],a1[1]];
   return 'M'+a+'L'+a1+'L'+m+'L'+b1+'L'+b;
@@ -161,7 +161,7 @@ function draw(){
     el('text',{x:c.x+18*n,y:nmY(c),'class':'nm'+(st.p[c.id]?' pr':''),'text-anchor':'middle','data-nm':c.id},gP).textContent=c.id+lbl(c);
     cols.forEach(function(q,i){
       var x=18+36*i,k=q[2];
-      if(k==='coil'||k==='load'){el('circle',{cx:x,cy:30,r:11,'class':'lc'+(R&&R.on[c.id]?' on':'')},g);}
+      if(k==='coil'||k==='load'){el('circle',{cx:x,cy:30,r:10,'class':'lc'+(R&&R.on[c.id]?' on':'')},g);}
       else if(k==='ss'){var pq=st.ss[c.id]||0;el('line',{x1:x,y1:22,x2:x+[0,-9,9][pq],y2:pq?38:36,'class':'cl'+(pq?' on':'')},g);}
       else if(k==='cy'){var py=st.d[c.id]||0;el('line',{x1:x,y1:22,x2:x+[-9,0,9][py],y2:py===1?36:38,'class':'cl'+(py?' on':'')},g);}
       else if(k==='co'||k==='cot'){var ac=k==='cot'?!!st.d[c.id]:!!st.c[c.id];el('line',{x1:x,y1:22,x2:x+(ac?9:-9),y2:38,'class':'cl'+(ac?' on':'')},g);}
@@ -176,7 +176,7 @@ function draw(){
         if(isp){el('circle',{cx:xx,cy:j?60:0,r:13,'class':'pdr'},g);}
         /* 線號:0°、180° 反向旋轉保持正面朝上(以字的中心為軸,翻轉後仍在原處);90°、270° 不反向旋轉,字沿元件方向排,
            因為正面朝上的字橫過來後寬度(2~3 個字約 12~20 px)比「圓圈內緣到接點斜線」的空間(約 14 px)還寬,怎麼移都會碰到圓圈或斜線 */
-        var rr=(((c.r||0)%360)+360)%360,side=rr===90||rr===270,ly=j?50:16,ta={x:xx,y:ly,'class':'tl'};
+        var rr=(((c.r||0)%360)+360)%360,side=rr===90||rr===270,ly=j?50:17,ta={x:xx,y:ly,'class':'tl'};
         if(rr&&!side){ta.transform='rotate('+(-rr)+' '+xx+' '+(ly-3)+')';}
         el('text',ta,g).textContent=lb;});tagsFree(g,c,q,i,18+36*i);});});
 }
@@ -239,7 +239,9 @@ cv.addEventListener('pointerdown',function(e){
   if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();drag=dg({press:id},e);sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
   if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){drag=dg({pri:true},e);return;}drag=dg({wire:k,row:rr},e);if(!drag.touch){e.preventDefault();}return;}
   if(w!==null){if(e.pointerType==='touch'){drag=dg({wdel:+w},e);return;}mark();W.splice(+w,1);settle();return;}
-  if(c){var now=performance.now();if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'){last={};delComp(id);return;}sel=id;last={id:id,t:now};mark();drag=dg({c:c,dx:P[0]-c.x,dy:P[1]-c.y},e);
+  if(c){var now=performance.now();if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'){last={};delComp(id);return;}
+    if(!tb&&!run&&!zm){zm=(cvw.clientWidth||VW)/VW;fit();P=pt(e);}   /* 符合視窗模式下,按住元件就鎖住目前比例:畫布變大時用捲動看,圖不再縮放 */
+    sel=id;last={id:id,t:now};mark();drag=dg({c:c,dx:P[0]-c.x,dy:P[1]-c.y},e);
     if(tb){render();}else{selLive(id);try{t.setPointerCapture(e.pointerId);}catch(x){}}}
   else{drag=dg({blank:true},e);}
 });
@@ -349,23 +351,24 @@ function layout(){var r=lay0(),nu=0;Object.keys(r.used).forEach(function(k){if(k
 function tagFor(k){var a=k.split(':'),c=comp(a[0]);if(!c){return '';}var q=D[c.t][+a[1]],kd=q&&q[2],s=a[2];
   if(kd==='coil'){return '線圈';}if(kd==='no'||kd==='olno'){return 'NO';}if(kd==='nc'||kd==='olnc'){return 'NC';}
   if(kd==='co'||kd==='cot'||kd==='cy'){return s==='t'?'COM':s==='b'?'NC':'NO';}return '';}
-/* 自由配置的端子標記:線圈兩端各標「線圈」;切換接點的共點(上端,線號 8、1、3、11)標 COM,常閉、常開標在下端。上端標記畫在上端子圓圈的正上方(y=-10),元件名稱因此要再往上移(titleExt) */
+/* 自由配置的端子標記:線圈兩端各標「線圈」;切換接點的共點(上端,線號 8、1、3、11)標 COM,常閉、常開標在下端。上端標記畫在上端子圓圈的正上方(y=-11,下端 y=77),元件名稱因此要再往上移(titleExt) */
 function tagsFree(g,c,q,i,x){var kd=q[2],r0=(((c.r||0)%360)+360)%360,side=r0===90||r0===270,
-  /* 90°、270° 與線號相同:不反向旋轉,字沿元件方向排;下端標記基準線 73.5,離開端子圓圈 */
-  put=function(t,xx,y){y=y>0?73.5:y;var a={x:xx,y:y,'class':'tgl'};if(r0&&!side){a.transform='rotate('+(-r0)+' '+xx+' '+(y-1.75)+')';}el('text',a,g).textContent=t;};
-  if(kd==='coil'){put('線圈',x,-10);put('線圈',x,72);}else if(kd==='no'||kd==='olno'){put('NO',x,72);}else if(kd==='nc'||kd==='olnc'){put('NC',x,72);}
-  else if(kd==='co'||kd==='cot'||kd==='cy'){put('COM',x,-10);put('NC',x-9,72);put('NO',x+9,72);}}
-/* 元件名稱(含計時秒數)放在外框上方;上端有標記的(旋轉 0°)要再往上讓出 14 px,旋轉 180° 時下端標記跑到上方,讓出 14 px,避免蓋住名稱 */
+  /* 90°、270° 與線號相同:不反向旋轉,字沿元件方向排;下端標記基準線 77,離開端子圓圈 */
+  put=function(t,xx,y){y=y>0?77:y;var a={x:xx,y:y,'class':'tgl'};if(r0&&!side){a.transform='rotate('+(-r0)+' '+xx+' '+(y-1.75)+')';}el('text',a,g).textContent=t;};
+  if(kd==='coil'){put('線圈',x,-11);put('線圈',x,77);}else if(kd==='no'||kd==='olno'){put('NO',x,77);}else if(kd==='nc'||kd==='olnc'){put('NC',x,77);}
+  else if(kd==='co'||kd==='cot'||kd==='cy'){put('COM',x,-11);put('NC',x-9,77);put('NO',x+9,77);}}
+/* 元件名稱(含計時秒數)放在外框上方;上端有標記的(旋轉 0°)要再往上讓出 13 px,旋轉 180° 時下端標記跑到上方,讓出 11 px,避免蓋住名稱 */
 function hasTopTag(c){return D[c.t].some(function(q){return q[2]==='coil'||q[2]==='co'||q[2]==='cot'||q[2]==='cy';});}
 function hasBotTag(c){return D[c.t].some(function(q){return /^(coil|no|nc|olno|olnc|co|cot|cy)$/.test(q[2]);});}
-function titleExt(c){var r=(((c.r||0)%360)+360)%360;return r===0?(hasTopTag(c)?14:0):r===180?(hasBotTag(c)?14:0):0;}
-function nmY(c){var n=D[c.t].length,vt=(c.r||0)%180!==0;return Math.max(12,c.y+30-(vt?36*n:60)/2-8-titleExt(c));}
+function titleExt(c){var r=(((c.r||0)%360)+360)%360;return r===0?(hasTopTag(c)?13:0):r===180?(hasBotTag(c)?11:0):0;}
+function nmY(c){var n=D[c.t].length,vt=(c.r||0)%180!==0;return Math.max(10,c.y+30-(vt?36*n:60)/2-11-titleExt(c));}
 /* 畫布大小:端子台依用量加排、自由配置依元件範圍,畫布放在可捲動的視窗內;zm=0 為符合視窗寬度 */
 var cvw=$('cvw'),VW=900,VH=560,zm=0;
-function fit(){var w=900,h=560;
+function fit(){var w=900,h=560,dg0=!!(drag&&drag.c&&!tb);
   if(tb&&LY){var nd=0,ne=0;Object.keys(LY.used).forEach(function(k){var n=+k.slice(1)+1;if(k[0]==='D'){nd=Math.max(nd,n);}else if(k[0]==='E'){ne=Math.max(ne,n);}});
     if(ne>2){w=800+80*(ne-1)+90;}h=Math.max(h,GY.D+92*nd+30);}
   else if(!tb){C.forEach(function(c){w=Math.max(w,c.x+36*D[c.t].length+60);h=Math.max(h,c.y+110);});}
+  if(dg0){w=Math.max(w,VW);h=Math.max(h,VH);}   /* 拖曳中範圍只增不減,放開後才縮回,避免捲動位置被夾回而跳動 */
   VW=w;VH=h;cv.setAttribute('viewBox','0 0 '+w+' '+h);cv.style.width=zm?Math.round(w*zm)+'px':'100%';$('zp').textContent=Math.round((zm||(cvw.clientWidth||w)/w)*100)+'%';}
 function zoomBy(f){var b=(cvw.clientWidth||VW)/VW;zm=Math.max(.3,Math.min(3,(zm||b)*f));fit();}
 $('zi').addEventListener('click',function(){zoomBy(1.25);});$('zo').addEventListener('click',function(){zoomBy(.8);});
