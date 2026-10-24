@@ -24,7 +24,7 @@ ul{list-style:none;margin:0;padding:0}
 #warn li{padding:2px 0;color:var(--on)}#warn li.ok{color:var(--mu)}
 #msg{margin:0}
 .w{fill:none;stroke:var(--w);stroke-width:1.8}.w.hot{stroke:var(--fl);stroke-width:3}
-.wh{fill:none;stroke:transparent;stroke-width:12;pointer-events:none}
+.wh{fill:none;stroke:transparent;stroke-width:12;pointer-events:none}.w.wsel{stroke:var(--ac);stroke-width:5;stroke-dasharray:none;animation:none}
 body.wm .wh{pointer-events:stroke;cursor:pointer}@media(hover:hover){body.wm .wh:hover{stroke:rgba(216,53,42,.35)}}
 .bx{fill:var(--tm);stroke:var(--w);stroke-width:1.5;cursor:grab}body:not(.wm) .bx{cursor:default}
 .nm{font:700 12px Arial,sans-serif;fill:var(--ink);pointer-events:none}.nm.pr{fill:var(--on)}.bx.sel{stroke:var(--ac);stroke-width:3}.zn{fill:var(--bg);stroke:var(--ln);stroke-dasharray:5 4}.zt{font:12px Arial,sans-serif;fill:var(--mu)}
@@ -150,10 +150,33 @@ function routeOld(k1,k2){
   var x=(a[0]+b[0])/2;
   return M+'V'+(a[1]+da*G)+'H'+x+'V'+(b[1]+db*G)+'H'+b[0]+'V'+b[1];
 }
+var selW=null;   /* 觸控選取的導線(W 內的陣列本身):第一下點導線只選取並顯示誰接誰,再點同一條才刪除 */
+function selWi(){return selW?W.indexOf(selW):-1;}
+function tpos(k){var s=k.split(':')[2];return s==='t'?'（上端）':'（下端）';}
+function wdesc(w){return tnm(w[0])+tpos(w[0])+' ↔ '+tnm(w[1])+tpos(w[1]);}
+/* 自由配置裡同一元件上兩個端子的跳線:直線會落在方框裡,被方框蓋住看不到(手機上看起來像沒接),所以改成繞到方框外面;同側(上對上、下對下)走一個拱,上對下繞過右側 */
+function wirePath(w,a,b,wi){
+  if(!tb){var ia=w[0].split(':')[0];
+    if(ia===w[1].split(':')[0]){var c=comp(ia);
+      if(c){/* 同一元件有好幾條跳線時，依先後一條比一條離方框遠 7 px，各自分開、不疊在一起 */
+        var rk=W.slice(0,wi).filter(function(o){return o[0].split(':')[0]===ia&&o[1].split(':')[0]===ia;}).length,
+          da=dir(w[0]),db=dir(w[1]),G=12+7*rk,P1=[a[0]+da[0]*G,a[1]+da[1]*G],P4=[b[0]+db[0]*G,b[1]+db[1]*G];
+        if(da[0]===db[0]&&da[1]===db[1]){return 'M'+a+'L'+P1+'L'+P4+'L'+b;}
+        var n=D[c.t].length,vt=(c.r||0)%180!==0,hw=(vt?60:36*n)/2,hh=(vt?36*n:60)/2,cc=[c.x+18*n,c.y+30],p=[-da[1],da[0]],
+          ext=Math.abs(p[0])*hw+Math.abs(p[1])*hh+G,
+          s1=(P1[0]-cc[0])*p[0]+(P1[1]-cc[1])*p[1],s4=(P4[0]-cc[0])*p[0]+(P4[1]-cc[1])*p[1],
+          P2=[P1[0]+p[0]*(ext-s1),P1[1]+p[1]*(ext-s1)],P3=[P4[0]+p[0]*(ext-s4),P4[1]+p[1]*(ext-s4)];
+        return 'M'+a+'L'+P1+'L'+P2+'L'+P3+'L'+P4+'L'+b;}}}
+  return 'M'+a+'L'+b;
+}
 function draw(){
   CO=coarse();gW.innerHTML='';gP.innerHTML='';var gz=$('gz');gz.innerHTML='';if(tb){LY=layout();}fit();
-  W.forEach(function(w,i){var a=tp(w[0],w[2]),b=tp(w[1],w[3]),d='M'+a+'L'+b;
-    var fo=flow&&R&&(R.hr[R.f(w[0])]||R.ht[R.f(w[0])]),pa={d:d,'class':'w'+(R&&R.rn[R.f(w[0])]?' hot':'')+(fo?' fl':'')};if(fo){pa.style='animation-delay:-'+((performance.now()%700)/1000).toFixed(3)+'s';}el('path',pa,gW);/* 計時中每 100 ms 重畫一次,CSS 動畫會從頭開始而「頓」一下;用全域時鐘算出負的延遲,讓重畫後的虛線接在原來的相位上 */el('path',{d:d,'class':'wh','data-w':i},gW);});
+  var rings=[];
+  W.forEach(function(w,i){var a=tp(w[0],w[2]),b=tp(w[1],w[3]),d=wirePath(w,a,b,i),ws=w===selW;
+    var fo=flow&&R&&(R.hr[R.f(w[0])]||R.ht[R.f(w[0])]),pa={d:d,'class':'w'+(R&&R.rn[R.f(w[0])]?' hot':'')+(fo?' fl':'')+(ws?' wsel':'')};if(fo){pa.style='animation-delay:-'+((performance.now()%700)/1000).toFixed(3)+'s';}el('path',pa,gW);/* 計時中每 100 ms 重畫一次,CSS 動畫會從頭開始而「頓」一下;用全域時鐘算出負的延遲,讓重畫後的虛線接在原來的相位上 */var wa={d:d,'class':'wh','data-w':i};if(CO){wa.style='stroke-width:18px';}var wh=el('path',wa,gW);el('title',{},wh).textContent=wdesc(w);
+    if(ws){rings=[a,b];}});
+  /* 選取導線的兩端圈要等所有導線畫完再加:moveLive() 用 gW.children[2*i]、[2*i+1] 找第 i 條線,中間不能插別的元素 */
+  rings.forEach(function(q){el('circle',{cx:q[0],cy:q[1],r:13,'class':'pdr'},gW);});
   if(tb){drawTB();return;}
   C.forEach(function(c){
     var cols=D[c.t],n=cols.length,g=el('g',{transform:'translate('+c.x+' '+c.y+') rotate('+(c.r||0)+' '+18*n+' 30)','data-cg':c.id},gP),vt=(c.r||0)%180!==0;
@@ -171,7 +194,7 @@ function draw(){
       ['t','b','c'].forEach(function(s,j){var lb=c.t==='PL'&&j<2?c.id:[q[0],q[1],q[3]][j],xx=x+(q[3]!==undefined?[0,-9,9][j]:0);
         if(lb===null||lb===undefined){return;}
         var tk=c.id+':'+i+':'+s,isp=!!pend&&pend.k===tk;
-        if(CO){el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?8.5:13,'class':'th','data-k':tk,fill:'none'},g);}
+        if(CO){el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?8.5:15,'class':'th','data-k':tk,fill:'none'},g);}
         el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?5:6,'class':'tr'+(isp?' pd':''),'data-k':tk},g);
         if(isp){el('circle',{cx:xx,cy:j?60:0,r:13,'class':'pdr'},g);}
         /* 線號:0°、180° 反向旋轉保持正面朝上(以字的中心為軸,翻轉後仍在原處);90°、270° 不反向旋轉,字沿元件方向排,
@@ -190,7 +213,7 @@ function render(){
   $('chips').innerHTML=h||'<li>尚未加入線圈或燈</li>';
   $('wh').textContent='接線檢查'+(w.length?'（'+w.length+'）':'');
   $('warn').innerHTML=w.map(function(x){return '<li>'+x+'</li>';}).join('')||'<li class="ok">沒有發現接線問題</li>';
-  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
+  $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':selWi()>=0&&!run?'已選導線：'+wdesc(selW)+'。再點一次這條線刪除，點空白處取消。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
     !run?'接線模式：已自動斷電。從端子拖到端子接線，或先點一個端子再點另一個端子；切到執行模式會自動送電。OL 的 95 與 97 要不要跳線由你決定。':sh?'R、T 經接點直接相連（短路），已自動斷電。找出把電源兩端接在一起的那條線，修正後按「送電」。':
     !st.pw?'已斷電，所有元件都不會動作。':st.tr?'OL 已跳脫：95-96 斷開，97-98 接通。':
     run?'執行模式：按住圖上的 ON、OFF 按鈕操作。':'接線模式：從端子拖到端子接線；OL 的 95 與 97 要不要跳線由你決定。';
@@ -207,7 +230,7 @@ function selLive(id){Array.prototype.forEach.call(gP.querySelectorAll('.bx.sel')
   var r=gP.querySelector('.bx[data-c="'+id+'"]');if(r){r.classList.add('sel');}selUI();}
 function moveLive(c){var n=D[c.t].length,g=gP.querySelector('[data-cg="'+c.id+'"]'),t=gP.querySelector('[data-nm="'+c.id+'"]');if(!g||!t){return false;}
   g.setAttribute('transform','translate('+c.x+' '+c.y+') rotate('+(c.r||0)+' '+18*n+' 30)');t.setAttribute('x',c.x+18*n);t.setAttribute('y',nmY(c));
-  var ps=gW.children;W.forEach(function(w,i){var a=tp(w[0],w[2]),b=tp(w[1],w[3]);if(!a||!b||!ps[2*i+1]){return;}var d='M'+a+'L'+b;ps[2*i].setAttribute('d',d);ps[2*i+1].setAttribute('d',d);});
+  var ps=gW.children;W.forEach(function(w,i){var a=tp(w[0],w[2]),b=tp(w[1],w[3]);if(!a||!b||!ps[2*i+1]){return;}var d=wirePath(w,a,b,i);ps[2*i].setAttribute('d',d);ps[2*i+1].setAttribute('d',d);});
   fit();return true;}
 function settle(){
   clearTimeout(tmr);if(!run&&st.pw){st.pw=false;sh=false;}if(paused){R=solve();render();return;}var r=solve(),ch=false;
@@ -224,13 +247,15 @@ function dg(o,e){o.id=e.pointerId;o.x0=e.clientX;o.y0=e.clientY;o.touch=e.pointe
 function near(d,e){return Math.hypot(e.clientX-d.x0,e.clientY-d.y0)<(d.touch?24:8);}
 function tryConn(k1,k2,r1,r2){
   if(k1===k2){return;}
-  if(W.some(function(w){return (w[0]===k1&&w[1]===k2)||(w[1]===k1&&w[0]===k2);})){toast('這兩個端子已經接過線了。');return;}
+  var dup=W.filter(function(w){return (w[0]===k1&&w[1]===k2)||(w[1]===k1&&w[0]===k2);})[0];
+  if(dup){selW=dup;toast('這兩個端子已經接過線了，已幫你選取那條線（藍色粗線）；再點它可刪除。');return;}
   var bad=deg(k1)>=2?k1:deg(k2)>=2?k2:null;
   if(bad){lm='無法接線：'+tnm(bad)+' 已接 2 條線，二次側每個端子最多接 2 條。需要更多分支時，請從另一個端子接力。';toast(lm);}
   else{mark();W.push([k1,k2,r1,r2]);}
 }
 /* 點一下再點一下:第一下記下端子,第二下接線;點同一個端子取消 */
 function tapTerm(k,r){
+  selW=null;
   if(!pend){pend={k:k,r:r};toast('已選 '+tnm(k)+'，請再點另一個端子完成接線（點同一個取消）。');return;}
   var a=pend;pend=null;
   if(a.k===k){toast('已取消選取。');return;}
@@ -241,9 +266,10 @@ cv.addEventListener('pointerdown',function(e){
   if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();drag=dg({press:id},e);sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
   if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){drag=dg({pri:true},e);return;}drag=dg({wire:k,row:rr},e);if(!drag.touch){e.preventDefault();}return;}
   if(w!==null){if(e.pointerType==='touch'){drag=dg({wdel:+w},e);return;}mark();W.splice(+w,1);settle();return;}
-  if(c){var now=performance.now();if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'){last={};delComp(id);return;}
+  if(c){var now=performance.now();/* 觸控時第二下要落在第一下旁 14 px 內才算雙擊刪除:同一元件上連點兩個相鄰端子(沒點中端子而落在方框上)不會被當成雙擊而誤刪元件 */
+    if(last.id===id&&now-last.t<400&&id!=='R'&&id!=='T'&&(e.pointerType!=='touch'||Math.hypot(e.clientX-last.x,e.clientY-last.y)<14)){last={};delComp(id);return;}
     if(!tb&&!run&&!zm){zm=(cvw.clientWidth||VW)/VW;fit();P=pt(e);}   /* 符合視窗模式下,按住元件就鎖住目前比例:畫布變大時用捲動看,圖不再縮放 */
-    sel=id;last={id:id,t:now};mark();drag=dg({c:c,dx:P[0]-c.x,dy:P[1]-c.y},e);
+    sel=id;last={id:id,t:now,x:e.clientX,y:e.clientY};mark();drag=dg({c:c,dx:P[0]-c.x,dy:P[1]-c.y},e);
     if(tb){render();}else{selLive(id);try{t.setPointerCapture(e.pointerId);}catch(x){}}}
   else{drag=dg({blank:true},e);}
 });
@@ -261,8 +287,8 @@ function endDrag(e,cancel){
       if(k2&&k2!==d.wire&&!(tb&&o.getAttribute('data-r')===prim(k2))){pend=null;tryConn(d.wire,k2,d.row,o.getAttribute('data-r'));}}
     settle();}
   else if(d.pri&&!cancel&&near(d,e)){toast('一次側已配好、鎖定，請點旁邊內側的二次側端子。');settle();}
-  else if(d.wdel!==undefined&&!cancel&&near(d,e)){mark();W.splice(d.wdel,1);toast('已刪除導線，可按「復原上一步驟」。');settle();}
-  else if(d.blank){if(!cancel&&near(d,e)){pend=null;sel=null;}settle();}
+  else if(d.wdel!==undefined&&!cancel&&near(d,e)){var tw=W[d.wdel];if(tw&&tw===selW){mark();W.splice(W.indexOf(tw),1);toast('已刪除導線，可按「復原上一步驟」。');}else if(tw){pend=null;selW=tw;toast('已選導線：'+wdesc(tw)+'。再點一次這條線刪除，點空白處取消。');}settle();}
+  else if(d.blank){if(!cancel&&near(d,e)){pend=null;sel=null;selW=null;}settle();}
   else{settle();}
 }
 cv.addEventListener('touchstart',function(e){var t=e.target;if(t&&t.closest&&t.closest('.bx,.hh')&&e.cancelable){e.preventDefault();}},{passive:false});
@@ -282,7 +308,7 @@ $('bt').addEventListener('click',function(){st.tr=!st.tr;sfxSel();settle();});
 /* 復原上一步驟:每次改動元件或導線前存一份快照(元件、導線、編號計數),最多 100 步;不包含送電、按鈕、開關等執行狀態 */
 var hist=[];
 function snap(){return JSON.stringify({C:C,W:W,cnt:cnt});}
-function mark(){lm='';hist.push(snap());if(hist.length>100){hist.shift();}}
+function mark(){lm='';selW=null;hist.push(snap());if(hist.length>100){hist.shift();}}
 function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;pend=null;settle();}
 $('bu').addEventListener('click',undo);
 /* 旋轉:只在自由配置檢視、接線模式、已選取元件時可用;每次順時針 90°,可用「復原上一步驟」退回 */
@@ -370,11 +396,13 @@ function fit(){var w=900,h=560,dg0=!!(drag&&drag.c&&!tb);
   if(tb&&LY){var nd=0,ne=0;Object.keys(LY.used).forEach(function(k){var n=+k.slice(1)+1;if(k[0]==='D'){nd=Math.max(nd,n);}else if(k[0]==='E'){ne=Math.max(ne,n);}});
     if(ne>2){w=800+80*(ne-1)+90;}h=Math.max(h,GY.D+92*nd+30);}
   else if(!tb){C.forEach(function(c){w=Math.max(w,c.x+36*D[c.t].length+60);h=Math.max(h,c.y+110);});}
-  if(dg0){w=Math.max(w,VW);h=Math.max(h,VH);}   /* 拖曳中範圍只增不減,放開後才縮回,避免捲動位置被夾回而跳動 */
+  if(dg0){w=Math.max(w,VW);h=Math.max(h,VH);}
+  /* 手機接線模式的最小比例 100%:縮到「符合視窗」(約 40%)時,同一元件的兩個端子只差約 14 px、點選半徑約 5 px,手指點不準(同一顆元件上的兩端子接不起來);執行模式不限制 */
+  if(coarse()&&!run&&(zm||(cvw.clientWidth||w)/w)<1){zm=1;}   /* 拖曳中範圍只增不減,放開後才縮回,避免捲動位置被夾回而跳動 */
   VW=w;VH=h;cv.setAttribute('viewBox','0 0 '+w+' '+h);cv.style.width=zm?Math.round(w*zm)+'px':'100%';$('zp').textContent=Math.round((zm||(cvw.clientWidth||w)/w)*100)+'%';}
-function zoomBy(f){var b=(cvw.clientWidth||VW)/VW;zm=Math.max(.3,Math.min(3,(zm||b)*f));fit();}
+function zoomBy(f){var b=(cvw.clientWidth||VW)/VW,mn=coarse()&&!run?1:.3,nz=(zm||b)*f;if(nz<mn){nz=mn;if(f<1){toast('手機的接線模式最小 100%，端子才點得準。要看全圖請切到執行模式。');}}zm=Math.max(mn,Math.min(3,nz));fit();}
 $('zi').addEventListener('click',function(){zoomBy(1.25);});$('zo').addEventListener('click',function(){zoomBy(.8);});
-$('zp').addEventListener('click',function(){zm=0;fit();cvw.scrollTo(0,0);});window.addEventListener('resize',fit);
+$('zp').addEventListener('click',function(){zm=0;fit();cvw.scrollTo(0,0);if(coarse()&&!run&&zm){toast('手機的接線模式最小 100%，端子才點得準。要看全圖請切到執行模式。');}});window.addEventListener('resize',fit);
 function edge(e){var r=cvw.getBoundingClientRect(),th=drag&&drag.touch,m=th?28:36,v=th?8:18,k=function(d){return Math.max(.2,Math.min(1,(m-d)/m));};
   var dr=r.right-e.clientX,dl=e.clientX-r.left,db=r.bottom-e.clientY,dt=e.clientY-r.top;
   if(dr<m){cvw.scrollLeft+=v*k(dr);}else if(dl<m){cvw.scrollLeft-=v*k(dl);}
@@ -396,7 +424,7 @@ function drawTB(){
     else{el('rect',{x:o.u[0]-11,y:o.u[1]-12,width:22,height:44,rx:2,'class':'tbc'},gz);el('text',{x:o.u[0],y:o.u[1]-14,'class':'tbl'},gz).textContent=o.lb;}
     if(o.z!=='E'){var tg=tagFor(k);if(tg){el('text',{x:o.u[0],y:GEO(o.z,o.s).y0+84,'class':'tgl'},gP).textContent=tg;}}
     ['u','l'].forEach(function(r){var isp=!!pend&&pend.k===k&&pend.r===r;
-      if(CO){el('circle',{cx:o[r][0],cy:o[r][1],r:9.5,'class':'th','data-k':k,'data-r':r,fill:'none'},gP);}
+      if(CO){el('circle',{cx:o[r][0],cy:o[r][1],r:10.5,'class':'th','data-k':k,'data-r':r,fill:'none'},gP);}
       el('circle',{cx:o[r][0],cy:o[r][1],r:7,'class':'tr '+(r===prim(k)?'t1':'t2')+(isp?' pd':''),'data-k':k,'data-r':r},gP);
       if(isp){el('circle',{cx:o[r][0],cy:o[r][1],r:13,'class':'pdr'},gP);}});});
   LY.hd.forEach(function(h){var c=h.c,g=GEO(h.z,h.s),v=h.z==='E',k0=D[c.t][0][2],
