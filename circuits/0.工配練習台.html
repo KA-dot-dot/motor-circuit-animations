@@ -14,7 +14,7 @@ button{font:inherit;padding:6px 12px;min-height:36px;border:1px solid var(--ln);
 button:hover:not(:disabled){border-color:var(--ac)}button[aria-pressed="true"]{background:var(--ac);color:var(--bg);border-color:var(--ac)}button:disabled{opacity:.45}[hidden]{display:none!important}#ls{display:flex;align-items:center;gap:6px}#sT{font:inherit;width:4.6em;padding:5px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--p);color:var(--ink)}#sT:disabled{opacity:.45}
 .g{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}aside{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}aside .card{margin:0}
 @media(max-width:860px){.g{grid-template-columns:minmax(0,1fr)}}
-#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#cv .bx{touch-action:none}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
+#cvw{overflow:auto;max-height:74vh;background:var(--p);border:1px solid var(--ln);border-radius:10px;-webkit-overflow-scrolling:touch}#cv{display:block;height:auto;max-width:none;touch-action:pan-x pan-y pinch-zoom;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}#cv .bx,#cv .hh{touch-action:none}.hh{fill:transparent;stroke:none;pointer-events:all}.tgl{font:8px Arial,'Noto Sans TC',sans-serif;fill:var(--mu);text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:var(--p);stroke-width:2.5px}.gi>span,.go>span,.ge>span{cursor:pointer;user-select:none}.gi>span::before,.go>span::before,.ge>span::before{content:'▾ '}.bar.clp>span::before{content:'▸ '}.bar.clp>button{display:none}#tst{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:50%;transform:translateX(-50%);background:var(--on);color:#fff;padding:6px 14px;border-radius:10px;z-index:6;max-width:90vw}#tst[hidden]{display:none}.cvh{position:relative}#zc{display:flex;gap:4px;margin-left:auto}#zc button{min-width:36px}body.wm .xr{display:none!important}body:not(.wm) .xw{display:none!important}
 .card{background:var(--p);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:12px}
 h2{font-size:.85rem;margin:0 0 8px;color:var(--mu);font-weight:500}
 ul{list-style:none;margin:0;padding:0}
@@ -55,12 +55,12 @@ body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
 </style></head><body class="wm">
 <div id="pz" hidden>已暫停</div><div id="tst" hidden></div><main class="wrap">
 <h1>工配練習台（控制電路）</h1>
-<p class="sub">接線模式：從端子拖到端子接線，或先點一個端子、再點另一個端子（手機請用點的）；點導線刪除，拖元件移動，雙擊元件刪除。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
+<p class="sub">接線模式：從端子拖到端子接線，或先點一個端子、再點另一個端子（手機請用點的）；點導線刪除，拖元件移動，雙擊元件刪除；自由配置檢視可選取元件後按「旋轉 90°」。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
 <div class="app"><div class="side" id="sd"><div class="bar gi" id="pi"><span>輸入元件</span></div><div class="bar go" id="po"><span>輸出元件</span></div><div class="bar ge" id="pe"><span>範例</span></div>
 <aside>
 <section class="card fold" id="fs"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
 <section class="card fold" id="fw"><h2 id="wh">接線檢查</h2><ul id="warn"></ul></section>
-</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／FR／Y-Δ 設定秒數（FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
+</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="br" type="button" hidden title="只在自由配置檢視、已選取元件時可用">旋轉 90°</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／斷電延遲電驛／FR／Y-Δ 設定秒數（斷電延遲為斷電後維持時間，FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
 <div class="g"><div class="cvh"><div id="cvw"><svg id="cv" viewBox="0 0 900 560" role="img" aria-label="接線畫布"><g id="gz"></g><g id="gw"></g><g id="gp"></g><g id="gt"></g></svg></div></div></div></div></div>
 </main>
 <script>
@@ -94,7 +94,8 @@ function route2(k1,k2){
   var a=tp(k1),b=tp(k2),u=dir(k1),v=dir(k2),G=16,a1=[a[0]+u[0]*G,a[1]+u[1]*G],b1=[b[0]+v[0]*G,b[1]+v[1]*G],m=u[0]?[a1[0],b1[1]]:[b1[0],a1[1]];
   return 'M'+a+'L'+a1+'L'+m+'L'+b1+'L'+b;
 }
-function sp(id){return [0,2,0,1][st.ss[id]||0];}/* COS 位置:手動(2)、OFF(0)、自動(1);點一下依序 OFF→手動→OFF→自動 */
+/* COS 位置:st.ss 步進 0、1、2、3 依序是 OFF、手動、OFF、自動(手動轉自動必須經過中間 OFF);sp() 回傳 0=OFF、1=自動、2=手動 */
+function sp(id){return [0,2,0,1][st.ss[id]||0];}
 function cd(c,k){return k==='bno'?!!st.p[c.id]:k==='bnc'?!st.p[c.id]:k==='no'?!!st.c[c.id]:k==='nc'?!st.c[c.id]:k==='olnc'?!st.tr:k==='olno'?st.tr:k==='px'?!!st.px[c.id]:k==='cm'?sp(c.id)===2:k==='ca'?sp(c.id)===1:k==='fuse';}
 function solve(){
   var p={};function f(a){if(p[a]===undefined){p[a]=a;}while(p[a]!==a){p[a]=p[p[a]];a=p[a];}return a;}
@@ -189,12 +190,12 @@ function render(){
     run?'執行模式：按住圖上的 ON、OFF 按鈕操作。':'接線模式：從端子拖到端子接線；OL 的 95 與 97 要不要跳線由你決定。';
   $('bp').setAttribute('aria-pressed',st.pw?'true':'false');$('bp').textContent=st.pw?'送電中':'已斷電';
   $('bt').textContent=st.tr?'OL 復歸':'模擬 OL 跳脫';$('bp').disabled=paused||!run;$('bt').disabled=paused||!run;
-  var sc=sel&&comp(sel),isT=!!sc&&(sc.t==='TM'||sc.t==='FR'||sc.t==='TF'||sc.t==='YD');$('ls').hidden=!isT;if(isT){if(document.activeElement!==si){si.value=sc.s;}si.disabled=paused||!!st.c[sc.id]||(sc.t==='TF'&&!!st.d[sc.id]);}
+  var sc=sel&&comp(sel),isT=!!sc&&(sc.t==='TM'||sc.t==='FR'||sc.t==='TF'||sc.t==='YD');$('ls').hidden=!isT;$('br').hidden=tb||!sc;if(isT){si.min=sc.t==='FR'?0.5:1;if(document.activeElement!==si){si.value=sc.s;}si.disabled=paused||!!st.c[sc.id]||(sc.t==='TF'&&!!st.d[sc.id]);}
 }
 function settle(){
   clearTimeout(tmr);if(!run&&st.pw){st.pw=false;sh=false;}if(paused){R=solve();render();return;}var r=solve(),ch=false;
   if(r.short){st.pw=false;sh=true;r=solve();noise(.15,.8,1200);tone(200,.25,'sawtooth',.3,0,60);toast('R、T 經接點直接相連（短路），已自動斷電。修正後按「送電」。');}
-  var nn=0;C.forEach(function(c){if(D[c.t][0][2]==='coil'){var v=!!r.on[c.id];if(v!==!!st.c[c.id]){st.c[c.id]=v;ch=true;sfx(c,v,(parseInt(c.id.replace(/\D/g,''),10)||1)-1,(nn++)*.012);}if(c.t==='TF'){if(v){st.t[c.id]=0;if(!st.d[c.id]){st.d[c.id]=true;ch=true;}}}else if(!v){st.t[c.id]=0;if(st.d[c.id]){st.d[c.id]=false;ch=true;}}}});
+  var nn=0;C.forEach(function(c){if(D[c.t][0][2]==='coil'){var v=!!r.on[c.id];if(v!==!!st.c[c.id]){st.c[c.id]=v;ch=true;sfx(c,v,(parseInt(c.id.replace(/\D/g,''),10)||1)-1,(nn++)*.012);}if(c.t==='TF'){/* 斷電延遲:斷電時不在這裡清除接點,由 100 ms 計時器累加到設定秒數後才復原 */if(v){st.t[c.id]=0;if(!st.d[c.id]){st.d[c.id]=true;ch=true;}}}else{if(!v){st.t[c.id]=0;if(st.d[c.id]){st.d[c.id]=false;ch=true;}}}}});
   if(ch){r=solve();}
   R=r;render();
   if(ch){tmr=setTimeout(settle,170);}
@@ -249,11 +250,11 @@ window.addEventListener('pointercancel',function(e){endDrag(e,true);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pend){pend=null;settle();}});
 var last={};
 function delComp(id){mark();pend=null;
-  C=C.filter(function(c){return c.id!==id;});W=W.filter(function(w){return w[0].split(':')[0]!==id&&w[1].split(':')[0]!==id;});delete st.c[id];delete st.p[id];if(sel===id){sel=null;}settle();
+  C=C.filter(function(c){return c.id!==id;});W=W.filter(function(w){return w[0].split(':')[0]!==id&&w[1].split(':')[0]!==id;});delete st.c[id];delete st.p[id];delete st.t[id];delete st.d[id];delete st.ss[id];delete st.px[id];if(sel===id){sel=null;}settle();
 }
 Object.keys(NAMES).forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=NAMES[t];
   b.addEventListener('click',function(){var sl=slot(t);mark();pend=null;sel=add(t,sl[0],sl[1]);sfxSel();settle();});$(CAT[t]==='i'?'pi':'po').appendChild(b);});
-$('bm').addEventListener('click',function(){pend=null;run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
+$('bm').addEventListener('click',function(){pend=null;lm='';run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
 $('bp').addEventListener('click',function(){st.pw=!st.pw;if(st.pw){sh=false;}sfxSel();settle();});
 $('bt').addEventListener('click',function(){st.tr=!st.tr;sfxSel();settle();});
 /* 復原上一步驟:每次改動元件或導線前存一份快照(元件、導線、編號計數),最多 100 步;不包含送電、按鈕、開關等執行狀態 */
@@ -262,6 +263,8 @@ function snap(){return JSON.stringify({C:C,W:W,cnt:cnt});}
 function mark(){lm='';hist.push(snap());if(hist.length>100){hist.shift();}}
 function undo(){if(!hist.length||run){return;}var s=JSON.parse(hist.pop());C=s.C;W=s.W;cnt=s.cnt;sel=null;pend=null;settle();}
 $('bu').addEventListener('click',undo);
+/* 旋轉:只在自由配置檢視、接線模式、已選取元件時可用;每次順時針 90°,可用「復原上一步驟」退回 */
+$('br').addEventListener('click',function(){var c=sel&&comp(sel);if(!c||tb||run){return;}mark();pend=null;c.r=((c.r||0)+90)%360;clampC(c);sfxSel();settle();});
 document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!run){e.preventDefault();undo();}});
 $('bc').addEventListener('click',function(){if(paused){setPaused(false);}mark();pend=null;C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
 
@@ -364,6 +367,8 @@ function drawTB(){
     on=((k0==='coil'||k0==='load')&&R&&R.on[c.id])||st.p[c.id]||(c.t==='COS'&&sp(c.id)>0)||(c.t==='PX'&&st.px[c.id]),
     x=v?g.x0:30+h.c0*24,y=v?40+h.c0*30:g.y0,w=v?14:h.n*24-2,hh=v?h.n*30-2:14,cx=x+w/2,cy=y+hh/2;
     el('rect',{x:x,y:y,width:w,height:hh,rx:3,'class':'bx'+(CAT[c.t]?' c'+CAT[c.t]:'')+(on?' on':'')+(c.t==='OL'&&st.tr?' trp':'')+(sel===c.id?' sel':''),'data-c':c.id},gP);
+    /* 執行模式:標題格太小(約 14 單位),在它外側加一塊看不見的放大點擊區(上、下端子台往上擴,右側端子台往左擴;不蓋到螺絲) */
+    if(run){el('rect',v?{x:x-14,y:y,width:w+16,height:hh,'class':'hh','data-c':c.id}:{x:x,y:y-10,width:w,height:hh+12,'class':'hh','data-c':c.id},gP);}
     var t=el('text',{x:cx,y:cy+4,'class':'nm','text-anchor':'middle',style:'font-size:10px'},gP);if(v){t.setAttribute('transform','rotate(-90 '+cx+' '+cy+')');}t.textContent=c.id+lbl(c);});
 }
 $('bv').addEventListener('click',function(){pend=null;tb=!tb;this.textContent=tb?'檢視：端子台':'檢視：自由配置';this.setAttribute('aria-pressed',tb?'true':'false');settle();});
@@ -397,7 +402,7 @@ function loadSH(){
   ].forEach(function(w){W.push(w);});
   settle();
 }
-function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();});$('pe').appendChild(b);}
+function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();toast('範例已載入（目前是接線模式、斷電）。按「模式」切到執行模式即可送電操作。');});$('pe').appendChild(b);}
 exBtn('載入範例：啟動停止自保持',loadSH);exBtn('載入範例：Y-Δ',loadYD);
 ['fs','fw'].forEach(function(id){var c=$(id),h=c.querySelector('h2');h.tabIndex=0;h.setAttribute('role','button');h.setAttribute('aria-expanded','true');
   var tg=function(){var f=c.classList.toggle('clp');h.setAttribute('aria-expanded',f?'false':'true');};
