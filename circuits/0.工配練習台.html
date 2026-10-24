@@ -46,6 +46,10 @@ body.wm .wh{pointer-events:stroke;cursor:pointer}@media(hover:hover){body.wm .wh
 .side .bar>button{text-align:left}.side aside{grid-template-columns:minmax(0,1fr)}
 #cvw{max-height:calc(100vh - 136px)}}
 body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
+/* 窄螢幕:元件庫在畫布上方,目前狀態與接線檢查移到畫布下方(.side 改成 display:contents,用 order 排序) */
+@media(max-width:899px){.app{display:flex;flex-direction:column}.side{display:contents}.mainc{order:2;min-width:0}#pi,#po,#pe{order:1}.side aside{order:3;margin-top:4px}}
+/* 目前狀態、接線檢查可收合:點標題(或聚焦後按 Enter) */
+.fold>h2{cursor:pointer;user-select:none;-webkit-user-select:none;padding:6px 0;margin:0 0 2px}.fold>h2::before{content:'▾ '}.fold.clp>h2::before{content:'▸ '}.fold.clp>h2{margin-bottom:0}.fold.clp>*:not(h2){display:none!important}.fold>h2:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 /* 點一下再點一下接線:th 是看不見的放大點擊區(fill 固定 none,不隨狀態改 fill),pd 是已選端子,pdr 是外圈 */
 .th{fill:none;stroke:none;pointer-events:all}body:not(.wm) .th{pointer-events:none}.tr.pd{fill:var(--ac);stroke:var(--ac);stroke-width:3}.pdr{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
 </style></head><body class="wm">
@@ -54,8 +58,8 @@ body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
 <p class="sub">接線模式：從端子拖到端子接線，或先點一個端子、再點另一個端子（手機請用點的）；點導線刪除，拖元件移動，雙擊元件刪除。執行模式：按圖上的按鈕。橘色導線表示接到 R 側有電。</p>
 <div class="app"><div class="side" id="sd"><div class="bar gi" id="pi"><span>輸入元件</span></div><div class="bar go" id="po"><span>輸出元件</span></div><div class="bar ge" id="pe"><span>範例</span></div>
 <aside>
-<section class="card"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
-<section class="card"><h2>接線檢查</h2><ul id="warn"></ul></section>
+<section class="card fold" id="fs"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
+<section class="card fold" id="fw"><h2 id="wh">接線檢查</h2><ul id="warn"></ul></section>
 </aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／FR／Y-Δ 設定秒數（FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
 <div class="g"><div class="cvh"><div id="cvw"><svg id="cv" viewBox="0 0 900 560" role="img" aria-label="接線畫布"><g id="gz"></g><g id="gw"></g><g id="gp"></g><g id="gt"></g></svg></div></div></div></div></div>
 </main>
@@ -177,6 +181,7 @@ function render(){
   C.forEach(function(c){var k=D[c.t][0][2];if(k==='coil'||k==='load'){var v=R&&R.on[c.id];
     h+='<li class="'+(v?'on':'')+'"><i></i>'+c.id+'<b>'+(k==='coil'?(v?'通電':'斷電'):(c.t==='BZ'?(v?'響':'靜'):(v?'亮':'熄')))+'</b></li>';}});
   $('chips').innerHTML=h||'<li>尚未加入線圈或燈</li>';
+  $('wh').textContent='接線檢查'+(w.length?'（'+w.length+'）':'');
   $('warn').innerHTML=w.map(function(x){return '<li>'+x+'</li>';}).join('')||'<li class="ok">沒有發現接線問題</li>';
   $('msg').textContent=paused?'已暫停：計時與逐級動作凍結，按空白鍵或「繼續」恢復。':pend&&!run?'已選 '+tnm(pend.k)+'：請再點另一個'+(tb?'二次側':'')+'端子完成接線（點同一個端子、點空白處或按 Esc 取消）。可以先捲動或縮放畫布再點。':
     !run?'接線模式：已自動斷電。從端子拖到端子接線，或先點一個端子再點另一個端子；切到執行模式會自動送電。OL 的 95 與 97 要不要跳線由你決定。':sh?'R、T 經接點直接相連（短路），已自動斷電。找出把電源兩端接在一起的那條線，修正後按「送電」。':
@@ -188,7 +193,7 @@ function render(){
 }
 function settle(){
   clearTimeout(tmr);if(!run&&st.pw){st.pw=false;sh=false;}if(paused){R=solve();render();return;}var r=solve(),ch=false;
-  if(r.short){st.pw=false;sh=true;r=solve();noise(.15,.8,1200);tone(200,.25,'sawtooth',.3,0,60);}
+  if(r.short){st.pw=false;sh=true;r=solve();noise(.15,.8,1200);tone(200,.25,'sawtooth',.3,0,60);toast('R、T 經接點直接相連（短路），已自動斷電。修正後按「送電」。');}
   var nn=0;C.forEach(function(c){if(D[c.t][0][2]==='coil'){var v=!!r.on[c.id];if(v!==!!st.c[c.id]){st.c[c.id]=v;ch=true;sfx(c,v,(parseInt(c.id.replace(/\D/g,''),10)||1)-1,(nn++)*.012);}if(c.t==='TF'){if(v){st.t[c.id]=0;if(!st.d[c.id]){st.d[c.id]=true;ch=true;}}}else if(!v){st.t[c.id]=0;if(st.d[c.id]){st.d[c.id]=false;ch=true;}}}});
   if(ch){r=solve();}
   R=r;render();
@@ -394,6 +399,9 @@ function loadSH(){
 }
 function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();});$('pe').appendChild(b);}
 exBtn('載入範例：啟動停止自保持',loadSH);exBtn('載入範例：Y-Δ',loadYD);
+['fs','fw'].forEach(function(id){var c=$(id),h=c.querySelector('h2');h.tabIndex=0;h.setAttribute('role','button');h.setAttribute('aria-expanded','true');
+  var tg=function(){var f=c.classList.toggle('clp');h.setAttribute('aria-expanded',f?'false':'true');};
+  h.addEventListener('click',tg);h.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tg();}});});
 ['pi','po','pe'].forEach(function(id){var b=$(id),sp=b.firstChild;sp.tabIndex=0;sp.setAttribute('role','button');sp.setAttribute('aria-expanded','true');
   var tg=function(){var c=b.classList.toggle('clp');sp.setAttribute('aria-expanded',c?'false':'true');};
   sp.addEventListener('click',tg);sp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();tg();}});});
