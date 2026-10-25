@@ -310,6 +310,70 @@ body.qzmode .qz-fig{overflow-x:auto}
   #qzLayout.figscroll .qz-fig #fig{max-height:none}
 }
 </style>
+<style id="stCss">
+/* 測試步驟模式的左右兩欄版面(2026-10-26 試做):左欄=測試步驟卡+操作區,右欄=控制電路,下排=主電路與目前狀態 */
+#stLayout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start;min-width:0;max-width:100%}
+#stLayout .card{min-width:0;max-width:100%;box-sizing:border-box;margin:0;grid-area:auto}
+#stLeft,#stRight,#stLow{min-width:0}
+#stLeft{display:flex;flex-direction:column;gap:8px}
+#stRight{display:flex;flex-direction:column;gap:12px}
+#stLow{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
+#stLow>:only-child{grid-column:1/-1}
+.st-hide{display:none!important}
+#stRight>.st-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+#stRight>.st-tabs .btn{min-height:30px;padding:2px 10px;font-size:.84rem}
+/* 圖卡:標題改放在縮放列;展開時隱藏原標題,收合時才顯示(collapseCss 的 !important 規則) */
+body.stlay .st-card>h2{display:none}
+.stZoom{display:flex;align-items:center;gap:6px;margin:0 30px 6px 0;min-height:30px}
+.stZoom .stT{font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-right:auto}
+.stZoom .stHint{font-size:.78rem;color:var(--muted)}
+.stZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2}
+.stZoom small{font-size:.75rem;opacity:.85}
+.stView{overflow:auto;scrollbar-width:none;-ms-overflow-style:none;max-width:100%;touch-action:pan-x pan-y pinch-zoom}
+.stView::-webkit-scrollbar{display:none}
+.stView.canpan{cursor:grab}
+.stView.panning,.stView.panning *{cursor:grabbing!important;-webkit-user-select:none;user-select:none}
+body.stlay .status .chips{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:5px;margin-bottom:8px}
+body.stlay .status .chips li{padding:3px 7px;gap:6px;font-size:.8rem}
+/* 左欄壓縮:測試步驟卡與操作區 */
+body.stlay #tsCard{margin:0;padding:10px 12px}
+body.stlay #tsCard>h2{margin-bottom:4px}
+body.stlay .tsBar{gap:8px}
+body.stlay .tsB{width:38px;font-size:1rem}
+body.stlay .tsRow{font-size:.88rem;line-height:1.45}
+body.stlay .tsCtl{margin-top:6px;gap:5px 10px}
+body.stlay .tsCtl .btn{min-height:30px;padding:2px 10px;font-size:.84rem}
+body.stlay .tsCtl .switch{font-size:.82rem}
+body.stlay .tsDots{margin-top:6px;gap:4px}
+body.stlay .tsDots button{height:26px;min-width:26px;font-size:.76rem}
+body.stlay .st-ctrl{padding:8px 40px 8px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px}
+body.stlay .st-ctrl .row,body.stlay .st-ctrl .tabs{display:contents}
+body.stlay .st-ctrl .btn{min-height:30px;padding:2px 9px;font-size:.84rem}
+body.stlay .st-ctrl input[type=number]{padding:2px 6px;font-size:.85rem;width:4em;height:28px;box-sizing:border-box}
+body.stlay .st-ctrl select{padding:2px 6px;font-size:.85rem;width:auto}
+body.stlay .st-ctrl .switch,body.stlay .st-ctrl label{font-size:.85rem;margin:0}
+body.stlay .st-ctrl .row label{gap:4px}
+body.stlay .st-ctrl .tm{margin:0}
+body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
+@media (min-width:960px){
+  #stLayout{grid-template-columns:minmax(360px,40%) minmax(0,1fr)}
+  #stLeft{position:sticky;top:8px}
+}
+@media (min-width:1180px){
+  #stLow{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+}
+@media (max-width:959px){
+  #stLeft,#stRight,#stLow{display:contents}
+  #stLayout{display:flex;flex-direction:column;align-items:stretch}
+  #stLayout .st-fig{order:1;position:sticky;top:0;z-index:4}
+  #stLayout .st-tabs{order:2}
+  #stLayout #tsCard{order:3}
+  #stLayout .st-ctrl{order:4}
+  #stLayout .st-main{order:5}
+  #stLayout .st-rest{order:6}
+}
+</style>
+
 </head><body>
 <div id="pausePill" hidden>已暫停</div>
 <main class="wrap">
@@ -750,6 +814,7 @@ document.addEventListener('keydown',function(e){if(CFG.keys.indexOf((e.key||'').
 setInterval(function(){if(curKey()!==key){stopRun();stopAll();runMsg='';build();}else{apply();}showRun();},400);
 window.__tsRun=function(sc){quiet=true;stopRun();stopAll();runId++;var id=runId;return exec(sc||'',id).catch(function(x){fail(x);return false;});};
 window.__tsStop=function(){stopRun();stopAll();};
+window.__ts={steps:function(){return list;}};
 build();updAll();
 new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFilter:['class']});
 })();
@@ -1238,4 +1303,145 @@ function leaveQz(){
 window.__qz={faulted:function(){return !!active;},enter:enterQz,leave:leaveQz,Q:Q,PTS:PTS,ZONE:ZONE,hits:hits,setFault:setFault,faultOf:faultOf,show:show,measure:function(n){var p=(Q[cur].pts||PTS).filter(function(x){return x[0]===n;})[0];return netOf(S.solve())[p[1]]?220:0;}};
 })();
 </script>
+<script id="stJs">
+/* 測試步驟模式的左右兩欄版面(試做)。把原本的卡片「搬進」版面,離開(切到選擇題)時搬回原位;
+   控制電路與主電路各有「－ 預設 ＋」;放大後在圖上空白處拖曳平移(不用捲軸)。 */
+(function(){'use strict';
+var $=function(i){return document.getElementById(i);};
+var main=document.querySelector('main');if(!main||!$('fig')){return;}
+var svg=$('fig'),on=false,lay=null,moved=[],hid=[],views=[],obs=[],lastList=null;
+var NOPAN='.pb,.olhit,.wh,.th,.sel,.cosg,button,input,select,textarea,a,label,[role="button"],[tabindex]';
+var FH=(typeof window.__FIGH!=='undefined')?window.__FIGH:null;
+function mk(tag,id,cls){var e=document.createElement(tag);if(id){e.id=id;}if(cls){e.className=cls;}return e;}
+function cardsOf(){return Array.prototype.filter.call(main.querySelectorAll('.card'),function(c){return !c.parentElement.closest('.card')&&c.id!=='tsCard'&&c.id!=='qzCard';});}
+function rank(c){
+  if(c.classList.contains('controls')){return 0;}
+  if(c.contains(svg)){return 1;}
+  if(c.querySelector('#fig2')){return 10;}
+  if(/\b(status|meas)\b/.test(c.className)){return 11;}
+  if(/\blegend\b/.test(c.className)){return 13;}
+  return 12;}
+function place(n){var ph=document.createComment('st');n.parentNode.insertBefore(ph,n);moved.push({n:n,ph:ph});
+  var a=n.parentElement;while(a&&a.tagName!=='MAIN'&&hid.indexOf(a)<0){hid.push(a);a=a.parentElement;}}
+function build(){
+  if(on||document.body.classList.contains('qzmode')){return;}
+  var ts=$('tsCard');if(!ts){return;}
+  on=true;document.body.classList.add('stlay');moved=[];hid=[];views=[];
+  var tabs=main.querySelector(':scope > [role="group"][aria-label="選擇電路"]');
+  var cs=cardsOf().map(function(c,i){return {c:c,i:i};}).sort(function(a,b){return rank(a.c)-rank(b.c)||a.i-b.i;}).map(function(x){return x.c;});
+  lay=mk('div','stLayout');var L=mk('div','stLeft'),R=mk('div','stRight'),Low=mk('div','stLow');
+  var cph=document.createComment('st');ts.parentNode.insertBefore(cph,ts);ts.parentNode.insertBefore(lay,cph);moved.push({n:ts,ph:cph});
+  if(tabs){place(tabs);tabs.classList.add('st-tabs');}
+  cs.forEach(place);
+  L.appendChild(ts);lay.appendChild(L);lay.appendChild(R);
+  if(tabs){R.appendChild(tabs);}
+  cs.forEach(function(c){var r=rank(c);
+    if(r===0){c.classList.add('st-ctrl');L.appendChild(c);}
+    else if(r===1){c.classList.add('st-fig','st-card');R.appendChild(c);addView(c,svg,'fig');}
+    else{c.classList.add(r===10?'st-main':'st-rest');if(r===10){c.classList.add('st-card');}Low.appendChild(c);if(r===10){addView(c,c.querySelector('#fig2'),'main');}}});
+  if(Low.children.length){R.appendChild(Low);}
+  hid.sort(function(a,b){return b.contains(a)?-1:a.contains(b)?1:0;}).forEach(function(b){
+    var rest=Array.prototype.filter.call(b.children,function(k){return !k.classList.contains('st-hide')&&k.tagName!=='SCRIPT'&&k.tagName!=='STYLE';});
+    if(!rest.length){b.classList.add('st-hide');}});
+  if(window.ResizeObserver){var ro=new ResizeObserver(sched);ro.observe(lay);ro.observe(R);obs.push(ro);}
+  if(window.MutationObserver){var mo=new MutationObserver(sched);views.forEach(function(v){mo.observe(v.svg,{attributes:true,attributeFilter:['viewBox']});});obs.push(mo);}
+  fit();fixTs();
+}
+function dissolve(){
+  if(!on){return;}
+  views.forEach(function(v){v.view.parentNode.insertBefore(v.svg,v.view);v.view.parentNode.removeChild(v.view);v.bar.parentNode.removeChild(v.bar);
+    ['width','maxHeight','height','marginLeft','marginRight'].forEach(function(k){v.svg.style[k]='';});v.card.classList.remove('st-card');});
+  moved.forEach(function(m){m.ph.parentNode.replaceChild(m.n,m.ph);m.n.classList.remove('st-ctrl','st-fig','st-main','st-rest','st-tabs','st-card');});
+  hid.forEach(function(b){b.classList.remove('st-hide');});
+  obs.forEach(function(o){o.disconnect();});obs=[];
+  if(lay&&lay.parentNode){lay.parentNode.removeChild(lay);}
+  var tm=document.querySelector('#tsCard .tsMain');if(tm){tm.style.minHeight='';}
+  lay=null;moved=[];hid=[];views=[];on=false;document.body.classList.remove('stlay');
+}
+/* ---- 縮放列與平移 ---- */
+function addView(card,sv,kind){
+  var h2=card.querySelector(':scope > h2'),title=h2?h2.textContent.replace(/【.*?】/g,'').trim():'';
+  var bar=mk('div',null,'stZoom');bar.setAttribute('role','group');bar.setAttribute('aria-label',title+'大小');
+  bar.innerHTML='<span class="stT"></span><span class="stHint" hidden>拖曳空白處平移</span><button class="btn stZm" type="button" aria-label="縮小">−</button><button class="btn stZ0" type="button" aria-label="恢復預設大小">預設</button><button class="btn stZp" type="button" aria-label="放大">+</button>';
+  bar.querySelector('.stT').textContent=title;
+  var view=mk('div',null,'stView');
+  sv.parentNode.insertBefore(view,sv);view.appendChild(sv);
+  card.insertBefore(bar,view);
+  var v={card:card,view:view,svg:sv,bar:bar,kind:kind,z:1,hint:bar.querySelector('.stHint'),m:bar.querySelector('.stZm'),d:bar.querySelector('.stZ0'),p:bar.querySelector('.stZp')};
+  v.m.addEventListener('click',function(){setZ(v,v.z-0.1);});v.p.addEventListener('click',function(){setZ(v,v.z+0.1);});v.d.addEventListener('click',function(){setZ(v,1,true);});
+  pan(v);views.push(v);
+}
+function fit(){
+  if(!on){return;}
+  var desk=innerWidth>=960;
+  views.forEach(function(v){
+    var vb=v.svg.viewBox&&v.svg.viewBox.baseVal;if(!vb||!vb.width){return;}
+    var cw=Math.max(100,v.view.clientWidth),base=cw;
+    if(v.kind==='fig'&&FH!=='none'){
+      var chrome=v.card.offsetHeight-v.view.offsetHeight,avail;
+      if(desk){avail=innerHeight-(v.card.getBoundingClientRect().top+window.pageYOffset)-chrome-12;}
+      else{avail=(innerWidth<600?0.42:0.46)*innerHeight-chrome-2;}
+      base=Math.min(cw,Math.max(150,avail)*vb.width/vb.height);
+    }
+    var w=Math.round(base*v.z);
+    v.svg.style.width=w+'px';v.svg.style.height='auto';v.svg.style.maxHeight='none';
+    v.svg.style.marginLeft=v.svg.style.marginRight=(w<=cw?'auto':'0');
+    v.view.style.height=Math.ceil(base*vb.height/vb.width)+'px';
+    v.m.disabled=v.z<=0.5+1e-6;v.p.disabled=v.z>=2-1e-6;
+    v.d.innerHTML=Math.abs(v.z-1)<1e-6?'預設':'預設 <small>'+Math.round(v.z*100)+'%</small>';
+    v.hint.hidden=!(v.z>1+1e-6);
+    v.view.classList.toggle('canpan',v.z>1+1e-6);
+  });
+}
+var pend=0;function sched(){if(pend){return;}pend=requestAnimationFrame(function(){pend=0;fit();});}
+function setZ(v,z,reset){
+  z=Math.min(2,Math.max(0.5,Math.round(z*10)/10));
+  var w=v.view,fx=(w.scrollLeft+w.clientWidth/2)/Math.max(1,w.scrollWidth),fy=(w.scrollTop+w.clientHeight/2)/Math.max(1,w.scrollHeight);
+  v.z=z;fit();
+  if(reset||z===1){w.scrollLeft=0;w.scrollTop=0;}
+  else{w.scrollLeft=fx*w.scrollWidth-w.clientWidth/2;w.scrollTop=fy*w.scrollHeight-w.clientHeight/2;}
+}
+function pan(v){
+  var w=v.view,id=null,sx=0,sy=0,sl=0,stp=0,drag=false,just=false;
+  w.addEventListener('pointerdown',function(e){
+    if(e.pointerType==='touch'||e.button!==0){return;}                /* 觸控用原生手指滑動 */
+    if(w.scrollWidth-w.clientWidth<=2&&w.scrollHeight-w.clientHeight<=2){return;}
+    if(e.target.closest&&e.target.closest(NOPAN)){return;}              /* 只從空白處(不是按鈕、OL、點線高亮的粗線)開始 */
+    id=e.pointerId;sx=e.clientX;sy=e.clientY;sl=w.scrollLeft;stp=w.scrollTop;drag=false;});
+  w.addEventListener('pointermove',function(e){
+    if(id===null||e.pointerId!==id){return;}
+    var dx=e.clientX-sx,dy=e.clientY-sy;
+    if(!drag){if(Math.abs(dx)+Math.abs(dy)<8){return;}drag=true;try{w.setPointerCapture(id);}catch(x){}w.classList.add('panning');}
+    w.scrollLeft=sl-dx;w.scrollTop=stp-dy;e.preventDefault();});
+  function end(e){if(id===null||(e&&e.pointerId!==id)){return;}
+    if(drag){just=true;setTimeout(function(){just=false;},80);try{w.releasePointerCapture(id);}catch(x){}}
+    drag=false;id=null;w.classList.remove('panning');}
+  w.addEventListener('pointerup',end);w.addEventListener('pointercancel',end);
+  w.addEventListener('click',function(e){if(just){e.stopPropagation();e.preventDefault();}},true);   /* 拖曳放開時不要觸發點線高亮 */
+}
+/* ---- 步驟卡高度固定:用目前寬度量「最長的一步」,切換步驟時下面的操作區不跳動 ---- */
+function fixTs(){
+  var tm=document.querySelector('#tsCard .tsMain');if(!on||!tm||!window.__ts){return;}
+  var list=window.__ts.steps();lastList=list;if(!list||!list.length||!tm.clientWidth){return;}
+  tm.style.minHeight='';
+  var c=tm.cloneNode(true);Array.prototype.forEach.call(c.querySelectorAll('[id]'),function(e){e.removeAttribute('id');});
+  c.removeAttribute('id');c.setAttribute('aria-hidden','true');c.style.cssText='position:absolute;visibility:hidden;pointer-events:none;left:-9999px;top:0;width:'+tm.clientWidth+'px';
+  tm.parentNode.appendChild(c);
+  var hd=c.querySelector('.tsHead'),sp=c.querySelectorAll('.tsRow span'),mx=0;
+  list.forEach(function(s,i){hd.innerHTML='<b></b><span></span><em></em>';hd.children[0].textContent='步驟 '+(list.length)+'/'+list.length;hd.children[1].textContent=s[0];hd.children[2].textContent='已停止(改由您手動操作)';
+    sp[0].textContent=s[1];sp[1].textContent=s[2];mx=Math.max(mx,c.offsetHeight);});
+  tm.parentNode.removeChild(c);tm.style.minHeight=mx+'px';
+}
+window.addEventListener('resize',function(){sched();fixTs();});
+window.addEventListener('load',function(){fit();fixTs();});
+setInterval(function(){if(on&&window.__ts&&window.__ts.steps()!==lastList){fixTs();}},500);
+/* ---- 與「選擇題」模式交接:進入選擇題前先拆開(選擇題有自己的版面),回到測試步驟再重建 ---- */
+var bar=$('qzModeBar');
+if(bar){bar.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('button');if(b&&b.id==='qzModeQuiz'){dissolve();}},true);
+  $('qzModeSteps').addEventListener('click',function(){build();});}
+window.__st={on:function(){return on;},fit:fit,views:function(){return views;}};
+build();
+})();
+</script>
+
 </body></html>
