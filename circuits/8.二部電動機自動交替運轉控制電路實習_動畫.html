@@ -255,6 +255,186 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 @keyframes tfP{50%{box-shadow:0 0 0 7px var(--tint)}}
 }
 </style>
+<style id="qzCss">
+:root{--okc:#2f9e58}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--okc:#4cc17c}}
+:root[data-theme="dark"]{--okc:#4cc17c}
+#qzCard{margin-bottom:12px}
+.qzTop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:6px}
+.qzDots{display:flex;flex-wrap:wrap;gap:5px}
+.qzDots button{font:inherit;font-size:.82rem;min-width:34px;height:32px;padding:0 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--muted);cursor:pointer}
+.qzDots button.c{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+.qzDots button.ok{border-color:var(--okc);color:var(--okc);font-weight:700}
+.qzDots button.no{border-color:var(--on);color:var(--on);font-weight:700}
+.qzDots button.c.ok,.qzDots button.c.no{color:var(--onaccent)}
+.qzTag{font-size:.8rem;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:0 10px}
+#qzScore{font-weight:400;margin-left:10px;color:var(--accent);font-size:.85rem;letter-spacing:0}
+.qzStem{font-weight:700;margin:6px 0 4px}
+.qzStem:focus,.qzStem:focus-visible{outline:none}
+.qzMeth{color:var(--muted);font-size:.85rem;margin:0 0 8px}
+.qzTools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.qzTools .btn,.qzAct .btn{min-height:36px;padding:4px 12px}
+#qzRun{color:var(--accent);font-size:.85rem}
+.qzRead{margin:8px 0 0;min-height:1.6em;font-variant-numeric:tabular-nums}
+.qzOpts{display:grid;gap:6px;margin:8px 0 10px}
+.qzRow{display:flex;gap:6px;align-items:stretch}
+.qzRow .qzOpt{flex:1;min-width:0;width:auto}
+.qzEye{flex:none;width:46px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--accent);cursor:pointer;font-size:1.15rem;padding:0}
+.qzEye[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+.qzEye:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qzHintTx{margin:8px 0 0;padding:6px 10px;border-left:4px solid var(--accent);background:var(--panel);border-radius:6px;font-size:.92rem}
+body.qzfocus #fig #parts>*{opacity:.16;transition:opacity .15s}
+body.qzfocus #fig #parts>.qzfo{opacity:1;filter:drop-shadow(0 0 3px var(--accent))}
+body.qzfocus #fig #labels text{opacity:.3}
+body.qzfocus #fig #labels text.qzfo{opacity:1;font-weight:700}
+.qzOpt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);cursor:pointer;min-height:44px}
+.qzOpt b{flex:none;min-width:1.6em;height:1.6em;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);font-size:.85rem;margin-top:1px}
+.qzOpt[aria-checked="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.qzOpt[aria-checked="true"] b{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
+.qzOpt.right{border-color:var(--okc);box-shadow:inset 0 0 0 2px var(--okc)}
+.qzOpt.right b{background:var(--okc);color:#fff;border-color:var(--okc)}
+.qzOpt.wrong{border-color:var(--on);box-shadow:inset 0 0 0 2px var(--on)}
+.qzOpt.wrong b{background:var(--on);color:#fff;border-color:var(--on)}
+.qzOpt:disabled{cursor:default}
+.qzOpt:focus-visible,.qzTools .btn:focus-visible,.qzDots button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qzAct{display:flex;flex-wrap:wrap;gap:8px}
+/* 再做一次的確認列(題目卡內,不用瀏覽器對話框):用邊框提示列,「確定」不做成醒目樣式,避免誤按 */
+#qzConfirm{margin:8px 0 0;padding:8px 12px;border:1px solid var(--line);border-left:4px solid var(--on);border-radius:8px;background:var(--panel);gap:6px 8px;align-items:center}
+#qzConfirm:not([hidden]){display:flex;flex-wrap:wrap}
+#qzConfirm p{margin:0 auto 0 0;flex:1 1 12em;font-size:.92rem}
+#qzConfirm .btn{min-height:36px;padding:4px 14px}
+#qzConfirm .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* 確認列開著時外框呼吸提示(參數同測試步驟的 .tsHl:2px 主題色外框、1.1 秒;另寫一份,避免被測試步驟的程式清掉)。「↻ 再做一次」同時鎖住(JS 設 disabled) */
+#qzConfirm:not([hidden]){outline:2px solid var(--accent);outline-offset:2px;animation:qzC 1.1s ease-in-out infinite}
+@keyframes qzC{50%{outline-color:transparent}}
+@media (prefers-reduced-motion:reduce){#qzConfirm:not([hidden]){animation:none}}
+.qzCap{margin:10px 0 0;font-weight:700;color:var(--accent);min-height:1.4em}
+.qzWhy{margin:8px 0 0;padding:10px 12px;border:1px solid var(--line);border-left:4px solid var(--okc);border-radius:8px;background:var(--panel)}
+.qzWhy p{margin:0 0 4px}.qzWhy p:last-child{margin:0}
+#qzPill{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(12px,env(safe-area-inset-right,0px));z-index:5;background:var(--on);color:#fff;padding:4px 14px;border-radius:999px;font-size:.85rem;max-width:calc(100vw - 24px)}
+@media (max-width:600px){#qzPill .qzPl{display:none}}
+#qzmk{pointer-events:none}
+.qzmark{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:6 4;animation:qzP 1s ease-in-out infinite}
+@keyframes qzP{50%{opacity:.35}}
+.qzhit{fill:none;pointer-events:all;cursor:pointer}
+.qzdot{fill:var(--panel);stroke:var(--accent);stroke-width:1.6;cursor:pointer;pointer-events:all}
+.qznum{font:700 9px Arial,Helvetica,sans-serif;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.qzpt{outline:none;-webkit-tap-highlight-color:transparent}
+.qzpt:focus-visible .qzdot{stroke-width:3}
+.qzbd{pointer-events:none}
+.qzbd rect{fill:var(--panel);stroke:var(--accent);stroke-width:1.2}
+.qzbd text{font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle}
+.qzbd .v220{fill:var(--on)}.qzbd .v0{fill:var(--muted)}
+@media (prefers-reduced-motion:reduce){.qzmark{animation:none}}
+
+#qzModeBar{display:flex;gap:8px;margin:0 0 12px}
+/* 選擇題模式:左欄(題目+操作鈕)壓縮,盡量不用捲動就完整顯示 */
+body.qzmode #qzCard{padding:10px 12px}
+body.qzmode .qzDots{gap:3px}
+body.qzmode .qzDots button{height:26px;min-width:26px;padding:0 4px;font-size:.78rem}
+body.qzmode .qzTop{margin-bottom:2px}
+body.qzmode .qzStem{margin:4px 0 2px;font-size:.95rem;line-height:1.45}
+body.qzmode .qzMeth{margin:0 0 6px;font-size:.8rem}
+body.qzmode #qzCard:has(#qzWhy:not([hidden])) .qzMeth{display:none}
+body.qzmode .qzTools .btn,body.qzmode .qzAct .btn{min-height:32px;padding:2px 10px;font-size:.88rem}
+body.qzmode .qzOpts{gap:4px;margin:6px 0 8px}
+body.qzmode .qzOpt{padding:5px 10px;min-height:36px;font-size:.9rem;line-height:1.4}
+body.qzmode .qzEye{width:40px;font-size:1.05rem}
+body.qzmode .qzRead{margin:4px 0 0}
+body.qzmode .qzCap{margin:6px 0 0;font-size:.88rem}
+body.qzmode #qzConfirm{margin:6px 0 0;padding:5px 10px}
+body.qzmode #qzConfirm p{font-size:.88rem}
+body.qzmode #qzConfirm .btn{min-height:32px;padding:2px 12px;font-size:.88rem}
+body.qzmode .qzWhy{margin:6px 0 0;padding:6px 10px;font-size:.86rem;line-height:1.45}
+body.qzmode .qzWhy p{margin:0 0 3px}
+body.qzmode .qzHintTx{margin:6px 0 0;padding:4px 10px;font-size:.88rem}
+body.qzmode .qz-ctrl{padding:8px 10px}
+body.qzmode .qz-ctrl .btn{min-height:30px;padding:2px 9px;font-size:.84rem}
+body.qzmode .qz-ctrl .row{gap:5px}
+body.qzmode .qz-ctrl input[type=number]{padding:2px 6px;font-size:.85rem;width:4em;height:28px;box-sizing:border-box}
+body.qzmode .qz-ctrl select{padding:2px 6px;font-size:.85rem;width:auto}
+body.qzmode .qz-ctrl .switch,body.qzmode .qz-ctrl label{font-size:.85rem}
+body.qzmode .qz-ctrl .switch{margin:6px 0 0}
+body.qzmode .qz-ctrl .tm{margin-top:6px}
+body.qzmode .qz-ctrl .row label{gap:4px}
+body.qzmode .qz-ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:5px 6px}
+body.qzmode .qz-ctrl .row,body.qzmode .qz-ctrl .tabs{display:contents}
+body.qzmode .qz-ctrl .switch,body.qzmode .qz-ctrl .tm{margin:0}
+body.qzmode .qz-ctrl .hint{display:none}
+body.qzmode .qz-ctrl .hint,body.qzmode .qz-ctrl>h2,body.qzmode .qz-fig>h2{display:none}
+body.qzmode .qz-ctrl{padding:8px 12px}
+#qzModeBar .btn{min-height:38px}
+body:not(.qzmode) #qzCard{display:none}
+body.qzmode #tsCard,body.qzmode #tsFloat{display:none!important}
+.qz-hide{display:none!important}
+body.qzmode #qzCard>.cbtn{display:none}
+body.qzmode #qzCard>h2{pointer-events:none}
+body.qzmode #qzCard{margin-bottom:0}
+.qzRead:empty,.qzCap:empty,.qzHintTx[hidden]{display:none}
+.qzRead{min-height:0}
+.qzCap{min-height:0}
+.qzOpt[aria-disabled="true"]{cursor:default}
+#qzLayout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
+/* W5:卡片的最小寬度(min-content)=圖的寬度,會把卡片與版面撐寬,fitFig 又拿卡片寬當縮放基準 → 越放越大。
+   一定要連 .card 一起設 min-width:0,圖寬超過時改在卡片內橫向捲動 */
+#qzLayout{min-width:0;max-width:100%}
+/* max-width:100% 在預設的 content-box 是指「內容寬」,再加內距與邊框就超出版面;改 border-box(#qzLayout 沿用桌機的 align-items:start,窄螢幕卡片不會被拉伸) */
+#qzLayout .card{min-width:0;max-width:100%;box-sizing:border-box}
+#qzLayout .card.meas{overflow-x:auto}
+#qzRight>.card{min-width:0}
+#qzLeft{display:flex;flex-direction:column;gap:12px;min-width:0}
+body.qzmode .qz-fig{overflow-x:auto}
+.qzZoom{display:flex;justify-content:flex-end;gap:6px;margin:0 30px 6px 0;position:sticky;left:0}
+.qzZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2}
+.qzZoom small{font-size:.75rem;opacity:.85}
+.qzZoom{align-items:center}
+.qzZoom #qzPill{position:static;margin-right:auto;padding:2px 12px;font-size:.8rem;border-radius:999px;max-width:calc(100% - 200px);line-height:1.4}
+#qzRight>.qz-tabs{margin:0 0 8px;display:flex;flex-wrap:wrap;gap:6px}
+#qzRight>.qz-tabs .btn{min-height:30px;padding:2px 10px;font-size:.84rem}
+@media (min-width:960px){
+  #qzLayout{grid-template-columns:minmax(360px,42%) minmax(0,1fr)}
+  #qzRight{position:sticky;top:8px;max-height:calc(100vh - 16px);overflow-y:auto;overscroll-behavior:contain}
+  #qzLeft{position:sticky;top:8px}
+  #qzRight>.card{margin:0 0 12px}
+  #qzRight>.card:last-child{margin-bottom:0}
+  body.qzmode #qzRight #fig{max-height:var(--qzFigH,calc(100vh - 250px))}
+}
+/* W7:矮視窗(如 1280×720)左欄(題目＋操作區)略高於視窗,只在高度 ≤740px 的桌機版面再收緊間距與字級;1366×768 以上不受影響。不加內部捲軸 */
+@media (min-width:960px) and (max-height:740px){
+  #qzLeft{gap:8px}
+  body.qzmode #qzCard{padding:8px 10px}
+  body.qzmode #qzCard>h2{margin-bottom:4px}
+  body.qzmode .qzDots button{height:24px;min-width:24px}
+  body.qzmode .qzStem{margin:2px 0 2px;font-size:.92rem;line-height:1.4}
+  body.qzmode .qzMeth{margin:0 0 4px}
+  body.qzmode .qzOpts{margin:4px 0 6px;gap:3px}
+  body.qzmode .qzOpt{padding:3px 10px;min-height:32px;font-size:.88rem;line-height:1.35}
+  body.qzmode .qzTools .btn,body.qzmode .qzAct .btn{min-height:30px}
+  body.qzmode .qzCap{margin:4px 0 0;font-size:.84rem}
+  body.qzmode .qzWhy{margin:4px 0 0;padding:5px 9px;font-size:.82rem;line-height:1.38}
+  body.qzmode .qzWhy p{margin:0 0 2px}
+  body.qzmode .qz-ctrl{padding:6px 10px}
+  body.qzmode .qz-ctrl .btn{min-height:28px}
+}
+@media (max-width:959px){
+  #qzRight,#qzLeft{display:contents}
+  #qzLayout{display:flex;flex-direction:column}
+  #qzLayout .qz-fig{order:1;position:sticky;top:0;z-index:6;max-height:42vh;overflow:auto}
+  /* W6:順序 = 固定在上的圖(1) → 電路分頁鈕(2) → 題目卡(3) → 操作區(4) → 其他卡(5)。分頁鈕貼近圖與題目;題目會自動切到該題的分頁 */
+  #qzLayout .qz-tabs{order:2}
+  #qzLayout #qzCard{order:3}
+  #qzLayout .qz-ctrl{order:4}
+  #qzLayout #qzRight>.card:not(.qz-fig):not(.qz-ctrl){order:5}
+  body.qzmode #qzLayout .qz-fig #fig{max-height:38vh}
+  #qzLayout.figscroll .qz-fig{max-height:56vh;overflow:auto}
+}
+@media (min-width:600px) and (max-width:959px){
+  #qzLayout .qz-fig{max-height:46vh}
+  body.qzmode #qzLayout .qz-fig #fig{max-height:46vh}
+  #qzLayout.figscroll .qz-fig{max-height:56vh}
+  #qzLayout.figscroll .qz-fig #fig{max-height:none}
+}
+</style>
 </head>
 <body>
 
@@ -271,6 +451,21 @@ body.paused .w.hot,body.paused .bz.on .wg,body.paused .motor.run .rot{animation-
 <button class="btn tsB" id="tsNext" type="button" aria-label="下一步">▶</button></div>
 <div class="tsCtl"><button class="btn" id="tsPlay" type="button">↻ 重播此步驟</button><button class="btn" id="tsAll" type="button" aria-pressed="false">▶ 從頭播放全部</button><button class="btn" id="tsFrom" type="button">▶ 從此步驟播放</button><label class="switch"><input type="checkbox" id="tsAuto" checked><span>切換步驟時自動執行(自動按鍵、等計時)</span></label></div>
 <div class="tsDots" id="tsDots" role="group" aria-label="步驟清單"></div>
+</section>
+<div id="qzPill" role="status" hidden><span class="qzPl">選擇題進行中:</span>電路已設定故障</div>
+<section class="card qzCard collapsed" id="qzCard" aria-label="選擇題">
+<h2>選擇題<span id="qzScore"></span></h2>
+<div class="qzTop"><div class="qzDots" id="qzDots" role="group" aria-label="題目清單"></div><span class="qzTag" id="qzTag"></span></div>
+<p class="qzStem" id="qzStem"></p>
+<p class="qzMeth" id="qzMeth"></p>
+<div class="qzTools"><button class="btn" id="qzLook" type="button">▶ 看電路現象</button><button class="btn" id="qzHint" type="button" aria-pressed="false" hidden>💡 提示</button><button class="btn" id="qzVolt" type="button" aria-pressed="false" hidden>量電壓:關</button><span id="qzRun" aria-live="polite"></span></div>
+<p class="qzHintTx" id="qzHintTx" hidden></p>
+<p class="qzRead" id="qzRead" aria-live="polite"></p>
+<div class="qzOpts" id="qzOpts" role="radiogroup" aria-label="選項"></div>
+<div class="qzAct"><button class="btn" id="qzReveal" type="button">公布答案</button><button class="btn" id="qzReplay" type="button" hidden>↻ 再看一次解答動畫</button><button class="btn" id="qzAgain" type="button" hidden>↻ 再做一次</button><button class="btn" id="qzPrev" type="button">◀ 上一題</button><button class="btn" id="qzNext" type="button">下一題 ▶</button></div>
+<div id="qzConfirm" role="alertdialog" aria-labelledby="qzConfirmTx" hidden><p id="qzConfirmTx">會清除全部作答,確定嗎?</p><button class="btn" id="qzYes" type="button">確定</button><button class="btn" id="qzNo" type="button">取消</button></div>
+<p class="qzCap" id="qzCap" aria-live="polite"></p>
+<div class="qzWhy" id="qzWhy" hidden></div>
 </section>
 <div id="tsFloat" hidden>
 <div class="tfPanel" id="tfPanel" role="region" aria-label="測試步驟(浮動視窗)" hidden>
@@ -842,6 +1037,7 @@ document.addEventListener('visibilitychange',function(){if(!AC){return;}if(docum
 
 /* ---- 啟動 ---- */
 buildMain();buildControl();bindPB();buildChips();settle();
+window.__sim={edges:function(){return edges;},loads:function(){return loads;},solve:solve,settle:settle,get st(){return st;}};
 })();
 </script>
 
@@ -861,7 +1057,7 @@ function build(){
   show();
 }
 
-var runId=0,running=false,allOn=false,allTok=0,runMsg='',sPause=false,jump=-1;   /* jump:全部播放中要改跳去的步驟(-1 表示沒有) */
+var quiet=false,runId=0,running=false,allOn=false,allTok=0,runMsg='',sPause=false,jump=-1;   /* jump:全部播放中要改跳去的步驟(-1 表示沒有) */
 function bodyPaused(){return document.body.classList.contains('paused');}
 /* 只有使用者按下的暫停才凍結腳本;步驟「暫停與繼續」自己示範的暫停(sPause)不凍結,否則會卡死 */
 function frozen(){return bodyPaused()&&!sPause;}
@@ -873,8 +1069,8 @@ function clk(e){if(typeof e.click==='function'){e.click();}else{e.dispatchEvent(
 function parts(sc){return sc.split(';').map(function(x){return x.trim();}).filter(Boolean);}
 
 function showRun(){
-  var t=runMsg,ps=bodyPaused()&&!sPause;
-  if(running||allOn){t=ps?'已暫停':(allOn?'全部播放中…':'執行中…');}
+  var t=quiet?'':runMsg,ps=bodyPaused()&&!sPause;
+  if((running||allOn)&&!quiet){t=ps?'已暫停':(allOn?'全部播放中…':'執行中…');}
   if($('tsRun').textContent!==t){$('tsRun').textContent=t;}
   updFloat();
 }
@@ -916,14 +1112,14 @@ async function exec(sc,id){
 }
 /* 重播此步驟:全部播放中不中斷播放,取消目前這一步後從同一步重跑,跑完照常進入下一步;沒在全部播放時只跑這一步 */
 function play(){
-  if(allOn){jumpTo(idx);return;}
+  quiet=false;if(allOn){jumpTo(idx);return;}
   stopRun();var s=list[idx];if(!s){return;}runId++;exec(s[4]||'',runId).catch(fail);
 }
 /* 全部播放中跳到指定步驟(重播、上一步、下一步、點步驟編號):取消目前腳本,迴圈改到該步重跑,之後繼續往後播 */
 function jumpTo(i){jump=i;stopRun();}
 /* 從第 from 步開始播放到最後一步;每步結束停 2.5 秒讓人看結果;暫停鍵可暫停;自己動手操作電路才會停止 */
 async function runAll(from){
-  stopRun();allOn=true;var tok=++allTok;jump=-1;updAll();idx=from;
+  quiet=false;stopRun();allOn=true;var tok=++allTok;jump=-1;updAll();idx=from;
   try{
     while(allOn&&tok===allTok){
       show();runId++;var id=runId;
@@ -973,7 +1169,7 @@ function updFloat(){
   $('tfPrev').disabled=idx===0;$('tfNext').disabled=idx===list.length-1;
   var ps=bodyPaused();
   $('tfPause').textContent=ps?'▶ 繼續':'⏸ 暫停';
-  fb.classList.toggle('run',(running||allOn)&&!ps);fb.classList.toggle('ps',ps);
+  fb.classList.toggle('run',(running||allOn)&&!ps&&!quiet);fb.classList.toggle('ps',ps);
 }
 function setOpen(v){
   openP=v;fp.hidden=!v;fb.setAttribute('aria-expanded',v?'true':'false');
@@ -1028,6 +1224,8 @@ function userTook(e){
 document.addEventListener('pointerdown',userTook,true);
 document.addEventListener('keydown',function(e){if(CFG.keys.indexOf((e.key||'').toLowerCase())>=0){userTook(e);}},true);
 setInterval(function(){if(curKey()!==key){stopRun();stopAll();runMsg='';build();}else{apply();}showRun();},400);
+window.__tsRun=function(sc){quiet=true;stopRun();stopAll();runId++;var id=runId;return exec(sc||'',id).catch(function(x){fail(x);return false;});};
+window.__tsStop=function(){stopRun();stopAll();};
 build();updAll();
 new MutationObserver(showRun).observe(document.body,{attributes:true,attributeFilter:['class']});
 })();
@@ -1175,6 +1373,413 @@ if(w){new MutationObserver(function(){if(pend){return;}pend=true;Promise.resolve
 rebuild();thText();
 setInterval(refresh,250);   /* 滑鼠停在 OL 上時,送電、暫停、跳脫狀態改變也要即時更新提示 */
 window.__ol={n:function(){return document.querySelectorAll('#olhit .olhit').length;}};
+})();
+</script>
+<script id="qzJs">
+(function(){'use strict';
+/* 選擇題:故障注入、量電壓、公布答案動畫。依賴 window.__sim(主程式)與 window.__tsRun(測試步驟引擎)。
+   故障只改 edges 的導通條件或 loads 的 key,不動各電路的 build 程式;收合卡片、離開題目就全部還原。 */
+var S=window.__sim;if(!S||!window.__tsRun){return;}
+var NS='http://www.w3.org/2000/svg',svg=document.getElementById('fig');
+function $(i){return document.getElementById(i);}
+function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a){e.setAttribute(k,a[k]);}if(p){p.appendChild(e);}return e;}
+function layer(id){var g=svg.querySelector('#'+id);if(!g){g=el('g',{id:id},svg);}return g;}
+
+var IDS={reset:'btnReset',flow:'chkFlow',pause:'btnPause'},TABS=null,SKIP=['t'];
+function Z(b){return {x:b[0]-3,y:b[1]-3,w:b[2]+6,h:b[3]+6};}
+function M(n,p){var r=ZONE[n];p=(p===undefined?2:p);return {x:r.x-p,y:r.y-p,w:r.w+2*p,h:r.h+2*p};}
+var ZONE={'PB2 按鈕':Z([345,90,48,58]),'X 自保接點':Z([254,214,32,15]),'PB1 按鈕':Z([345,192,48,58]),'X 線圈':Z([412,402,36,36]),'MC2 常閉接點(互鎖)':Z([254,308,32,23]),
+ 'TR1 線圈':Z([252,402,36,36]),'MC1 線圈':Z([332,402,36,36]),'X 接點(第一排)':Z([494,112,32,15]),'MC2 自保接點':Z([494,214,32,15]),'TR2 線圈':Z([492,402,36,36]),
+ 'TR1 限時接點':Z([585,192,30,58]),'TR2 常閉接點':Z([585,290,24,58]),'MC2 線圈':Z([572,402,36,36]),'RL 紅燈':Z([743,398,44,44]),'GL 綠燈':Z([828,398,44,44]),
+ 'BZ 蜂鳴器':Z([149,396,59,48]),'OL':{x:230,y:514,w:50,h:62},'X 線圈上方導線':{x:418,y:285,w:24,h:62}};
+var PTS=[[1,'N1',350,158,'PB2 下端'],[2,'N2b',350,262,'PB1 下端'],[3,'CTx',430,340,'X 線圈上端']];
+var Q=[
+ {t:'原理',meth:['look'],
+  stem:'TR1 計時完成、MC2 通電後，MC1 與 TR1 為什麼會斷電？',
+  opts:[{t:'MC2 的常閉接點（互鎖）打開，切斷 MC1 電源',z:'MC2 常閉接點(互鎖)'},
+        {t:'TR2 計時完成了，所以 TR2 的接點切斷 MC1',z:'TR2 線圈'},
+        {t:'X 斷電了，所以 MC1 這一列就失去了電源',z:'X 線圈'},
+        {t:'OL 跳脫了，所以 MC1 這一列失去了電源',z:'OL'}],
+  ans:0,hint:'MC1、TR1 的電源路徑上串了 MC2 的哪種接點？',demo:'P PB1;WI #sTR1;W 700',
+  why:['MC1 與 TR1 的電源要經過 MC2 的常閉接點（互鎖接點）。','MC2 一通電，這個常閉接點打開，MC1、TR1 失去電源，M1 停轉，換成 M2 運轉。'],
+  stages:[{cap:'看虛線框:MC2 通電後，串在 MC1、TR1 電源路徑上的 MC2 常閉接點打開',run:'P PB1;WI #sTR1;W 700',flow:true,hold:1500,
+           marks:[M('MC2 常閉接點(互鎖)'),M('MC2 線圈')]}]},
+
+ {t:'原理',meth:['look'],
+  stem:'TR2 計時完成後，MC2 斷電、MC1 又通電。是 TR2 的哪個接點動作？',
+  opts:[{t:'TR1 的常開接點閉合',z:'TR1 限時接點'},
+        {t:'X 的接點打開',z:'X 接點(第一排)'},
+        {t:'TR2 的常閉接點打開',z:'TR2 常閉接點'},
+        {t:'PB2 被按下',z:'PB2 按鈕'}],
+  ans:2,hint:'MC2 的供電路徑最後一段經過 TR2 的哪種接點？',demo:'S #sTR1 2;S #sTR2 1;P PB1;W 3800',
+  why:['MC2 的供電路徑最後一段是 TR2 的常閉接點。','TR2 計時完成，常閉接點打開，MC2（連同 TR2）斷電；MC2 常閉接點恢復接通，MC1、TR1 又通電，如此交替運轉。'],
+  stages:[{cap:'看虛線框:TR2 計時完成，常閉接點打開，MC2 斷電，MC1 再通電',run:'S #sTR1 2;S #sTR2 1;P PB1;W 3800',flow:true,hold:1500,
+           marks:[M('TR2 常閉接點'),M('MC2 常閉接點(互鎖)')]}]},
+
+ {t:'故障',meth:['look'],
+  stem:'按 PB1 後 MC1、TR1、RL 通電，TR1 計時數字跑滿，但 MC2、TR2 都沒有通電。故障點在哪裡？',
+  opts:[{t:'MC2 線圈燒毀',f:{coil:'MC2'},z:'MC2 線圈'},
+        {t:'TR2 常閉接點開路',f:{open:['t2t|t2b']},z:'TR2 常閉接點'},
+        {t:'MC2 常閉接點（互鎖）熔著',f:{short:['m2n|m2m']},z:'MC2 常閉接點(互鎖)'},
+        {t:'TR1 限時接點開路',f:{open:['t1t|t1b']},z:'TR1 限時接點'}],
+  ans:3,hint:'TR1 已計時完成，通往 MC2、TR2 這一列的入口是哪個接點？',demo:'P PB1;WI #sTR1;W 1500',mark:M('TR1 限時接點'),
+  why:['TR1 計時完成，表示 TR1 線圈正常；MC2 與 TR2 完全沒電，表示電流進不了這一列。','入口是 TR1 限時接點，所以它開路。','若是 MC2 線圈燒毀或 TR2 常閉接點開路，TR2 仍會通電計時。']},
+
+ {t:'故障',meth:['volt'],
+  stem:'按住 PB1：X 沒有通電。請用量電壓，由上往下找出故障點。',
+  opts:[{t:'PB2 常閉接點開路',f:{open:['p2t|p2b']},z:'PB2 按鈕'},
+        {t:'PB1 按鈕接點接觸不良',f:{open:['p1t|p1b']},z:'PB1 按鈕'},
+        {t:'X 線圈上方的導線斷線',f:{open:['N2c|CTx']},z:'X 線圈'},
+        {t:'X 線圈燒毀',f:{coil:'X'},z:'X 線圈'}],
+  ans:2,hint:'按住 PB1，從上往下量：電壓消失的地方就是故障點。',demo:'D PB1;W 1500',mark:M('X 線圈上方導線',0),
+  why:['四種故障按著 PB1 時 X 都不通電，只看現象無法確定是哪一個，要量電壓才找得出故障點。','測點 1（PB2 下端）、測點 2（PB1 下端）都有 220 V，測點 3（X 線圈上端）卻是 0 V。','電壓在測點 2 與 3 之間的導線中斷，所以是 X 線圈上方的導線斷線。若是線圈燒毀，測點 3 也會有 220 V。']},
+
+ {t:'故障',meth:['look'],
+  stem:'按 PB1 後循環進入第二階段（MC2、TR2 通電，M2 轉動）。TR2 計時數字跑滿後，MC2、TR2 仍然沒有斷電。故障點在哪裡？',
+  opts:[{t:'TR1 限時接點熔著，黏在閉合位置',f:{short:['t1t|t1b']},z:'TR1 限時接點'},
+        {t:'X 的接點（第一排）熔著，黏在閉合位置',f:{short:['xt|xb']},z:'X 接點(第一排)'},
+        {t:'MC2 自保接點熔著，黏在閉合位置',f:{short:['mt2|mb2']},z:'MC2 自保接點'},
+        {t:'TR2 常閉接點熔著，黏住打不開',f:{short:['t2t|t2b']},z:'TR2 常閉接點'}],
+  ans:3,hint:'TR2 計時完成後，本來要打開來切斷 MC2 的是哪個接點？',demo:'S #sTR1 2;S #sTR2 1;P PB1;W 4200',mark:M('TR2 常閉接點'),
+  why:['正常時 TR2 計時完成，TR2 常閉接點打開，切斷 MC2 的供電路徑。','現在 TR2 計時已完成、MC2 卻沒斷電，表示 TR2 常閉接點黏住打不開（熔著）。']}
+];
+
+/* ---- 故障注入與還原 ---- */
+var active=null,curF=null,lastE=null,lastL=null,lastE0=null,lastL0=null;
+function setFault(f){
+  if(active){active.forEach(function(fn){fn();});active=null;}
+  if(f){
+    var rest=[];
+    ['open','short'].forEach(function(t){(f[t]||[]).forEach(function(id){
+      var p=id.split('|'),n=0;
+      S.edges().forEach(function(e){
+        if((e.a===p[0]&&e.b===p[1])||(e.a===p[1]&&e.b===p[0])){var o=e.on;e.on=t==='open'?function(){return false;}:function(){return true;};rest.push(function(){e.on=o;});n++;}
+      });
+      if(n!==1){console.warn('qz: 故障邊 '+id+' 找到 '+n+' 條');}
+    });});
+    if(f.coil){S.loads().forEach(function(L){if(L.key===f.coil){var k=L.key;L.key='~'+k;rest.push(function(){L.key=k;});}});}
+    active=rest;
+  }
+  curF=f||null;lastE=S.edges();lastL=S.loads();lastE0=lastE[0];lastL0=lastL[0];
+  $('qzPill').hidden=!active;
+  S.settle();
+  refreshReads();
+}
+/* 有些電路的測試步驟會點分頁鈕而重建電路(edges 換成新陣列),故障要跟著重新注入 */
+setInterval(function(){var e=S.edges(),l=S.loads();if(curF&&(e!==lastE||l!==lastL||e[0]!==lastE0||l[0]!==lastL0)){setFault(curF);}},40);
+function faultOf(q){return q.t==='故障'?q.opts[q.ans].f:null;}
+
+/* ---- 畫面:虛線框、量電壓測點 ---- */
+function scrollRects(rs){
+  var m=svg.getScreenCTM();if(!m||!rs||!rs.length||!layoutEl){return;}
+  var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  rs.forEach(function(r){var x=r.r?r.x-r.r:r.x,y=r.r?r.y-r.r:r.y,w=r.r?r.r*2:r.w,h=r.r?r.r*2:r.h;
+    var p=new DOMPoint(x,y).matrixTransform(m),q=new DOMPoint(x+w,y+h).matrixTransform(m);
+    x0=Math.min(x0,p.x);y0=Math.min(y0,p.y);x1=Math.max(x1,q.x);y1=Math.max(y1,q.y);});
+  var sc=null,cands=[rightEl,svg.closest('.qz-fig')];
+  cands.forEach(function(c){if(!sc&&c&&c.scrollHeight>c.clientHeight+4&&/(auto|scroll)/.test(getComputedStyle(c).overflowY)){sc=c;}});
+  if(!sc){return;}
+  var b=sc.getBoundingClientRect();
+  if(y0<b.top+8||y1>b.bottom-8){sc.scrollTo({top:Math.max(0,sc.scrollTop+(y0+y1)/2-(b.top+b.height/2)),behavior:reduce?'auto':'smooth'});}
+}
+function setMarks(m){
+  var g=layer('qzmk');g.innerHTML='';scrollRects((m||[]).filter(Boolean));
+  (m||[]).forEach(function(k){
+    if(k.r){el('circle',{cx:k.x,cy:k.y,r:k.r,'class':'qzmark',fill:'none'},g);}
+    else{el('rect',{x:k.x,y:k.y,width:k.w,height:k.h,rx:6,'class':'qzmark',fill:'none'},g);}
+  });
+}
+var voltOn=false,badges={},lastP=null;
+/* 量電壓讀數即時更新(W2):每個讀數記住自己的測點 p,輪詢時重算,不靠 st 快照(st 看不到故障注入/排除造成的變化) */
+function netOf(r){return r.rnet||r.rn||{};}
+function readTx(p,v){return '測點 '+p[0]+'（'+p[4]+'）對 T 線:'+v+' V';}
+function setBadge(b,v){var t=b.querySelector('text');t.setAttribute('class',v?'v220':'v0');t.textContent=v+' V';}
+function refreshReads(){
+  if(!voltOn){return;}var ns=Object.keys(badges);if(!ns.length){return;}
+  var net;try{net=netOf(S.solve());}catch(x){return;}
+  ns.forEach(function(n){var o=badges[n],v=net[o.p[1]]?220:0;
+    if(o.v!==v){o.v=v;setBadge(o.g,v);if(lastP&&lastP[0]===o.p[0]){$('qzRead').textContent=readTx(o.p,v);}}});
+}
+function drawPts(){
+  var g=layer('qzpts');g.innerHTML='';badges={};lastP=null;
+  if(!voltOn){return;}
+  (Q[cur].pts||PTS).forEach(function(p){
+    var gg=el('g',{'class':'qzpt','data-n':p[0],tabindex:'0',role:'button','aria-label':'測點 '+p[0]+':'+p[4]},g);
+    el('circle',{cx:p[2],cy:p[3],r:16,'class':'qzhit',fill:'none'},gg);
+    el('circle',{cx:p[2],cy:p[3],r:7,'class':'qzdot'},gg);
+    el('text',{x:p[2],y:p[3]+3.2,'class':'qznum'},gg).textContent=p[0];
+    gg.addEventListener('click',function(){measure(p);});
+    gg.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.repeat){e.preventDefault();measure(p);}});
+  });
+}
+function measure(p){
+  var v=netOf(S.solve())[p[1]]?220:0,g=layer('qzpts');
+  if(badges[p[0]]){g.removeChild(badges[p[0]].g);}
+  var b=el('g',{'class':'qzbd'},g);
+  el('rect',{x:p[2]+10,y:p[3]-17,width:46,height:18,rx:4},b);
+  el('text',{x:p[2]+33,y:p[3]-4,'class':v?'v220':'v0'},b).textContent=v+' V';
+  badges[p[0]]={g:b,p:p,v:v};lastP=p;
+  $('qzRead').textContent=readTx(p,v);bar();
+}
+function setVolt(v){
+  voltOn=v;var b=$('qzVolt');b.setAttribute('aria-pressed',v?'true':'false');b.textContent=v?'量電壓:開':'量電壓:關';
+  $('qzRead').textContent=v?'點圖上的編號圈量電壓(紅棒接測點、黑棒接 T 線)。':'';drawPts();bar();if(v){toFig();}
+}
+setInterval(refreshReads,200);
+
+/* ---- 選項對應元件:淡化其他元件(線路不動)。滑鼠移到選項、鍵盤聚焦、或按選項旁的 ◎(手機用) ---- */
+var eye=-1,hoverI=-1;
+function zl(z){return (Array.isArray(z)?z:[z]);}
+function shapes(e){return e.matches&&e.matches('circle,line,rect,polygon,path,text')?[e]:Array.prototype.slice.call(e.querySelectorAll('circle,line,rect,polygon,path,text'));}
+function bbOf(e){var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,n=0,m=svg.getScreenCTM();if(!m){return null;}var inv=m.inverse();
+  shapes(e).forEach(function(c){if(c.classList.contains('hit')||c.classList.contains('halo')){return;}var r=c.getBoundingClientRect();
+    if(!r.width&&!r.height){return;}var p=new DOMPoint(r.left,r.top).matrixTransform(inv),q=new DOMPoint(r.right,r.bottom).matrixTransform(inv);
+    x0=Math.min(x0,p.x,q.x);y0=Math.min(y0,p.y,q.y);x1=Math.max(x1,p.x,q.x);y1=Math.max(y1,p.y,q.y);n++;});
+  return n?{cx:(x0+x1)/2,cy:(y0+y1)/2}:null;}
+function inZ(b,rs,m){return rs.some(function(r){return r.r?Math.hypot(b.cx-r.x,b.cy-r.y)<=r.r+m:(b.cx>=r.x-m&&b.cx<=r.x+r.w+m&&b.cy>=r.y-m&&b.cy<=r.y+r.h+m);});}
+function clearFocus(){document.body.classList.remove('qzfocus');Array.prototype.forEach.call(svg.querySelectorAll('.qzfo'),function(e){e.classList.remove('qzfo');});focusTx='';}
+function hits(z){var rs=zl(z).map(function(n){return ZONE[n];}).filter(Boolean),n=0;
+  Array.prototype.forEach.call(svg.querySelectorAll('#parts>*'),function(e){var b=bbOf(e);if(b&&inZ(b,rs,6)){n++;}});return n;}
+function applyFocus(){
+  clearFocus();var q=Q[cur],i=eye>=0?eye:hoverI;
+  if(i<0||!q||!q.opts[i]||!q.opts[i].z){bar();return;}
+  var names=zl(q.opts[i].z),rs=names.map(function(n){return ZONE[n];}).filter(Boolean);if(!rs.length){bar();return;}
+  document.body.classList.add('qzfocus');
+  Array.prototype.forEach.call(svg.querySelectorAll('#parts>*'),function(e){var b=bbOf(e);if(b&&inZ(b,rs,6)){e.classList.add('qzfo');}});
+  Array.prototype.forEach.call(svg.querySelectorAll('#labels text'),function(t){var b=bbOf(t);if(b&&inZ(b,rs,30)){t.classList.add('qzfo');}});
+  focusTx='圖上標出:'+names.join('、')+'(其他元件已淡化)';scrollRects(rs);
+}
+function ensureFig(){}
+
+/* ---- 作答流程 ---- */
+var hintOn=[],cur=0,tok=0,res=Q.map(function(){return {pick:null,shown:false};}),LET=['A','B','C','D'];
+function wait(ms,my){return new Promise(function(r){var t=0,iv=setInterval(function(){t+=100;if(my!==tok||t>=ms){clearInterval(iv);r();}},100);});}
+var cardVis=true,reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var focusTx='';
+function bar(){}
+function setCap(s){$('qzCap').textContent=s||'';bar();}
+function toFig(){}
+function setFlow(on){var c=$(IDS.flow);if(c&&c.checked!==on){c.click();}}
+function unfreeze(){if(document.body.classList.contains('paused')){$(IDS.pause).click();}}
+function freezeEnd(){if(!document.body.classList.contains('paused')){$(IDS.pause).click();}}
+function runScript(sc,keep){if(tabBefore===undefined){tabBefore=curTabId();}unfreeze();$('qzRun').textContent='執行中…';var mine=tok;   /* 回呼只在「還是同一輪」時才寫字/凍結:動畫被停掉(換題、離開、再做一次、示範連點)後 __tsRun 才非同步回傳 false,舊回呼不可蓋掉新狀態 */
+  return window.__tsRun(sc).then(function(ok){if(mine!==tok){return ok;}$('qzRun').textContent=ok?(keep?'':'示範結束,畫面已暫停(按「繼續」或「全部重設」)'):'已停止';if(ok&&!keep){freezeEnd();}return ok;});}
+function stagesOf(q){
+  if(q.stages){return q.stages;}
+  return [{cap:'故障電路的現象(畫面會停在故障狀態)',run:q.demo+';SPACE',fault:true,hold:800},
+          {cap:'看虛線框:故障點在這裡(畫面已暫停,按「繼續」可讓電路接著動作)',marks:[q.mark],fault:true,hold:3500},
+          {cap:'排除故障後的正常動作(對照)',run:q.demo,fault:false,hold:1500}];
+}
+async function playStages(q,my){
+  var st=stagesOf(q);
+  for(var i=0;i<st.length;i++){
+    if(my!==tok){return;}
+    var s=st[i];setCap('解答動畫 '+(i+1)+'/'+st.length+':'+s.cap);setMarks(s.marks);
+    if(q.t==='故障'){setFault(s.fault?faultOf(q):null);}
+    if(s.flow){setFlow(true);}
+    if(s.run){var ok=await runScript(s.run,true);if(!ok||my!==tok){return;}}
+    await wait(s.hold||1200,my);
+  }
+  if(my===tok){freezeEnd();$('qzRun').textContent='';setCap('解答動畫結束(畫面已暫停,按「繼續」可讓電路接著動作)。');}
+}
+var selfTab=false,tabBefore;
+function curTabId(){var r=null;(TABS||[]).forEach(function(id){var b=$(id);if(!r&&b&&b.getAttribute('aria-pressed')==='true'){r=id;}});return r;}
+function restoreTab(){var id=tabBefore;tabBefore=undefined;if(!id){return;}var b=$(id);if(b&&b.getAttribute('aria-pressed')!=='true'){selfTab=true;b.click();selfTab=false;}}
+function gotoTab(q){if(!q.tab){return;}var b=$(q.tab);if(b&&b.getAttribute('aria-pressed')!=='true'){selfTab=true;b.click();selfTab=false;}}
+function leave(){tok++;eye=-1;hoverI=-1;clearFocus();setMarks(null);if(voltOn){setVolt(false);}$('qzRun').textContent='';$('qzRead').textContent='';setCap('');setFault(null);restoreTab();}
+function methText(q){
+  if(q.t==='原理'){return '題型:動作原理。可按「示範動作」看電路怎麼動。';}
+  var m=q.meth,n=' 注意:圖上接點變紅,只代表線圈已通電、接點被帶動,不保證接觸良好。';
+  if(m.length>1){return '題型:故障判別。可用方式:看現象或量電壓皆可。'+n;}
+  return (m[0]==='volt'?'題型:故障判別。可用方式:量電壓(只看現象無法確定是哪一個)。':'題型:故障判別。可用方式:看現象(此題不必量電壓)。')+n;
+}
+function score(){
+  /* W8:已公布題數用 shown 計;答對只計 pick===ans;公布但沒作答的另外註明 */
+  var n=0,ok=0,no=0;res.forEach(function(r,i){if(r.shown){n++;if(r.pick===null){no++;}else if(r.pick===Q[i].ans){ok++;}}});
+  $('qzScore').textContent='已公布 '+n+'/'+Q.length+' 題,答對 '+ok+' 題'+(no?'(未作答 '+no+' 題)':'');
+}
+function render(){
+  var q=Q[cur],r=res[cur];
+  $('qzTag').textContent='第 '+(cur+1)+'/'+Q.length+' 題 · '+(q.t==='故障'?'故障判別':'動作原理');
+  $('qzStem').textContent=q.stem;$('qzMeth').textContent=methText(q);
+  $('qzLook').textContent=q.t==='故障'?'▶ 看電路現象':'▶ 示範動作';
+  $('qzVolt').hidden=!(q.t==='故障'&&q.meth.indexOf('volt')>=0);
+  $('qzHint').hidden=!q.hint||r.shown;$('qzHint').setAttribute('aria-pressed',hintOn[cur]?'true':'false');
+  var hx=$('qzHintTx');hx.hidden=!(q.hint&&hintOn[cur]&&!r.shown);hx.textContent='提示:'+(q.hint||'');
+  var o=$('qzOpts');o.innerHTML='';
+  q.opts.forEach(function(op,i){
+    var row=document.createElement('div');row.className='qzRow';
+    var b=document.createElement('button');b.type='button';b.className='qzOpt';b.setAttribute('role','radio');
+    b.setAttribute('aria-checked',r.pick===i?'true':'false');
+    b.innerHTML='<b></b><span></span>';b.querySelector('b').textContent=LET[i];b.querySelector('span').textContent=op.t;
+    if(r.shown){b.setAttribute('aria-disabled','true');if(i===q.ans){b.classList.add('right');}else if(i===r.pick){b.classList.add('wrong');}}
+    b.addEventListener('click',function(){if(res[cur].shown){return;}res[cur].pick=i;render();});
+    row.appendChild(b);
+    if(op.z){
+      var e=document.createElement('button');e.type='button';e.className='qzEye';e.textContent='◎';
+      e.setAttribute('aria-pressed',eye===i?'true':'false');e.setAttribute('aria-label','在圖上標出選項 '+LET[i]+' 的元件');e.title='在圖上標出這個選項的元件(其他元件淡化)';
+      e.addEventListener('click',function(){hoverI=-1;eye=(eye===i)?-1:i;Array.prototype.forEach.call($('qzOpts').querySelectorAll('.qzEye'),function(x,k){x.setAttribute('aria-pressed',(eye===k)?'true':'false');});applyFocus();if(eye>=0){ensureFig();}});
+      row.appendChild(e);
+      row.addEventListener('pointerenter',function(ev){if(ev.pointerType==='mouse'){hoverI=i;applyFocus();}});
+      row.addEventListener('pointerleave',function(ev){if(ev.pointerType==='mouse'){hoverI=-1;applyFocus();}});
+      row.addEventListener('focusin',function(ev){if(ev.target.matches(':focus-visible')){hoverI=i;applyFocus();}});
+      row.addEventListener('focusout',function(){hoverI=-1;applyFocus();});
+    }
+    o.appendChild(row);
+  });
+  var w=$('qzWhy');w.hidden=!r.shown;w.innerHTML='';
+  if(r.shown){
+    var p0=document.createElement('p');p0.innerHTML='<b></b>';
+    p0.firstChild.textContent=r.pick===null?'正確答案:'+LET[q.ans]:(r.pick===q.ans?'答對了!正確答案:'+LET[q.ans]:'答錯了。你選 '+LET[r.pick]+',正確答案:'+LET[q.ans]);
+    w.appendChild(p0);q.why.forEach(function(s){var p=document.createElement('p');p.textContent=s;w.appendChild(p);});
+  }
+  $('qzReveal').hidden=r.shown;$('qzReplay').hidden=!r.shown;$('qzAgain').hidden=!r.shown;setConfirm(false);   /* 換題或重新 render 一律收起確認列並解鎖「再做一次」 */
+  $('qzPrev').disabled=cur===0;$('qzNext').disabled=cur===Q.length-1;
+  Array.prototype.forEach.call($('qzDots').children,function(b,i){
+    var rr=res[i];b.className=(i===cur?'c ':'')+(rr.shown&&rr.pick!==null?(rr.pick===Q[i].ans?'ok':'no'):'');
+  });
+  score();
+}
+function show(i){
+  tok++;cur=i;eye=-1;hoverI=-1;clearFocus();setMarks(null);if(voltOn){setVolt(false);}setCap('');$('qzRun').textContent='';
+  window.__tsStop();gotoTab(Q[i]);$(IDS.reset).click();setFlow(false);setFault(res[i].shown?null:faultOf(Q[i]));render();   /* W3:已公布的題目回來一律顯示正常電路,不注入故障;要再看故障按「看電路現象」或「再看一次解答動畫」 */
+}
+$('qzLook').addEventListener('click',function(){
+  var q=Q[cur];tok++;eye=-1;clearFocus();render();setMarks(null);setCap('');setFault(faultOf(q));toFig();runScript(q.demo);
+});
+$('qzVolt').addEventListener('click',function(){setVolt(!voltOn);});
+$('qzHint').addEventListener('click',function(){hintOn[cur]=!hintOn[cur];render();});
+$('qzReveal').addEventListener('click',function(){
+  var r=res[cur];if(r.shown){return;}
+  r.shown=true;eye=-1;hoverI=-1;clearFocus();render();tok++;playStages(Q[cur],tok);
+});
+$('qzReplay').addEventListener('click',function(){tok++;playStages(Q[cur],tok);});
+/* ---- 再做一次(W4):不洗牌,公布後才出現;先在題目卡內確認,確定才清除全部作答 ---- */
+function cardIntoView(){
+  var r=card.getBoundingClientRect(),f=svg.closest('.qz-fig'),top=(innerWidth<960&&f)?f.getBoundingClientRect().bottom:0;
+  if(r.top<top+4||r.bottom>innerHeight){window.scrollTo({top:Math.max(0,window.pageYOffset+r.top-top-8),behavior:'auto'});}
+}
+function setConfirm(open){$('qzConfirm').hidden=!open;$('qzAgain').disabled=open;}   /* 確認列開著時鎖住「↻ 再做一次」(先解鎖才能把焦點還給它) */
+function closeConfirm(back){setConfirm(false);if(back){$('qzAgain').focus();}}
+function restart(){
+  leave();window.__tsStop();                       /* leave():tok++、清標示、關量電壓與讀數、排除故障、還原分頁 */
+  res.forEach(function(r){r.pick=null;r.shown=false;});hintOn.length=0;
+  show(0);cardIntoView();                          /* show(0) 會重設電路並 render()(題號鈕顏色、計分、收起確認列) */
+  var st=$('qzStem');st.setAttribute('tabindex','-1');st.focus({preventScroll:true});   /* 焦點放題幹(讀屏會唸新題目);不放第一個選項,免得觸發「聚焦淡化」 */
+}
+$('qzAgain').addEventListener('click',function(){setConfirm(true);$('qzNo').focus({preventScroll:true});});
+$('qzNo').addEventListener('click',function(){closeConfirm(true);});
+$('qzYes').addEventListener('click',restart);
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('qzConfirm').hidden){e.preventDefault();closeConfirm(true);}});
+$('qzPrev').addEventListener('click',function(){if(cur>0){show(cur-1);}});
+$('qzNext').addEventListener('click',function(){if(cur<Q.length-1){show(cur+1);}});
+Q.forEach(function(q,i){var b=document.createElement('button');b.type='button';b.textContent=i+1;b.setAttribute('aria-label','第 '+(i+1)+' 題');b.addEventListener('click',function(){show(i);});$('qzDots').appendChild(b);});
+
+/* ---- 展開、收合與離開題目 ---- */
+var card=$('qzCard');
+function out(){if(active||voltOn){leave();render();}}
+(TABS||[]).forEach(function(id){var b=$(id);if(b){b.addEventListener('click',function(ev){if(!selfTab&&ev.isTrusted){tabBefore=undefined;out();}},true);}});
+$('tsCard').addEventListener('click',out,true);$('tsFloat').addEventListener('click',out,true);
+document.addEventListener('keydown',function(e){
+  var t=e.target&&e.target.tagName;if(t==='INPUT'||t==='SELECT'||t==='BUTTON'){return;}
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){out();}
+},true);
+render();
+/* ---- 版面:頂端「測試步驟｜選擇題」切換。選擇題模式 = 左題右圖(右欄:操作列、控制電路、狀態、主電路、圖例) ---- */
+var qzmode=false,pillPh=null,zoom=1,leftEl=null,qzObs=[],layoutEl=null,rightEl=null,movedNodes=[],hiddenBox=[];
+function figHeight(){return (typeof FIGH!=='undefined')?FIGH:null;}
+function pageCards(){var main=document.querySelector('main')||document.body;
+  var cs=Array.prototype.filter.call(main.querySelectorAll('.card'),function(c){return !c.parentElement.closest('.card')&&c.id!=='tsCard'&&c.id!=='qzCard';});
+  var g=main.querySelector(':scope > [role="group"][aria-label="選擇電路"]');if(g){g.classList.add('qz-tabs');cs.push(g);}return cs;}
+function rankOf(c){
+  if(c.classList.contains('qz-tabs')){return -1;}
+  if(c.contains($(IDS.reset))){return 0;}
+  if(c.contains(svg)){return 1;}
+  if(/\b(status|meas)\b/.test(c.className)){return 2;}
+  if(c.querySelector('#fig2')){return 4;}
+  if(/\blegend\b/.test(c.className)){return 5;}
+  return 3;}
+function fitFig(){
+  if(!qzmode||!rightEl){return;}
+  var fc=svg.closest('.qz-fig'),vb=svg.viewBox&&svg.viewBox.baseVal;if(!fc||!vb||!vb.width){return;}
+  /* W5:縮放基準用「版面可用寬」,不用卡片自己的寬(卡片會被圖撐寬,形成回饋)。窄螢幕 #qzRight 是 display:contents,改量 #qzLayout */
+  var cs=getComputedStyle(fc),host=(getComputedStyle(rightEl).display==='contents')?layoutEl:rightEl,
+      cw=Math.max(100,host.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-parseFloat(cs.borderLeftWidth)-parseFloat(cs.borderRightWidth)-parseFloat(cs.marginLeft)-parseFloat(cs.marginRight)),base=cw;
+  if(figHeight()!=='none'){
+    var ex=fc.scrollHeight-svg.getBoundingClientRect().height,avail;
+    if(innerWidth>=960){var h=0,k=rightEl.firstElementChild;while(k&&k!==fc){h+=k.getBoundingClientRect().height+12;k=k.nextElementSibling;}avail=innerHeight-16-h-ex-2;}
+    else{avail=(innerWidth<600?0.42:0.46)*innerHeight-ex-2;}
+    base=Math.min(cw,Math.max(150,avail)*vb.width/vb.height);
+  }
+  var w=Math.round(base*zoom);
+  svg.style.width=w+'px';svg.style.maxHeight='none';svg.style.height='auto';
+  svg.style.marginLeft=svg.style.marginRight=(w<=cw?'auto':'0');
+  var m=$('qzZm'),pl=$('qzZp'),z0=$('qzZ0');
+  if(m){m.disabled=zoom<=0.5+1e-6;pl.disabled=zoom>=2-1e-6;
+    z0.innerHTML=Math.abs(zoom-1)<1e-6?'預設':'預設 <small>'+Math.round(zoom*100)+'%</small>';}
+}
+function setZoom(z){zoom=Math.min(2,Math.max(0.5,Math.round(z*10)/10));fitFig();}
+window.addEventListener('resize',fitFig);
+function enterQz(){
+  if(qzmode){return;}
+  qzmode=true;document.body.classList.add('qzmode');
+  window.__tsStop();
+  var nodes=pageCards().map(function(c,i){return {c:c,i:i};}).sort(function(a,b){return rankOf(a.c)-rankOf(b.c)||a.i-b.i;}).map(function(x){return x.c;});
+  layoutEl=document.createElement('div');layoutEl.id='qzLayout';
+  rightEl=document.createElement('div');rightEl.id='qzRight';
+  leftEl=document.createElement('div');leftEl.id='qzLeft';
+  movedNodes=[];hiddenBox=[];
+  var cph=document.createComment('qz');card.parentNode.insertBefore(cph,card);card.parentNode.insertBefore(layoutEl,cph);
+  movedNodes.push({n:card,ph:cph});
+  nodes.forEach(function(n){var ph=document.createComment('qz');n.parentNode.insertBefore(ph,n);movedNodes.push({n:n,ph:ph});
+    var a=n.parentElement;while(a&&a.tagName!=='MAIN'&&hiddenBox.indexOf(a)<0){hiddenBox.push(a);a=a.parentElement;}});
+  card.classList.remove('collapsed');
+  leftEl.appendChild(card);layoutEl.appendChild(leftEl);layoutEl.appendChild(rightEl);
+  nodes.forEach(function(n){
+    if(rankOf(n)===0){n.classList.add('qz-ctrl');}
+    if(rankOf(n)===1){n.classList.add('qz-fig');}
+    (rankOf(n)===0?leftEl:rightEl).appendChild(n);});
+  /* 搬走卡片後變空的容器(.stage、aside 等)隱藏;還有別的內容的不動 */
+  hiddenBox.sort(function(a,b){return b.contains(a)?-1:a.contains(b)?1:0;}).forEach(function(b){
+    var rest=Array.prototype.filter.call(b.children,function(k){return !k.classList.contains('qz-hide')&&k.tagName!=='SCRIPT'&&k.tagName!=='STYLE';});
+    if(!rest.length){b.classList.add('qz-hide');}});
+  var fh=figHeight();if(fh){layoutEl.style.setProperty('--qzFigH',fh);if(fh==='none'){layoutEl.classList.add('figscroll');}}
+  $('qzModeSteps').setAttribute('aria-pressed','false');$('qzModeQuiz').setAttribute('aria-pressed','true');
+  show(cur);fitFig();
+  var fcard=svg.closest('.qz-fig');
+  if(fcard&&!fcard.querySelector('.qzZoom')){var zb=document.createElement('div');zb.className='qzZoom';zb.setAttribute('role','group');zb.setAttribute('aria-label','電路圖大小');
+    zb.innerHTML='<button class="btn" type="button" id="qzZm" aria-label="縮小電路圖">−</button><button class="btn" type="button" id="qzZ0" aria-label="恢復預設大小">預設</button><button class="btn" type="button" id="qzZp" aria-label="放大電路圖">+</button>';
+    fcard.insertBefore(zb,fcard.firstChild);
+    var pill=$('qzPill');if(pill){pillPh=document.createComment('qzpill');pill.parentNode.insertBefore(pillPh,pill);zb.insertBefore(pill,zb.firstChild);}
+    $('qzZm').addEventListener('click',function(){setZoom(zoom-0.1);});$('qzZp').addEventListener('click',function(){setZoom(zoom+0.1);});$('qzZ0').addEventListener('click',function(){setZoom(1);});}
+  qzObs=[];
+  if(window.ResizeObserver){var ro=new ResizeObserver(fitFig);Array.prototype.forEach.call(rightEl.children,function(k){if(!k.classList.contains('qz-fig')){ro.observe(k);}});if(fcard){ro.observe(fcard);}ro.observe(layoutEl);qzObs.push(ro);}
+  if(window.MutationObserver){var mo=new MutationObserver(fitFig);mo.observe(svg,{attributes:true,attributeFilter:['viewBox']});qzObs.push(mo);}
+  fitFig();
+  window.scrollTo({top:Math.max(0,layoutEl.getBoundingClientRect().top+window.pageYOffset-8),behavior:'auto'});
+}
+function leaveQz(){
+  if(!qzmode){return;}
+  leave();
+  movedNodes.forEach(function(m){m.ph.parentNode.replaceChild(m.n,m.ph);m.n.classList.remove('qz-ctrl','qz-fig','qz-tabs');});
+  hiddenBox.forEach(function(b){b.classList.remove('qz-hide');});
+  qzObs.forEach(function(o){o.disconnect();});qzObs=[];
+  if(pillPh&&pillPh.parentNode){var pl0=$('qzPill');if(pl0){pillPh.parentNode.replaceChild(pl0,pillPh);}pillPh=null;}
+  var zb0=document.querySelector('.qzZoom');if(zb0&&zb0.parentNode){zb0.parentNode.removeChild(zb0);}
+  ['width','maxHeight','height','marginLeft','marginRight'].forEach(function(k){svg.style[k]='';});
+  if(layoutEl&&layoutEl.parentNode){layoutEl.parentNode.removeChild(layoutEl);}
+  card.classList.add('collapsed');layoutEl=null;rightEl=null;leftEl=null;movedNodes=[];hiddenBox=[];
+  qzmode=false;document.body.classList.remove('qzmode');
+  $('qzModeSteps').setAttribute('aria-pressed','true');$('qzModeQuiz').setAttribute('aria-pressed','false');
+}
+(function(){
+  var bar0=document.createElement('div');bar0.id='qzModeBar';bar0.setAttribute('role','group');bar0.setAttribute('aria-label','功能切換');
+  bar0.innerHTML='<button class="btn" id="qzModeSteps" type="button" aria-pressed="true">測試步驟</button><button class="btn" id="qzModeQuiz" type="button" aria-pressed="false">選擇題</button>';
+  var sub=document.querySelector('main .sub'),main=document.querySelector('main')||document.body;
+  if(sub){sub.parentNode.insertBefore(bar0,sub.nextSibling);}else{main.insertBefore(bar0,main.children[1]||null);}
+  $('qzModeSteps').addEventListener('click',leaveQz);$('qzModeQuiz').addEventListener('click',enterQz);
+})();
+window.__qz={faulted:function(){return !!active;},enter:enterQz,leave:leaveQz,Q:Q,PTS:PTS,ZONE:ZONE,hits:hits,setFault:setFault,faultOf:faultOf,show:show,measure:function(n){var p=(Q[cur].pts||PTS).filter(function(x){return x[0]===n;})[0];return netOf(S.solve())[p[1]]?220:0;}};
 })();
 </script>
 </body>
