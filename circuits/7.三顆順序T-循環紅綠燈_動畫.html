@@ -309,6 +309,11 @@ body.qzmode .qz-fig{overflow-x:auto}
   #qzLayout.figscroll .qz-fig{max-height:56vh}
   #qzLayout.figscroll .qz-fig #fig{max-height:none}
 }
+/* 手機橫放(矮視窗):圖卡不固定在上、不限高度,完整顯示(放大後仍可在卡內橫向捲動) */
+@media (max-width:959px) and (max-height:520px){
+  #qzLayout .qz-fig,#qzLayout.figscroll .qz-fig{position:static;max-height:none;overflow:auto}
+  body.qzmode #qzLayout .qz-fig #fig{max-height:none}
+}
 </style>
 <style id="stCss">
 /* 測試步驟模式的左右兩欄版面(2026-10-26 試做):左欄=測試步驟卡+操作區,右欄=控制電路,下排=主電路與目前狀態 */
@@ -325,9 +330,10 @@ body.qzmode .qz-fig{overflow-x:auto}
 /* 圖卡:標題改放在縮放列;展開時隱藏原標題,收合時才顯示(collapseCss 的 !important 規則) */
 body.stlay .st-card>h2{display:none}
 .stZoom{display:flex;align-items:center;gap:6px;margin:0 30px 6px 0;min-height:30px}
-.stZoom .stT{font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-right:auto}
-.stZoom .stHint{font-size:.78rem;color:var(--muted)}
-.stZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2}
+.stZoom .stT{font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-right:auto;white-space:nowrap;flex:none}
+.stZoom .stHint{font-size:.78rem;color:var(--muted);white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.stZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2;white-space:nowrap;flex:none}
+@media (hover:none),(max-width:959px){.stZoom .stHint{display:none}}   /* 觸控與窄螢幕用手指滑動,不需要這行提示 */
 .stZoom small{font-size:.75rem;opacity:.85}
 .stView{overflow:auto;scrollbar-width:none;-ms-overflow-style:none;max-width:100%;touch-action:pan-x pan-y pinch-zoom}
 .stView::-webkit-scrollbar{display:none}
@@ -372,6 +378,8 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
   #stLayout .st-main{order:5}
   #stLayout .st-rest{order:6}
 }
+@media (max-width:959px){body.stlay #tsFloat{display:none!important}}   /* 窄螢幕圖固定在上,步驟卡就在下面,不需要浮球 */
+@media (max-width:959px) and (max-height:520px){#stLayout .st-fig{position:static}}   /* 手機橫放:圖卡不固定,完整顯示 */
 </style>
 
 </head><body>
@@ -1177,7 +1185,7 @@ $('qzReveal').addEventListener('click',function(){
 $('qzReplay').addEventListener('click',function(){tok++;playStages(Q[cur],tok);});
 /* ---- 再做一次(W4):不洗牌,公布後才出現;先在題目卡內確認,確定才清除全部作答 ---- */
 function cardIntoView(){
-  var r=card.getBoundingClientRect(),f=svg.closest('.qz-fig'),top=(innerWidth<960&&f)?f.getBoundingClientRect().bottom:0;
+  var r=card.getBoundingClientRect(),f=svg.closest('.qz-fig'),top=(innerWidth<960&&f&&getComputedStyle(f).position==='sticky')?f.getBoundingClientRect().bottom:0;
   if(r.top<top+4||r.bottom>innerHeight){window.scrollTo({top:Math.max(0,window.pageYOffset+r.top-top-8),behavior:'auto'});}
 }
 function setConfirm(open){$('qzConfirm').hidden=!open;$('qzAgain').disabled=open;}   /* 確認列開著時鎖住「↻ 再做一次」(先解鎖才能把焦點還給它) */
@@ -1229,6 +1237,7 @@ function fitFig(){
   if(figHeight()!=='none'){
     var ex=fc.scrollHeight-svg.getBoundingClientRect().height,avail;
     if(innerWidth>=960){var h=0,k=rightEl.firstElementChild;while(k&&k!==fc){h+=k.getBoundingClientRect().height+12;k=k.nextElementSibling;}avail=innerHeight-16-h-ex-2;}
+    else if(innerHeight<=520){avail=innerHeight-ex-16;}   /* 手機橫放:圖卡不固定、不裁切,一屏放得下 */
     else{avail=(innerWidth<600?0.42:0.46)*innerHeight-ex-2;}
     base=Math.min(cw,Math.max(150,avail)*vb.width/vb.height);
   }
@@ -1380,6 +1389,7 @@ function fit(){
     if(v.kind==='fig'&&FH!=='none'){
       var chrome=v.card.offsetHeight-v.view.offsetHeight,avail;
       if(desk){avail=innerHeight-(v.card.getBoundingClientRect().top+window.pageYOffset)-chrome-12;}
+      else if(innerHeight<=520){avail=innerHeight-chrome-16;}
       else{avail=(innerWidth<600?0.42:0.46)*innerHeight-chrome-2;}
       base=Math.min(cw,Math.max(150,avail)*vb.width/vb.height);
     }
