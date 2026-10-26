@@ -259,7 +259,9 @@ body.qzmode #qzCard{margin-bottom:0}
 #qzLayout .card.meas{overflow-x:auto}
 #qzRight>.card{min-width:0}
 #qzLeft{display:flex;flex-direction:column;gap:12px;min-width:0}
-body.qzmode .qz-fig{overflow-x:auto}
+/* 圖卡本身不捲動(收合鈕 .cbtn 是相對圖卡定位,卡一捲它就跟著跑);圖放在 .qzView,放大後在區內平移 */
+body.qzmode .qz-fig{overflow:visible}
+.qzView{overflow:auto;max-width:100%;scrollbar-width:thin}
 /* 8 號原始動畫在窄螢幕有 #fig{min-width:680px}(圖比卡片寬、要左右捲動);選擇題模式改成跟其他電路一樣滿版,放大後才捲動 */
 body.qzmode #fig{min-width:0}
 .qzZoom{display:flex;justify-content:flex-end;gap:6px;margin:0 30px 6px 0;position:sticky;left:0}
@@ -300,23 +302,21 @@ body.qzmode #fig{min-width:0}
   #qzLayout{display:flex;flex-direction:column;align-items:stretch}
   /* 8 號的圖例放在圖卡裡,窄螢幕會把固定在上方的圖卡撐高、圖被擠小;選擇題模式隱藏(圖例在測試步驟模式看得到) */
   body.qzmode #qzLayout .qz-fig>.legend{display:none}
-  #qzLayout .qz-fig{order:1;position:sticky;top:0;z-index:6;max-height:50vh;overflow:auto;align-self:stretch}   /* 圖卡一律撐滿版面寬,圖在卡內置中 */
+  #qzLayout .qz-fig{order:1;position:sticky;top:0;z-index:6;overflow:visible;align-self:stretch}   /* 圖卡一律撐滿版面寬,圖在卡內置中 */
   /* W6:順序 = 固定在上的圖(1) → 電路分頁鈕(2) → 題目卡(3) → 操作區(4) → 其他卡(5)。分頁鈕貼近圖與題目;題目會自動切到該題的分頁 */
   #qzLayout .qz-tabs{order:2}
   #qzLayout #qzCard{order:3}
   #qzLayout .qz-ctrl{order:4}
   #qzLayout #qzRight>.card:not(.qz-fig):not(.qz-ctrl){order:5}
-  #qzLayout.figscroll .qz-fig{max-height:56vh;overflow:auto}
+  #qzLayout.figscroll .qzView{max-height:calc(56vh - 56px)}
 }
 @media (min-width:600px) and (max-width:959px){
-  #qzLayout .qz-fig{max-height:46vh}
-  body.qzmode #qzLayout .qz-fig #fig{max-height:46vh}
-  #qzLayout.figscroll .qz-fig{max-height:56vh}
   #qzLayout.figscroll .qz-fig #fig{max-height:none}
 }
 /* 手機橫放(矮視窗):圖卡不固定在上、不限高度,完整顯示(放大後仍可在卡內橫向捲動) */
 @media (max-width:959px) and (max-height:520px) and (orientation:landscape){
-  #qzLayout .qz-fig,#qzLayout.figscroll .qz-fig{position:static;max-height:none;overflow:auto;align-self:stretch}
+  #qzLayout .qz-fig,#qzLayout.figscroll .qz-fig{position:relative;max-height:none;overflow:visible;align-self:stretch}   /* relative(不是 static):收合鈕是 absolute,要以圖卡為基準 */
+  #qzLayout.figscroll .qzView{max-height:none}
   body.qzmode #qzLayout .qz-fig #fig{max-height:none}
 }
 </style>
@@ -385,7 +385,7 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
   #stLayout .st-rest{order:6}
 }
 @media (max-width:959px){body.stlay #tsFloat{display:none!important}}   /* 窄螢幕圖固定在上,步驟卡就在下面,不需要浮球 */
-@media (max-width:959px) and (max-height:520px) and (orientation:landscape){#stLayout .st-fig{position:static}}   /* 手機橫放:圖卡不固定,完整顯示 */
+@media (max-width:959px) and (max-height:520px) and (orientation:landscape){#stLayout .st-fig{position:relative}}   /* 手機橫放:圖卡不固定,完整顯示 */
 </style>
 
 </head><body>
@@ -1011,7 +1011,7 @@ function scrollRects(rs){
   rs.forEach(function(r){var x=r.r?r.x-r.r:r.x,y=r.r?r.y-r.r:r.y,w=r.r?r.r*2:r.w,h=r.r?r.r*2:r.h;
     var p=new DOMPoint(x,y).matrixTransform(m),q=new DOMPoint(x+w,y+h).matrixTransform(m);
     x0=Math.min(x0,p.x);y0=Math.min(y0,p.y);x1=Math.max(x1,q.x);y1=Math.max(y1,q.y);});
-  var sc=null,cands=[rightEl,svg.closest('.qz-fig')];
+  var sc=null,cands=[viewEl,rightEl,svg.closest('.qz-fig')];
   cands.forEach(function(c){if(!sc&&c&&c.scrollHeight>c.clientHeight+4&&/(auto|scroll)/.test(getComputedStyle(c).overflowY)){sc=c;}});
   if(!sc){return;}
   var b=sc.getBoundingClientRect();
@@ -1221,7 +1221,7 @@ document.addEventListener('keydown',function(e){
 },true);
 render();
 /* ---- 版面:頂端「測試步驟｜選擇題」切換。選擇題模式 = 左題右圖(右欄:操作列、控制電路、狀態、主電路、圖例) ---- */
-var qzmode=false,pillPh=null,zoom=1,leftEl=null,qzObs=[],layoutEl=null,rightEl=null,movedNodes=[],hiddenBox=[];
+var viewEl=null,qzmode=false,pillPh=null,zoom=1,leftEl=null,qzObs=[],layoutEl=null,rightEl=null,movedNodes=[],hiddenBox=[];
 function figHeight(){return (typeof FIGH!=='undefined')?FIGH:null;}
 function pageCards(){var main=document.querySelector('main')||document.body;
   var cs=Array.prototype.filter.call(main.querySelectorAll('.card'),function(c){return !c.parentElement.closest('.card')&&c.id!=='tsCard'&&c.id!=='qzCard';});
@@ -1244,7 +1244,7 @@ function fitFig(){
   var cs=getComputedStyle(fc),host=(getComputedStyle(rightEl).display==='contents')?layoutEl:rightEl,
       cw=Math.max(100,host.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight)-parseFloat(cs.borderLeftWidth)-parseFloat(cs.borderRightWidth)-parseFloat(cs.marginLeft)-parseFloat(cs.marginRight)),base=cw;
   if(figHeight()!=='none'){
-    var ex=fc.scrollHeight-svg.getBoundingClientRect().height,avail;
+    var ex=fc.offsetHeight-(viewEl?viewEl.offsetHeight:svg.getBoundingClientRect().height),avail;   /* 圖卡除了圖以外的高度(縮放列、內距、邊框) */
     if(innerWidth>=960){var h=0,k=rightEl.firstElementChild;while(k&&k!==fc){h+=k.getBoundingClientRect().height+12;k=k.nextElementSibling;}avail=innerHeight-16-h-ex-2;}
     else if(innerHeight<=520&&innerWidth>innerHeight){avail=vhU('svh')-ex-16;}   /* 手機橫放:圖卡不固定、不裁切,一屏放得下 */
     else{avail=(innerWidth<600?0.5:0.46)*Math.max(vhU('vh'),innerHeight)-ex-2;}
@@ -1253,6 +1253,8 @@ function fitFig(){
   var w=Math.round(base*zoom);
   svg.style.width=w+'px';svg.style.maxHeight='none';svg.style.height='auto';
   svg.style.marginLeft=svg.style.marginRight=(w<=cw?'auto':'0');
+  /* 圖放在卡內的捲動區 .qzView:放大後在區內平移,圖卡本身不捲動,右上角收合鈕才不會跟著跑。高度:縮小時跟著縮,放大時維持預設大小的高度 */
+  if(viewEl){viewEl.style.height=Math.ceil(Math.min(w,base)*vb.height/vb.width)+'px';}
   var m=$('qzZm'),pl=$('qzZp'),z0=$('qzZ0');
   if(m){m.disabled=zoom<=0.5+1e-6;pl.disabled=zoom>=2-1e-6;
     z0.innerHTML=Math.abs(zoom-1)<1e-6?'預設':'預設 <small>'+Math.round(zoom*100)+'%</small>';}
@@ -1286,6 +1288,7 @@ function enterQz(){
   $('qzModeSteps').setAttribute('aria-pressed','false');$('qzModeQuiz').setAttribute('aria-pressed','true');
   show(cur);fitFig();
   var fcard=svg.closest('.qz-fig');
+  if(fcard&&!viewEl){viewEl=document.createElement('div');viewEl.className='qzView';svg.parentNode.insertBefore(viewEl,svg);viewEl.appendChild(svg);}
   if(fcard&&!fcard.querySelector('.qzZoom')){var zb=document.createElement('div');zb.className='qzZoom';zb.setAttribute('role','group');zb.setAttribute('aria-label','電路圖大小');
     zb.innerHTML='<button class="btn" type="button" id="qzZm" aria-label="縮小電路圖">−</button><button class="btn" type="button" id="qzZ0" aria-label="恢復預設大小">預設</button><button class="btn" type="button" id="qzZp" aria-label="放大電路圖">+</button>';
     fcard.insertBefore(zb,fcard.firstChild);
@@ -1300,6 +1303,7 @@ function enterQz(){
 function leaveQz(){
   if(!qzmode){return;}
   leave();
+  if(viewEl){if(viewEl.parentNode){viewEl.parentNode.insertBefore(svg,viewEl);viewEl.parentNode.removeChild(viewEl);}viewEl=null;}
   movedNodes.forEach(function(m){m.ph.parentNode.replaceChild(m.n,m.ph);m.n.classList.remove('qz-ctrl','qz-fig','qz-tabs');});
   hiddenBox.forEach(function(b){b.classList.remove('qz-hide');});
   qzObs.forEach(function(o){o.disconnect();});qzObs=[];
