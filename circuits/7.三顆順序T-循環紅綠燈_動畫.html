@@ -177,6 +177,7 @@ body.qzfocus #fig #labels text.qzfo{opacity:1;font-weight:700}
 #qzConfirm{margin:8px 0 0;padding:8px 12px;border:1px solid var(--line);border-left:4px solid var(--on);border-radius:8px;background:var(--panel);gap:6px 8px;align-items:center}
 #qzConfirm:not([hidden]){display:flex;flex-wrap:wrap}
 #qzConfirm p{margin:0 auto 0 0;flex:1 1 12em;font-size:.92rem}
+@media (max-width:959px){#qzConfirm:not([hidden]){flex-wrap:nowrap}#qzConfirm p{flex:1 1 0;min-width:0}#qzConfirm .btn{flex:none;white-space:nowrap}}
 #qzConfirm .btn{min-height:36px;padding:4px 14px}
 #qzConfirm .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* 確認列開著時外框呼吸提示(參數同測試步驟的 .tsHl:2px 主題色外框、1.1 秒;另寫一份,避免被測試步驟的程式清掉)。「↻ 再做一次」同時鎖住(JS 設 disabled) */
@@ -295,7 +296,8 @@ body.qzmode #fig{min-width:0}
 }
 @media (max-width:959px){
   #qzRight,#qzLeft{display:contents}
-  #qzLayout{display:flex;flex-direction:column}
+  /* 窄螢幕所有卡片(題目、操作區、狀態、主電路、圖例…)一律撐滿版面寬;卡片已設 min-width:0,不會被圖撐寬 */
+  #qzLayout{display:flex;flex-direction:column;align-items:stretch}
   /* 8 號的圖例放在圖卡裡,窄螢幕會把固定在上方的圖卡撐高、圖被擠小;選擇題模式隱藏(圖例在測試步驟模式看得到) */
   body.qzmode #qzLayout .qz-fig>.legend{display:none}
   #qzLayout .qz-fig{order:1;position:sticky;top:0;z-index:6;max-height:50vh;overflow:auto;align-self:stretch}   /* 圖卡一律撐滿版面寬,圖在卡內置中 */
