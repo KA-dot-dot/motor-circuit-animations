@@ -108,35 +108,8 @@ body.paused .w.hot,body.paused .coil.bz.on .wg,body.paused .motor.run .rot{anima
 }
 @media (prefers-reduced-motion:reduce){.cbtn svg{transition:none}}
 </style>
-<style id="floatCss">
-#tsFloat{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:8}
-#tsFloat[hidden]{display:none}
-.tfBar{display:flex;align-items:center;gap:8px;padding:5px;border-radius:999px;background:var(--panel);border:1px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.3)}
-.tfNav{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:1rem;cursor:pointer;padding:0}
-.tfNav:disabled{opacity:.4;cursor:not-allowed}
-.tfNav:hover:not(:disabled){border-color:var(--accent)}
-.tfBall{width:56px;height:56px;border-radius:50%;border:0;background:var(--accent);color:var(--onaccent);cursor:grab;touch-action:none;display:grid;place-items:center;padding:0;font:inherit;line-height:1.1;-webkit-user-select:none;user-select:none}
-.tfBall span{display:block;text-align:center}
-.tfBall b{font-size:1.15rem;font-variant-numeric:tabular-nums}
-.tfBall small{display:block;font-size:.7rem;opacity:.85}
-.tfBall.ps{background:var(--muted)}
-.tfBall.run{animation:tfP 1.2s ease-in-out infinite}
-@keyframes tfP{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 35%,transparent)}}
-.tfBall:focus-visible,.tfNav:focus-visible,.tfX:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.tfPanel{position:absolute;bottom:calc(100% + 8px);right:0;width:min(340px,calc(100vw - 24px));max-height:60vh;overflow:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:0 6px 22px rgba(0,0,0,.35)}
-.tfPanel[hidden]{display:none}
-#tsFloat.down .tfPanel{bottom:auto;top:calc(100% + 8px)}
-#tsFloat.left .tfPanel{right:auto;left:0}
-.tfPanel p{margin:0}
-.tfHead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;font-weight:700;margin-bottom:4px}
-.tfHead b{color:var(--accent);margin-right:8px;font-variant-numeric:tabular-nums}
-.tfHead em{font-style:normal;color:var(--accent);margin-left:8px;font-weight:400;font-size:.85rem}
-.tfX{flex:none;width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem}
-.tfX:hover{color:var(--accent)}
-.tfBtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.tfBtns .btn{min-height:34px;padding:4px 10px;font-size:.88rem}
+<style id="tsAllCss">
 .tsCtl #tsAll[aria-pressed="true"]{background:var(--accent);color:var(--onaccent);border-color:var(--accent)}
-@media (prefers-reduced-motion:reduce){.tfBall.run{animation:none}}
 </style>
 <style id="netCss">:root{--n0:#185d00;--n1:#bb459b;--n2:#2382ba;--n3:#718509;--n4:#87544b;--n5:#2e7065;--n6:#823bae;--n7:#7c60db;--n8:#05441d;--n9:#4134ab;--n10:#670242;--n11:#03527b;--n12:#900538;--n13:#884783;--n14:#4a710a;--n15:#138b90;--n16:#095b46;--n17:#106c8f;--n18:#4d4671;--n19:#64855d;}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}}:root[data-theme="dark"]{--n0:#79d963;--n1:#ff94dd;--n2:#55aee8;--n3:#819808;--n4:#cd958b;--n5:#599a8e;--n6:#c780f7;--n7:#bcb2fd;--n8:#69ba7c;--n9:#9499fd;--n10:#f46eb4;--n11:#78c7fd;--n12:#fe9ead;--n13:#cf88c8;--n14:#7eba27;--n15:#14bbc2;--n16:#1addae;--n17:#1f99c7;--n18:#a39ece;--n19:#a6c99f;}#fig .wc{fill:none;stroke-width:2.6;stroke-linejoin:miter;display:none;transition:opacity .15s}#fig .wh{fill:none;stroke:transparent;stroke-width:14;pointer-events:none}body.netcolor #fig .wc{display:inline}body.netcolor #fig .wh{pointer-events:stroke;cursor:pointer}body.netcolor #fig .w{stroke:transparent}body.netcolor #fig .w.hot{stroke:var(--flow)}body.netfocus #fig .wc{opacity:.18}body.netfocus #fig .wc.fo{opacity:1;stroke-width:4.4}#tmk{display:none;pointer-events:none}body.netmark #tmk{display:inline}#tmk .tm{--mc:var(--muted)}#tmk rect{fill:var(--panel);fill-opacity:.92;stroke:var(--mc);stroke-width:1}#tmk text{fill:var(--mc);font:700 12px Arial,Helvetica,sans-serif;text-anchor:middle;dominant-baseline:central}#tmk line{stroke:var(--mc);stroke-width:1}body.netfocus #tmk .tm{opacity:.35}body.netfocus #tmk .tm.fo{opacity:1}</style><style id="olCss">
 #olhit .olhit{fill:none;stroke:transparent;stroke-width:2;pointer-events:all;cursor:pointer;outline:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
@@ -156,7 +129,6 @@ body.paused .w.hot,body.paused .coil.bz.on .wg,body.paused .motor.run .rot{anima
 .tsDots button.v{background:var(--tint)}
 .cbtn:hover{background:var(--tint)}
 .chips i{box-shadow:inset 0 0 0 1px var(--muted)}
-@keyframes tfP{50%{box-shadow:0 0 0 7px var(--tint)}}
 }
 </style>
 <style id="qzCss">
@@ -270,7 +242,7 @@ body.qzmode .qz-ctrl .hint,body.qzmode .qz-ctrl>h2,body.qzmode .qz-fig>h2{displa
 body.qzmode .qz-ctrl{padding:8px 12px}
 #qzModeBar .btn{min-height:38px}
 body:not(.qzmode) #qzCard{display:none}
-body.qzmode #tsCard,body.qzmode #tsFloat{display:none!important}
+body.qzmode #tsCard{display:none!important}
 .qz-hide{display:none!important}
 body.qzmode #qzCard>.cbtn{display:none}
 body.qzmode #qzCard>h2{pointer-events:none}
@@ -294,7 +266,12 @@ body.qzmode .qz-fig{overflow:visible}
 /* 8 號原始動畫在窄螢幕有 #fig{min-width:680px}(圖比卡片寬、要左右捲動);選擇題模式改成跟其他電路一樣滿版,放大後才捲動 */
 body.qzmode #fig{min-width:0}
 .qzZoom{display:flex;justify-content:flex-end;gap:6px;margin:0 30px 6px 0;position:sticky;left:0}
-.qzZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2}
+.qzZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2;white-space:nowrap;flex:none}
+/* 主電路(2～8 號)的縮放列與捲動框:獨立一組(.qzZoomMain / .qzViewMain、#qzMZm #qzMZ0 #qzMZp),樣式同控制電路;右側留 30px 避開 ▼ */
+.qzViewMain{overflow:auto;max-width:100%;scrollbar-width:thin}
+.qzZoomMain{display:flex;justify-content:flex-end;align-items:center;gap:6px;margin:0 30px 6px 0}
+.qzZoomMain .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2;white-space:nowrap;flex:none}
+.qzZoomMain small{font-size:.75rem;opacity:.85}
 .qzZoom small{font-size:.75rem;opacity:.85}
 .qzZoom{align-items:center}
 .qzZoom #qzPill{position:static;margin-right:auto;padding:2px 12px;font-size:.8rem;border-radius:999px;max-width:calc(100% - 200px);line-height:1.4}
@@ -366,7 +343,7 @@ body.qzmode #fig{min-width:0}
 body.stlay .st-card>h2{display:none}
 body.stlay #fig{min-width:0}
 .stZoom{display:flex;align-items:center;gap:6px;margin:0 30px 6px 0;min-height:30px}
-.stZoom .stT{font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-right:auto;white-space:nowrap;flex:none}
+.stZoom .stT{font-size:.8rem;letter-spacing:.08em;color:var(--muted);margin-right:auto;white-space:nowrap;flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}   /* 窄螢幕放不下時標題以省略號縮短,按鈕(nowrap、flex:none)不被擠出卡片 */
 .stZoom .stHint{font-size:.78rem;color:var(--muted);white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .stZoom .btn{min-height:30px;padding:2px 12px;font-size:.88rem;line-height:1.2;white-space:nowrap;flex:none}
 @media (hover:none),(max-width:959px){.stZoom .stHint{display:none}}   /* 觸控與窄螢幕用手指滑動,不需要這行提示 */
@@ -401,9 +378,6 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
   #stLayout{grid-template-columns:minmax(360px,40%) minmax(0,1fr)}
   #stLeft{position:sticky;top:8px}
 }
-@media (min-width:1180px){
-  #stLow{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
-}
 @media (max-width:959px){
   #stLeft,#stRight,#stLow{display:contents}
   #stLayout{display:flex;flex-direction:column;align-items:stretch}
@@ -414,8 +388,9 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
   #stLayout .st-main{order:5}
   #stLayout .st-rest{order:6}
 }
-@media (max-width:959px){body.stlay #tsFloat{display:none!important}}   /* 窄螢幕圖固定在上,步驟卡就在下面,不需要浮球 */
-@media (max-width:959px) and (max-height:520px) and (orientation:landscape){#stLayout .st-fig{position:relative}}   /* 手機橫放:圖卡不固定,完整顯示 */
+/* 10 號(FIGH='none',圖很高):手機、平板直放時固定在上的圖卡不超過螢幕高的 56%,超出的圖在卡內拖動(同選擇題頁 figscroll) */
+@media (max-width:959px){#stLayout.figscroll .stView{max-height:calc(56vh - 64px)}   /* 64px＝圖卡的縮放列＋內距＋邊框,整張圖卡 ≤ 56vh */}
+@media (max-width:959px) and (max-height:520px) and (orientation:landscape){#stLayout .st-fig{position:relative}#stLayout.figscroll .stView{max-height:none}}   /* 手機橫放:圖卡不固定,完整顯示 */
 </style>
 
 </head><body>
@@ -447,14 +422,6 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
 <p class="qzCap" id="qzCap" aria-live="polite"></p>
 <div class="qzWhy" id="qzWhy" hidden></div>
 </section>
-<div id="tsFloat" hidden>
-<div class="tfPanel" id="tfPanel" role="region" aria-label="測試步驟(浮動視窗)" hidden>
-<div class="tfHead"><span><b id="tfStep"></b><span id="tfTitle"></span><em id="tfRun"></em></span><button type="button" class="tfX" id="tfClose" aria-label="收起步驟視窗">✕</button></div>
-<p class="tsRow"><i>操作</i><span id="tfDo"></span></p><p class="tsRow"><i>預期</i><span id="tfSee"></span></p>
-<div class="tfBtns"><button class="btn" id="tfAll" type="button">▶ 從頭播放全部</button><button class="btn" id="tfFrom" type="button">▶ 從此步驟播放</button><button class="btn" id="tfRe" type="button">↻ 重播此步驟</button><button class="btn" id="tfPause" type="button">⏸ 暫停</button></div>
-</div>
-<div class="tfBar"><button class="tfNav" id="tfPrev" type="button" aria-label="上一步">◀</button><button class="tfBall" id="tfBall" type="button" aria-expanded="false" aria-label="展開或收起測試步驟,可拖曳移動"><span><b id="tfNo">1</b><small id="tfTot">/17</small></span></button><button class="tfNav" id="tfNext" type="button" aria-label="下一步">▶</button></div>
-</div>
 
 <div class="stage">
 <div class="card fig fm" id="cardMain"><h2>主電路</h2><svg id="fig2" viewBox="0 0 300 380" role="img" aria-label="主電路:NFB、MC 主接點、積熱電驛 TH-RY 與馬達 M"></svg></div>
@@ -809,13 +776,12 @@ function showRun(){
   var t=quiet?'':runMsg,ps=bodyPaused()&&!sPause;
   if((running||allOn)&&!quiet){t=ps?'已暫停':(allOn?'全部播放中…':'執行中…');}
   if($('tsRun').textContent!==t){$('tsRun').textContent=t;}
-  updFloat();
 }
 function updAll(){
   var t=allOn?'■ 停止全部播放':'▶ 從頭播放全部';
-  $('tsAll').textContent=t;$('tfAll').textContent=t;
+  $('tsAll').textContent=t;
   $('tsAll').setAttribute('aria-pressed',allOn?'true':'false');
-  $('tsFrom').disabled=allOn;$('tfFrom').disabled=allOn;
+  $('tsFrom').disabled=allOn;
 }
 function stopRun(){runId++;running=false;if(sPause){sPause=false;if(bodyPaused()){var b=$(CFG.ids.pause);if(b){b.click();}}}}
 function stopAll(){jump=-1;if(allOn){allOn=false;allTok++;updAll();}}
@@ -885,7 +851,7 @@ function show(){
   $('tsDo').textContent=s[1];$('tsSee').textContent=s[2];
   $('tsPrev').disabled=idx===0;$('tsNext').disabled=idx===list.length-1;
   Array.prototype.forEach.call($('tsDots').children,function(b,i){b.className=i===idx?'c':(seen[i]?'v':'');});
-  apply();updFloat();
+  apply();
 }
 function targets(t){var I=CFG.ids,q;
   if(I[t]){q='#'+I[t];}else if(t.charAt(0)==='#'||t.charAt(0)==='['){q=t;}else{q='[data-pb="'+t+'"]';}
@@ -896,47 +862,6 @@ function apply(){
   s[3].forEach(function(t){targets(t).forEach(function(e){(e.closest&&e.tagName==='INPUT'&&e.closest('label')||e).classList.add('tsHl');});});
 }
 
-/* ---- 浮動步驟球:步驟卡片捲出畫面時出現,點球展開文字,球旁有上一步/下一步 ---- */
-var fl=$('tsFloat'),fp=$('tfPanel'),fb=$('tfBall'),openP=false,cardVis=true;
-function updFloat(){
-  var s=list[idx];if(!s){return;}
-  $('tfNo').textContent=idx+1;$('tfTot').textContent='/'+list.length;
-  $('tfStep').textContent='步驟 '+(idx+1)+'/'+list.length;$('tfTitle').textContent=s[0];
-  $('tfDo').textContent=s[1];$('tfSee').textContent=s[2];$('tfRun').textContent=$('tsRun').textContent;
-  $('tfPrev').disabled=idx===0;$('tfNext').disabled=idx===list.length-1;
-  var ps=bodyPaused();
-  $('tfPause').textContent=ps?'▶ 繼續':'⏸ 暫停';
-  fb.classList.toggle('run',(running||allOn)&&!ps&&!quiet);fb.classList.toggle('ps',ps);
-}
-function setOpen(v){
-  openP=v;fp.hidden=!v;fb.setAttribute('aria-expanded',v?'true':'false');
-  if(v){var r=fl.getBoundingClientRect();fl.classList.toggle('down',r.top<320);fl.classList.toggle('left',r.left+r.width/2<innerWidth/2);}
-}
-function applyFloat(){fl.hidden=cardVis;if(cardVis&&openP){setOpen(false);}}
-if('IntersectionObserver' in window){
-  new IntersectionObserver(function(es){cardVis=es[es.length-1].intersectionRatio>=0.6;applyFloat();},{threshold:[0,.2,.4,.6,.8,1]}).observe($('tsCard'));
-}
-(function(){
-  var sx=0,sy=0,ox=0,oy=0,moved=false,drag=false;
-  fb.addEventListener('pointerdown',function(e){drag=true;moved=false;sx=e.clientX;sy=e.clientY;var r=fl.getBoundingClientRect();ox=r.left;oy=r.top;try{fb.setPointerCapture(e.pointerId);}catch(x){}});
-  fb.addEventListener('pointermove',function(e){
-    if(!drag){return;}var dx=e.clientX-sx,dy=e.clientY-sy;
-    if(!moved&&Math.abs(dx)+Math.abs(dy)<8){return;}moved=true;
-    var w=fl.offsetWidth,h=fl.offsetHeight;
-    fl.style.left=Math.max(4,Math.min(innerWidth-w-4,ox+dx))+'px';fl.style.top=Math.max(4,Math.min(innerHeight-h-4,oy+dy))+'px';
-    fl.style.right='auto';fl.style.bottom='auto';
-  });
-  fb.addEventListener('pointerup',function(){var m=moved;drag=false;if(m){if(openP){setOpen(true);}}else{setOpen(!openP);}});
-  fb.addEventListener('pointercancel',function(){drag=false;});
-  fb.addEventListener('click',function(e){if(e.detail===0){setOpen(!openP);}});   /* 鍵盤 Enter */
-})();
-$('tfClose').addEventListener('click',function(){setOpen(false);});
-$('tfPrev').addEventListener('click',function(){go(idx-1);});
-$('tfNext').addEventListener('click',function(){go(idx+1);});
-$('tfAll').addEventListener('click',toggleAll);
-$('tfFrom').addEventListener('click',playFrom);
-$('tfRe').addEventListener('click',play);
-$('tfPause').addEventListener('click',function(){$(CFG.ids.pause).click();setTimeout(updFloat,30);});
 
 /* ---- 輸入 ---- */
 $('tsPlay').addEventListener('click',play);
@@ -947,10 +872,9 @@ $('tsNext').addEventListener('click',function(){go(idx+1);});
 document.addEventListener('keydown',function(e){
   var t=e.target&&e.target.tagName;if(t==='INPUT'||t==='SELECT'||e.ctrlKey||e.metaKey||e.altKey){return;}
   if(e.key==='ArrowLeft'){go(idx-1);}else if(e.key==='ArrowRight'){go(idx+1);}
-  else if(e.key==='Escape'&&openP){setOpen(false);}
 });
 /* 腳本或全部播放進行中,您親手操作電路(選擇開關、ON 鈕、送電/OL/重設鈕、秒數欄,或 a s d f 鍵)就停止,避免腳本把您的操作蓋掉。
-   暫停鈕、聲音鈕、電流路徑、步驟區與浮球都不會中斷腳本。 */
+   暫停鈕、聲音鈕、電流路徑、步驟區都不會中斷腳本。 */
 var TAKE=CFG.take;
 function userTook(e){
   if(!e.isTrusted||!(running||allOn)||frozen()){return;}
@@ -1416,14 +1340,14 @@ Q.forEach(function(q,i){var b=document.createElement('button');b.type='button';b
 var card=$('qzCard');
 function out(){if(active||voltOn){leave();render();}}
 (TABS||[]).forEach(function(id){var b=$(id);if(b){b.addEventListener('click',function(ev){if(!selfTab&&ev.isTrusted){tabBefore=undefined;out();}},true);}});
-$('tsCard').addEventListener('click',out,true);$('tsFloat').addEventListener('click',out,true);
+$('tsCard').addEventListener('click',out,true);
 document.addEventListener('keydown',function(e){
   var t=e.target&&e.target.tagName;if(t==='INPUT'||t==='SELECT'||t==='BUTTON'){return;}
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){out();}
 },true);
 render();
 /* ---- 版面:頂端「測試步驟｜選擇題」切換。選擇題模式 = 左題右圖(右欄:操作列、控制電路、狀態、主電路、圖例) ---- */
-var viewEl=null,qzmode=false,pillPh=null,zoom=1,leftEl=null,qzObs=[],layoutEl=null,rightEl=null,movedNodes=[],hiddenBox=[];
+var viewEl=null,viewMEl=null,zbMEl=null,svg2=null,zoomM=1,qzmode=false,pillPh=null,zoom=1,leftEl=null,qzObs=[],layoutEl=null,rightEl=null,movedNodes=[],hiddenBox=[];
 function figHeight(){return (typeof FIGH!=='undefined')?FIGH:null;}
 function pageCards(){var main=document.querySelector('main')||document.body;
   var cs=Array.prototype.filter.call(main.querySelectorAll('.card'),function(c){return !c.parentElement.closest('.card')&&c.id!=='tsCard'&&c.id!=='qzCard';});
@@ -1439,7 +1363,7 @@ function rankOf(c){
 /* 窄螢幕的圖寬不再跟著 innerHeight 跑(手機網址列/工具列收合時 innerHeight 會變,圖卡就會縮窄又放大):
    直放用大視窗高(100vh,穩定),橫放用小視窗高(100svh,工具列顯示時也一屏放得下) */
 function vhU(u){if(u==='svh'&&!(window.CSS&&CSS.supports&&CSS.supports('height','100svh'))){return innerHeight;}var d=document.createElement('div');d.style.cssText='position:fixed;left:-9px;top:0;width:1px;visibility:hidden;pointer-events:none;height:100'+u;document.body.appendChild(d);var h=d.offsetHeight;document.body.removeChild(d);return h||innerHeight;}
-function fitFig(){
+function fitCtl(){
   if(!qzmode||!rightEl){return;}
   var fc=svg.closest('.qz-fig'),vb=svg.viewBox&&svg.viewBox.baseVal;if(!fc||!vb||!vb.width){return;}
   /* W5:縮放基準用「版面可用寬」,不用卡片自己的寬(卡片會被圖撐寬,形成回饋)。窄螢幕 #qzRight 是 display:contents,改量 #qzLayout */
@@ -1461,7 +1385,26 @@ function fitFig(){
   if(m){m.disabled=zoom<=0.5+1e-6;pl.disabled=zoom>=2-1e-6;
     z0.innerHTML=Math.abs(zoom-1)<1e-6?'預設':'預設 <small>'+Math.round(zoom*100)+'%</small>';}
 }
+/* 主電路(#fig2,2～8 號)有自己的縮放列與捲動區,縮放值 zoomM 與控制電路的 zoom 各自獨立。
+   縮放基準=原始樣式下圖實際畫出的寬度(先清掉行內樣式再量,所以 8 號 #fig2 的 max-width:440px、62vh 高度上限都照原樣算進去) */
+function fitMain(){
+  if(!qzmode||!viewMEl||!svg2){return;}
+  var vb=svg2.viewBox&&svg2.viewBox.baseVal;if(!vb||!vb.width){return;}
+  var cw=viewMEl.clientWidth;if(cw<=0){return;}   /* 卡片收合時量不到,展開後 ResizeObserver 會再呼叫 */
+  var st=svg2.style;st.width='';st.height='';st.maxHeight='';st.maxWidth='';st.marginLeft='';st.marginRight='';st.marginBottom='';
+  var mb=getComputedStyle(svg2).marginBottom;   /* 2、3、8 號原檔的 #fig2 有 margin-bottom(6～10px):留在捲動框裡會變成多餘的垂直捲動,改移到捲動框外層,間距不變 */
+  var r=svg2.getBoundingClientRect(),base=Math.min(r.width,r.height*vb.width/vb.height);if(!(base>0)){return;}
+  var w=Math.round(base*zoomM);
+  st.width=w+'px';st.height='auto';st.maxHeight='none';st.maxWidth='none';
+  st.marginLeft=st.marginRight=(w<=cw?'auto':'0');st.marginBottom='0px';viewMEl.style.marginBottom=mb;
+  viewMEl.style.height=Math.ceil(Math.min(w,base)*vb.height/vb.width)+'px';
+  var m=$('qzMZm'),pl=$('qzMZp'),z0=$('qzMZ0');
+  if(m){m.disabled=zoomM<=0.5+1e-6;pl.disabled=zoomM>=2-1e-6;
+    z0.innerHTML=Math.abs(zoomM-1)<1e-6?'預設':'預設 <small>'+Math.round(zoomM*100)+'%</small>';}
+}
+function fitFig(){fitCtl();fitMain();}
 function setZoom(z){zoom=Math.min(2,Math.max(0.5,Math.round(z*10)/10));fitFig();}
+function setZoomM(z){zoomM=Math.min(2,Math.max(0.5,Math.round(z*10)/10));fitMain();}
 window.addEventListener('resize',fitFig);
 function enterQz(){
   if(qzmode){return;}
@@ -1496,9 +1439,18 @@ function enterQz(){
     fcard.insertBefore(zb,fcard.firstChild);
     var pill=$('qzPill');if(pill){pillPh=document.createComment('qzpill');pill.parentNode.insertBefore(pillPh,pill);zb.insertBefore(pill,zb.firstChild);}
     $('qzZm').addEventListener('click',function(){setZoom(zoom-0.1);});$('qzZp').addEventListener('click',function(){setZoom(zoom+0.1);});$('qzZ0').addEventListener('click',function(){setZoom(1);});}
+  svg2=$('fig2');
+  if(svg2&&!viewMEl&&svg2.parentNode&&svg2.parentNode.classList.contains('card')){
+    var mcard=svg2.parentNode;
+    viewMEl=document.createElement('div');viewMEl.className='qzViewMain';mcard.insertBefore(viewMEl,svg2);viewMEl.appendChild(svg2);   /* 主電路卡本身不設 overflow(▼ 是相對卡片定位);平移捲的是內層捲動框 */
+    zbMEl=document.createElement('div');zbMEl.className='qzZoomMain';zbMEl.setAttribute('role','group');zbMEl.setAttribute('aria-label','主電路大小');
+    zbMEl.innerHTML='<button class="btn" type="button" id="qzMZm" aria-label="縮小主電路">−</button><button class="btn" type="button" id="qzMZ0" aria-label="恢復主電路預設大小">預設</button><button class="btn" type="button" id="qzMZp" aria-label="放大主電路">+</button>';
+    mcard.insertBefore(zbMEl,viewMEl);   /* 在主電路圖正上方;4 號卡內有分頁鈕列,縮放列自然落在分頁鈕下面 */
+    $('qzMZm').addEventListener('click',function(){setZoomM(zoomM-0.1);});$('qzMZp').addEventListener('click',function(){setZoomM(zoomM+0.1);});$('qzMZ0').addEventListener('click',function(){setZoomM(1);});}
+  else{svg2=null;}
   qzObs=[];
   if(window.ResizeObserver){var ro=new ResizeObserver(fitFig);Array.prototype.forEach.call(rightEl.children,function(k){if(!k.classList.contains('qz-fig')){ro.observe(k);}});if(fcard){ro.observe(fcard);}ro.observe(layoutEl);qzObs.push(ro);}
-  if(window.MutationObserver){var mo=new MutationObserver(fitFig);mo.observe(svg,{attributes:true,attributeFilter:['viewBox']});qzObs.push(mo);}
+  if(window.MutationObserver){var mo=new MutationObserver(fitFig);mo.observe(svg,{attributes:true,attributeFilter:['viewBox']});if(svg2){mo.observe(svg2,{attributes:true,attributeFilter:['viewBox']});}qzObs.push(mo);}
   fitFig();
   window.scrollTo({top:Math.max(0,layoutEl.getBoundingClientRect().top+window.pageYOffset-8),behavior:'auto'});
 }
@@ -1506,6 +1458,9 @@ function leaveQz(){
   if(!qzmode){return;}
   leave();
   if(viewEl){if(viewEl.parentNode){viewEl.parentNode.insertBefore(svg,viewEl);viewEl.parentNode.removeChild(viewEl);}viewEl=null;}
+  if(viewMEl){if(viewMEl.parentNode&&svg2){viewMEl.parentNode.insertBefore(svg2,viewMEl);viewMEl.parentNode.removeChild(viewMEl);}viewMEl=null;}
+  if(zbMEl&&zbMEl.parentNode){zbMEl.parentNode.removeChild(zbMEl);}zbMEl=null;
+  if(svg2){['width','maxHeight','maxWidth','height','marginLeft','marginRight','marginBottom'].forEach(function(k){svg2.style[k]='';});svg2=null;}
   movedNodes.forEach(function(m){m.ph.parentNode.replaceChild(m.n,m.ph);m.n.classList.remove('qz-ctrl','qz-fig','qz-tabs');});
   hiddenBox.forEach(function(b){b.classList.remove('qz-hide');});
   qzObs.forEach(function(o){o.disconnect();});qzObs=[];
@@ -1553,7 +1508,7 @@ function build(){
   on=true;document.body.classList.add('stlay');moved=[];hid=[];views=[];
   var tabs=main.querySelector(':scope > [role="group"][aria-label="選擇電路"]');
   var cs=cardsOf().map(function(c,i){return {c:c,i:i};}).sort(function(a,b){return rank(a.c)-rank(b.c)||a.i-b.i;}).map(function(x){return x.c;});
-  lay=mk('div','stLayout');var L=mk('div','stLeft'),R=mk('div','stRight'),Low=mk('div','stLow');
+  lay=mk('div','stLayout');if(figH()==='none'){lay.classList.add('figscroll');}var L=mk('div','stLeft'),R=mk('div','stRight'),Low=mk('div','stLow');
   var cph=document.createComment('st');ts.parentNode.insertBefore(cph,ts);ts.parentNode.insertBefore(lay,cph);moved.push({n:ts,ph:cph});
   if(tabs){place(tabs);tabs.classList.add('st-tabs');}
   cs.forEach(place);
