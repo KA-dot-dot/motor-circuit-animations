@@ -524,7 +524,7 @@ body.stlay .st-ctrl .hint,body.stlay .st-ctrl>h2{display:none}
 <div class="pausepill" id="pausePill" role="status" hidden>已暫停:按空白鍵或「繼續」恢復</div>
 <main class="wrap">
   <h1 id="h1"></h1>
-  <p class="sub" id="sub">直接按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。通電或動作的元件會變紅,上方主電路的馬達會跟著轉動。</p>
+  <p class="sub" id="sub">直接按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。通電或動作的元件會變紅,下方主電路的馬達會跟著轉動。</p>
 
   <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px" role="group" aria-label="選擇電路"><button class="btn" id="tabBasic" type="button" aria-pressed="true">基礎圖:三台馬達順序啟動</button><button class="btn" id="tabAdv" type="button" aria-pressed="false">進階圖:手動順序控制</button><button class="btn" id="tabC34" type="button" aria-pressed="false">進階題:順序啟動、互鎖與過載保護</button><button class="btn" id="tabC33" type="button" aria-pressed="false">進階題:順序啟閉控制</button></div>
 
@@ -1511,10 +1511,10 @@ buildMain();
 
 var mode='basic';
 var TXT={
-  c34:['進階題:順序啟動、互鎖與過載保護','先按 PB2 啟動 MC1,再試試 PB3、PB4。順序不限,先猜結果再按。通電或動作的元件會變紅。'],
-  c33:['進階題:順序啟閉控制(三相感應電動機)','按 PB1(啟動)讓 X1 通電,MC1、MC2、MC3 依 T1、T2 的延時順序啟動;按 PB2(停止)則照同樣順序一個接著一個停止。接點的紅色豎線表示已動作:常開靠向圓圈是閉合,常閉離開圓圈是斷開。上方主電路的馬達會跟著轉動。'],
-  basic:['三台馬達順序啟動(基礎圖)','按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。MC2 要等 MC1 動作、MC3 要等 MC2 動作才能啟動。通電或動作的元件會變紅,上方主電路的馬達會跟著轉動。'],
-  adv:['手動順序控制電路(進階圖)','直接按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。通電或動作的元件會變紅,上方主電路的馬達會跟著轉動。']
+  c34:['進階題:順序啟動、互鎖與過載保護','先按 PB2 啟動 MC1,再試試 PB3、PB4。順序不限,先猜結果再按。通電或動作的元件會變紅,主電路的馬達會跟著轉動。'],
+  c33:['進階題:順序啟閉控制(三相感應電動機)','按 PB1(啟動)讓 X1 通電,MC1、MC2、MC3 依 T1、T2 的延時順序啟動;按 PB2(停止)則照同樣順序一個接著一個停止。接點的紅色豎線表示已動作:常開靠向圓圈是閉合,常閉離開圓圈是斷開。下方主電路的馬達會跟著轉動。'],
+  basic:['三台馬達順序啟動(基礎圖)','按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。MC2 要等 MC1 動作、MC3 要等 MC2 動作才能啟動。通電或動作的元件會變紅,下方主電路的馬達會跟著轉動。'],
+  adv:['手動順序控制電路(進階圖)','直接按圖上的 PB1~PB4,順序不限,例如先按 PB3 看看會怎樣。通電或動作的元件會變紅,下方主電路的馬達會跟著轉動。']
 };
 var CHIPS_C33=CHIPS_ADV.slice(0,6).concat([['X1','通電','斷電','var(--on)'],['T1','通電','斷電','var(--on)'],['T2','通電','斷電','var(--on)'],['PL1','亮','熄','#2f9e58'],['PL2','亮','熄','#2f9e58'],['PL3','亮','熄','#e5484d'],['PL4','亮','熄','#2f9e58'],['BZ','響','靜','var(--bz)']]);
 var CHIPS_C34=CHIPS_ADV.slice(0,3).concat(CHIPS_ADV.slice(6));
