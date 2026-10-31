@@ -52,6 +52,10 @@ body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
 .fold>h2{cursor:pointer;user-select:none;-webkit-user-select:none;padding:6px 0;margin:0 0 2px}.fold>h2::before{content:'▾ '}.fold.clp>h2::before{content:'▸ '}.fold.clp>h2{margin-bottom:0}.fold.clp>*:not(h2){display:none!important}.fold>h2:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 /* 點一下再點一下接線:th 是看不見的放大點擊區(fill 固定 none,不隨狀態改 fill),pd 是已選端子,pdr 是外圈 */
 .th{fill:none;stroke:none;pointer-events:all}body:not(.wm) .th,body:not(.wm) .tr{pointer-events:none}.tr.pd{fill:var(--ac);stroke:var(--ac);stroke-width:3}.pdr{fill:none;stroke:var(--ac);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
+/* 量電壓(2026-10-29):開啟後執行模式也能點螺絲;紅棒、黑棒各畫一圈;讀數放在工具列下面的 #vmRead(不寫進 #msg,因為 render 每次會覆寫 #msg) */
+body.vmon:not(.wm) .tr,body.vmon:not(.wm) .th{pointer-events:all}body.vmon:not(.wm) .tr{cursor:pointer}
+.vmr,.vmb{fill:none;stroke-width:3.5;pointer-events:none}.vmr{stroke:var(--on)}.vmb{stroke:var(--ink)}
+#vmRead{margin:0 0 8px;padding:8px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--p);line-height:1.5}#vmRead .v{font-weight:700;font-variant-numeric:tabular-nums}#vmRead .v220{color:var(--on)}#vmRead .v0{color:var(--mu)}
 </style></head><body class="wm">
 <div id="pz" hidden>已暫停</div><div id="tst" hidden></div><main class="wrap">
 <h1>工配練習台（控制電路）</h1>
@@ -68,7 +72,8 @@ body:not(.wm) .gi,body:not(.wm) .go,body:not(.wm) .ge{display:none}
 <aside>
 <section class="card fold" id="fs"><h2>目前狀態</h2><ul id="chips"></ul><p id="msg" style="margin-top:8px"></p></section>
 <section class="card fold" id="fw"><h2 id="wh">接線檢查</h2><ul id="warn"></ul></section>
-</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="br" type="button" hidden title="只在自由配置檢視、已選取元件時可用">旋轉 90°</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bd" type="button" hidden>刪除所選導線</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／斷電延遲電驛／FR／Y-Δ 設定秒數（斷電延遲為斷電後維持時間，FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
+</aside></div><div class="mainc"><div class="bar"><button id="bm" type="button" aria-pressed="false">模式：接線</button><button class="xw" id="bv" type="button" aria-pressed="true">檢視：端子台</button><button class="xr" id="bp" type="button" aria-pressed="true">送電中</button><button class="xr" id="bt" type="button">模擬 OL 跳脫</button><button class="xw" id="br" type="button" hidden title="只在自由配置檢視、已選取元件時可用">旋轉 90°</button><button class="xw" id="bu" type="button">復原上一步驟</button><button class="xw" id="bd" type="button" hidden>刪除所選導線</button><button class="xw" id="bc" type="button">清除全部</button><button id="bs" type="button" aria-pressed="true">聲音：開</button><button class="xr" id="bz" type="button" aria-pressed="false">暫停(空白鍵)</button><button class="xr" id="bvm" type="button" aria-pressed="false" title="開啟後點端子：紅棒量到的電壓（黑棒預設接 T 線）；再點另一個端子則量兩點之間">量電壓</button><label class="fw xr"><input type="checkbox" id="cf"> 顯示電流路徑</label><label id="ls" hidden>限時電驛／斷電延遲電驛／FR／Y-Δ 設定秒數（斷電延遲為斷電後維持時間，FR 為閃爍間隔，Y-Δ 為 Y 運轉時間） <input id="sT" type="number" min="1" max="10" step="0.5" value="3"></label><div id="zc"><button id="zo" type="button" aria-label="縮小">－</button><button id="zp" type="button" title="點一下：符合視窗" aria-label="符合視窗">100%</button><button id="zi" type="button" aria-label="放大">＋</button></div></div>
+<div id="vmRead" aria-live="polite" hidden></div>
 <div class="g"><div class="cvh"><div id="cvw"><svg id="cv" viewBox="0 0 900 560" role="img" aria-label="接線畫布"><g id="gz"></g><g id="gw"></g><g id="gp"></g><g id="gt"></g></svg></div></div></div></div></div>
 </main>
 <script>
@@ -90,6 +95,7 @@ PX:[['NO','NO','px']]};
 var NAMES={F:'保險絲 F',ON:'常開按鈕 ON',OFF:'常閉按鈕 OFF',MC:'接觸器 MC',OL:'積熱電驛 OL',PL:'指示燈 PL',BZ:'蜂鳴器 BZ',X:'中間電驛 X(8腳)',X11:'中間電驛 X(11腳)',TM:'限時電驛 T',FR:'閃爍電驛 FR',COS:'選擇開關 COS',TF:'斷電延遲電驛 T',YD:'Y-Δ 專用電驛',PX:'近接開關 PXS'};
 var CAT={F:'i',ON:'i',OFF:'i',COS:'i',PX:'i',OL:'i',MC:'o',X:'o',X11:'o',TM:'o',TF:'o',YD:'o',FR:'o',PL:'o',BZ:'o'};
 var C=[],W=[],cnt={},st={pw:true,tr:false,p:{},c:{},t:{},d:{},ss:{},px:{}},run=false,paused=false,flow=false,tb=true,LY=null,R=null,tmr=0,drag=null,sh=false,at={},spawn=0,sel=null,pend=null,CO=false;
+var vm={on:false,r:null,b:null},vmLast='';   /* 量電壓:r=紅棒 {k,r},b=黑棒 {k,r};黑棒空著就是 T 線 */
 function add(t,x,y){var p=t==='TM'||t==='TF'?'T':t==='X11'?'X':t,id=(t==='R'||t==='T')?t:p+(cnt[p]=(cnt[p]||0)+1);C.push({id:id,t:t,x:x,y:y,r:0,s:t==='FR'?1:3});return id;}
 function comp(id){return C.filter(function(o){return o.id===id;})[0];}
 function tp(k,r){if(tb&&LY&&LY.pos[k]){var o=LY.pos[k];return o[r==='u'||r==='l'?r:(o.z==='U'?'l':'u')];}var a=k.split(':'),c=comp(a[0]);if(!c){return null;}
@@ -204,7 +210,7 @@ function draw(){
         var tk=c.id+':'+i+':'+s,isp=!!pend&&pend.k===tk;
         if(CO){el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?8.5:15,'class':'th','data-k':tk,fill:'none'},g);}
         el('circle',{cx:xx,cy:j?60:0,r:q[3]!==undefined&&j?5:6,'class':'tr'+(isp?' pd':''),'data-k':tk},g);
-        if(isp){el('circle',{cx:xx,cy:j?60:0,r:13,'class':'pdr'},g);}
+        if(isp){el('circle',{cx:xx,cy:j?60:0,r:13,'class':'pdr'},g);}vmRing(g,xx,j?60:0,tk,null);
         /* 線號:0°、180° 反向旋轉保持正面朝上(以字的中心為軸,翻轉後仍在原處);90°、270° 不反向旋轉,字沿元件方向排,
            因為正面朝上的字橫過來後寬度(2~3 個字約 12~20 px)比「圓圈內緣到接點斜線」的空間(約 14 px)還寬,怎麼移都會碰到圓圈或斜線 */
         var rr=(((c.r||0)%360)+360)%360,side=rr===90||rr===270,ly=j?50:17,ta={x:xx,y:ly,'class':'tl'};
@@ -227,7 +233,7 @@ function render(){
     run?'執行模式：按住圖上的 ON、OFF 按鈕操作。':'接線模式：從端子拖到端子接線；OL 的 95 與 97 要不要跳線由你決定。';
   $('bp').setAttribute('aria-pressed',st.pw?'true':'false');$('bp').textContent=st.pw?'送電中':'已斷電';
   $('bt').textContent=st.tr?'OL 復歸':'模擬 OL 跳脫';$('bp').disabled=paused||!run;$('bt').disabled=paused||!run;
-  selUI();
+  selUI();vmUpd();
 }
 /* 選取元件後,操作列的秒數欄與旋轉鈕;拖曳元件時只更新這裡,不重畫整張圖 */
 function selUI(){
@@ -272,6 +278,7 @@ function tapTerm(k,r){
 }
 cv.addEventListener('pointerdown',function(e){
   var t=e.target,P=pt(e),id=t.getAttribute('data-c'),c=id&&comp(id),k=t.getAttribute('data-k'),w=t.getAttribute('data-w');
+  if(vm.on&&run&&k){vmTap(k,t.getAttribute('data-r'));return;}   /* 量電壓:放在 paused 判斷之前,所以暫停中也能量;點到元件(data-c)不受影響,仍可按住 ON/OFF */
   if(run){if(paused){return;}var kk=c&&D[c.t][0][2];if(kk==='bno'||kk==='bnc'){st.p[id]=true;at[id]=performance.now();prs[e.pointerId]=id;sfxBtn(true);settle();}else if(kk==='olnc'){st.tr=!st.tr;sfxSel();settle();}else if(kk==='cm'){st.ss[id]=((st.ss[id]||0)+1)%4;sfxSel();settle();}else if(kk==='px'){st.px[id]=!st.px[id];sfxBtn(true);settle();}return;}
   if(k){var rr=t.getAttribute('data-r');if(tb&&rr===prim(k)){drag=dg({pri:true},e);return;}drag=dg({wire:k,row:rr},e);if(!drag.touch){e.preventDefault();}return;}
   if(w!==null){if(e.pointerType==='touch'){drag=dg({wdel:+w},e);return;}mark();W.splice(+w,1);settle();return;}
@@ -315,7 +322,7 @@ function delComp(id){mark();pend=null;
 }
 Object.keys(NAMES).forEach(function(t){var b=document.createElement('button');b.type='button';b.textContent=NAMES[t];
   b.addEventListener('click',function(){var sl=slot(t);mark();pend=null;sel=add(t,sl[0],sl[1]);sfxSel();settle();});$(CAT[t]==='i'?'pi':'po').appendChild(b);});
-$('bm').addEventListener('click',function(){pend=null;selW=null;lm='';prs={};st.p={};run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
+$('bm').addEventListener('click',function(){vmReset();pend=null;selW=null;lm='';prs={};st.p={};run=!run;document.body.classList.toggle('wm',!run);this.setAttribute('aria-pressed',run?'true':'false');this.textContent=run?'模式：執行':'模式：接線';if(run){st.pw=true;sh=false;sfxSel();}else if(st.pw){sfxSel();}settle();});
 $('bp').addEventListener('click',function(){st.pw=!st.pw;if(st.pw){sh=false;}sfxSel();settle();});
 $('bt').addEventListener('click',function(){st.tr=!st.tr;sfxSel();settle();});
 /* 復原上一步驟:每次改動元件或導線前存一份快照(元件、導線、編號計數),最多 100 步;不包含送電、按鈕、開關等執行狀態 */
@@ -329,7 +336,26 @@ $('br').addEventListener('click',function(){var c=sel&&comp(sel);if(!c||tb||run)
 document.addEventListener('keydown',function(e){var tg=e.target&&e.target.tagName;if(tg==='INPUT'||tg==='SELECT'){return;}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!run){e.preventDefault();undo();}});
 /* R 或 Ctrl+R:旋轉選取的元件(只在自由配置檢視、接線模式、有選取元件時;其餘情況 Ctrl+R 仍是瀏覽器的重新整理) */
 document.addEventListener('keydown',function(e){var tg=e.target&&e.target.tagName;if(e.key.toLowerCase()!=='r'||e.altKey||e.shiftKey||e.repeat||tg==='INPUT'||tg==='SELECT'||tg==='TEXTAREA'){return;}var c=sel&&comp(sel);if(!c||tb||run){return;}e.preventDefault();$('br').click();});
-$('bc').addEventListener('click',function(){if(paused){setPaused(false);}mark();pend=null;C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
+$('bc').addEventListener('click',function(){vmReset();if(paused){setPaused(false);}mark();pend=null;C=[];add('R',40,30);add('T',40,470);W=[];cnt={};st.c={};st.p={};st.t={};st.d={};st.tr=false;st.pw=true;sh=false;sel=null;st.ss={};st.px={};settle();});
+/* ---- 量電壓(2026-10-29)----
+   讀數 = |V紅 − V黑|;只點一點時黑棒預設為 T 線。端子電位 V(k) = R 側節點 ? 220 : 0(沿用動畫版慣例:通到 R 的點 220 V,通到 T 或不通的點 0 V)。
+   點端子:第 1 下放紅棒;第 2 下放黑棒(點同一顆螺絲則取消紅棒);第 3 下重新開始(新紅棒、黑棒回到 T)。 */
+function vv(k){return R?(R.rn[R.f(k)]?220:0):null;}
+function vmTap(k,r){r=r||null;
+  if(!vm.r){vm.r={k:k,r:r};}
+  else if(!vm.b){if(vm.r.k===k&&vm.r.r===r){vm.r=null;}else{vm.b={k:k,r:r};}}
+  else{vm.r={k:k,r:r};vm.b=null;}
+  sfxSel();render();}
+function vmRing(g,x,y,k,r){if(!(vm.on&&run)){return;}r=r||null;
+  if(vm.r&&vm.r.k===k&&vm.r.r===r){el('circle',{cx:x,cy:y,r:12,'class':'vmr'},g);}
+  if(vm.b&&vm.b.k===k&&vm.b.r===r){el('circle',{cx:x,cy:y,r:12,'class':'vmb'},g);}}
+function vmUpd(){var d=$('vmRead'),on=vm.on&&run;d.hidden=!on;if(!on){return;}var h;
+  if(!vm.r){h='請點一個端子放紅棒（黑棒預設接 T 線）；再點另一個端子，量的就是兩點之間的電壓。按住 ON、OFF 時讀數會跟著變。';}
+  else{var a=vv(vm.r.k),b=vm.b?vv(vm.b.k):0,v=(a===null||b===null)?null:Math.abs(a-b);
+    h='紅棒 '+tnm(vm.r.k)+' ─ 黑棒 '+(vm.b?tnm(vm.b.k):'T 線（預設）')+'：<span class="v v'+(v===220?'220':'0')+'">'+(v===null?'—':v+' V')+'</span>';}
+  if(h!==vmLast){vmLast=h;d.innerHTML=h;}}
+function vmReset(){vm.on=false;vm.r=vm.b=null;vmLast='';document.body.classList.remove('vmon');var b=$('bvm');if(b){b.setAttribute('aria-pressed','false');b.textContent='量電壓';}}
+$('bvm').addEventListener('click',function(){vm.on=!vm.on;if(!vm.on){vm.r=vm.b=null;}document.body.classList.toggle('vmon',vm.on);this.setAttribute('aria-pressed',vm.on?'true':'false');this.textContent=vm.on?'量電壓：開':'量電壓';sfxSel();render();});
 
 
 
@@ -437,7 +463,7 @@ function drawTB(){
     ['u','l'].forEach(function(r){var isp=!!pend&&pend.k===k&&pend.r===r;
       if(CO){el('circle',{cx:o[r][0],cy:o[r][1],r:10.5,'class':'th','data-k':k,'data-r':r,fill:'none'},gP);}
       el('circle',{cx:o[r][0],cy:o[r][1],r:7,'class':'tr '+(r===prim(k)?'t1':'t2')+(isp?' pd':''),'data-k':k,'data-r':r},gP);
-      if(isp){el('circle',{cx:o[r][0],cy:o[r][1],r:13,'class':'pdr'},gP);}});});
+      if(isp){el('circle',{cx:o[r][0],cy:o[r][1],r:13,'class':'pdr'},gP);}vmRing(gP,o[r][0],o[r][1],k,r);});});
   LY.hd.forEach(function(h){var c=h.c,g=GEO(h.z,h.s),v=h.z==='E',k0=D[c.t][0][2],
     on=((k0==='coil'||k0==='load')&&R&&R.on[c.id])||st.p[c.id]||(c.t==='COS'&&sp(c.id)>0)||(c.t==='PX'&&st.px[c.id]),
     x=v?g.x0:30+h.c0*24,y=v?40+h.c0*30:g.y0,w=v?14:h.n*24-2,hh=v?h.n*30-2:14,cx=x+w/2,cy=y+hh/2;
@@ -475,7 +501,7 @@ function loadSH(){
   ].forEach(function(w){W.push(w);});
   settle();
 }
-function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();toast('範例已載入（目前是接線模式、斷電）。按「模式」切到執行模式即可送電操作。');});$('pe').appendChild(b);}
+function exBtn(txt,fn){var b=document.createElement('button');b.type='button';b.textContent=txt;b.addEventListener('click',function(){vmReset();if(paused){setPaused(false);}if(run){$('bm').click();}mark();pend=null;fn();toast('範例已載入（目前是接線模式、斷電）。按「模式」切到執行模式即可送電操作。');});$('pe').appendChild(b);}
 exBtn('載入範例：啟動停止自保持',loadSH);exBtn('載入範例：Y-Δ',loadYD);
 ['fs','fw'].forEach(function(id){var c=$(id),h=c.querySelector('h2');h.tabIndex=0;h.setAttribute('role','button');h.setAttribute('aria-expanded','true');
   var tg=function(){var f=c.classList.toggle('clp');h.setAttribute('aria-expanded',f?'false':'true');};
